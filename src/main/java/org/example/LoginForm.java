@@ -2,10 +2,8 @@ package org.example;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
+import java.util.Arrays;
 
 public class LoginForm extends JFrame {
 
@@ -93,7 +91,29 @@ public class LoginForm extends JFrame {
                 TextLoginPassword.setText("");
             }
         });
-        resetButton.addMouseListener(new MouseAdapter() {
+        
+        loginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String Matricola = TextLoginMatricola.getText();
+                String Password = new String(TextLoginPassword.getPassword());
+                
+                if (Matricola.isEmpty() || Password.isEmpty()){
+                    mostraMessageDialog("Inserire tutti i campi", "Attenzione");
+                } else {
+                    gp.EffettuaLogin(Matricola, Password, LoginForm.this);
+                }
+            }
+        });
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if (JOptionPane.showConfirmDialog(LoginForm.this, "Vuoi uscire dal programma?") == JOptionPane.OK_OPTION){
+                    setVisible(false);
+                    dispose();
+                }
+            }
         });
     }
     
@@ -106,7 +126,7 @@ public class LoginForm extends JFrame {
         setContentPane(loginPanel);
         setMinimumSize(new Dimension(540, 320));
         setLocationRelativeTo(parent);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
     }
     
     public void setImpostazioniButtonMostraPassword(){
@@ -139,5 +159,9 @@ public class LoginForm extends JFrame {
         imageUnina.setIcon(new ImageIcon("src/main/java/org/example/Icon/logoFedericoII.png"));
         TextLoginMatricola.setBorder(BorderFactory.createMatteBorder(0,2,0,0,Color.WHITE));
         TextLoginPassword.setBorder(BorderFactory.createMatteBorder(0,2,0,0,Color.WHITE));
+    }
+    
+    public void mostraMessageDialog(String testo, String titolo){
+        JOptionPane.showMessageDialog(this, testo, titolo, JOptionPane.ERROR_MESSAGE);
     }
 }

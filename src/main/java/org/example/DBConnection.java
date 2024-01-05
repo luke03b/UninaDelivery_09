@@ -21,14 +21,15 @@ public class DBConnection {
         return dbcon;
     }
     
-    public void getConnection() throws Exception{
+    public Connection getConnection() throws Exception{
 
         try{
-            Class.forName("org.postgresql.Driver");
-            String url = "jdbc:postgresql://localhost:5432/postgres";
-            Connection conn = DriverManager.getConnection(url, "postgres", "24112003");
-            System.out.println("Connessione al database riuscita");
-
+            if (conn == null || conn.isClosed()) {
+                Class.forName("org.postgresql.Driver");
+                String url = "jdbc:postgresql://localhost:5432/postgres?currentSchema=\"dbUninaDelivery\"";
+                conn = DriverManager.getConnection(url, "postgres", "24112003");
+                System.out.println("Connessione al database riuscita");
+            }
         }catch(ClassNotFoundException e){
             System.out.println("DB driver non trovato");
             System.out.println(e);
@@ -37,9 +38,10 @@ public class DBConnection {
             System.out.println("Connessione al database fallita");
             System.out.println(e);
         }
+        return conn;
     }
     
-    public void closeConnection() throws SQLException {
+    public void closeConnection(Connection conn) throws SQLException {
         conn.close();
     }
 }
