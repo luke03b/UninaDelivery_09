@@ -1,10 +1,22 @@
 package org.example;
 
 public class GestoreFinestre {
+
+    LoginForm loginForm;
+
+
     public static void main(String[] args) throws Exception{
+        // Esegue la connessione con il database
         DBConnection dbConnection = DBConnection.getDBConnection();
         dbConnection.getConnection();
-        
-        LoginPage loginPage = new LoginPage(null);
+
+        GestoreFinestre gestoreFinestre = new GestoreFinestre();
     }
+
+    public GestoreFinestre () {
+        loginForm = new LoginForm(null,this);
+        loginForm.setVisible(true);
+    }
+
 }
+
