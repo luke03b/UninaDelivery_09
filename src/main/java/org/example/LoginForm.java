@@ -18,54 +18,17 @@ public class LoginForm extends JFrame {
     private JButton ButtonMostraPassword;
     private JLabel imageLogo;
     private Boolean isPasswordVisibile = false;
-    
     public GestoreFinestre gestorePagine;
-
     ImageIcon imageIcon = new ImageIcon("src/main/java/org/example/Icon/UninaDelivery.jpg");
+    
     public LoginForm(JFrame parent, GestoreFinestre gp) {
         
-        setIconImage(imageIcon.getImage());
-        imageUnina.setIcon(new ImageIcon("src/main/java/org/example/Icon/logoFedericoII.png"));
-        imageLogo.setIcon(new ImageIcon("src/main/java/org/example/Icon/LogoConScritta.png"));
+        setImpostazioniLoginForm(parent, gp);
+        setImpostazioniButtonMostraPassword();
+        setImpostazioniLoginButton();
+        setImpostazioniResetButton();
+        setImpostazioniVarie();
         
-        
-        ButtonMostraPassword.setIcon(new ImageIcon("src/main/java/org/example/Icon/hide.png"));
-        ButtonMostraPassword.setOpaque(false);
-        ButtonMostraPassword.setBorderPainted(false);
-        
-        // to remote the spacing between the image and button's borders
-        ButtonMostraPassword.setMargin(new Insets(0, 0, 0, 0));
-        // to remove the border
-        ButtonMostraPassword.setBorder(null);
-        ButtonMostraPassword.setContentAreaFilled(false);
-        
-        TextLoginMatricola.setBorder(BorderFactory.createMatteBorder(0,2,0,0,Color.WHITE));
-        TextLoginPassword.setBorder(BorderFactory.createMatteBorder(0,2,0,0,Color.WHITE));
-        
-        resetButton.setMargin(new Insets(0, 0, 0, 0));
-        loginButton.setMargin(new Insets(0, 0, 0, 0));
-        
-        loginButton.setOpaque(false);
-        resetButton.setOpaque(false);
-        loginButton.setBorderPainted(false);
-        resetButton.setBorderPainted(false);
-        loginButton.setContentAreaFilled(false);
-        resetButton.setContentAreaFilled(false);
-        loginButton.setFocusable(false);
-        resetButton.setFocusable(false);
-        
-        
-        setLayout(null);
-        setResizable(false);
-        gestorePagine = gp;
-        setTitle("Login");
-        setContentPane(loginPanel);
-        setMinimumSize(new Dimension(540, 320));
-        setLocationRelativeTo(parent);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        
-
-        // azione del bottone register quando si passa sul bottone con il mouse
         loginButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -86,7 +49,6 @@ public class LoginForm extends JFrame {
             }
         });
         
-        
         ButtonMostraPassword.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -101,6 +63,7 @@ public class LoginForm extends JFrame {
                 }
             }
         });
+        
         ButtonMostraPassword.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -111,6 +74,7 @@ public class LoginForm extends JFrame {
                 }
             }
         });
+        
         ButtonMostraPassword.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseExited(MouseEvent e) {
@@ -121,6 +85,7 @@ public class LoginForm extends JFrame {
                 }
             }
         });
+        
         resetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -128,6 +93,51 @@ public class LoginForm extends JFrame {
                 TextLoginPassword.setText("");
             }
         });
+        resetButton.addMouseListener(new MouseAdapter() {
+        });
     }
-
+    
+    public void setImpostazioniLoginForm(JFrame parent, GestoreFinestre gp){
+        setIconImage(imageIcon.getImage());
+        setLayout(null);
+        setResizable(false);
+        gestorePagine = gp;
+        setTitle("Login");
+        setContentPane(loginPanel);
+        setMinimumSize(new Dimension(540, 320));
+        setLocationRelativeTo(parent);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    }
+    
+    public void setImpostazioniButtonMostraPassword(){
+        ButtonMostraPassword.setIcon(new ImageIcon("src/main/java/org/example/Icon/hide.png"));
+        ButtonMostraPassword.setMargin(new Insets(0, 0, 0, 0));
+        ButtonMostraPassword.setOpaque(false);
+        ButtonMostraPassword.setBorderPainted(false);
+        ButtonMostraPassword.setBorder(null);
+        ButtonMostraPassword.setContentAreaFilled(false);
+    }
+    
+    public void setImpostazioniLoginButton(){
+        loginButton.setMargin(new Insets(0, 0, 0, 0));
+        loginButton.setOpaque(false);
+        loginButton.setBorderPainted(false);
+        loginButton.setContentAreaFilled(false);
+        loginButton.setFocusable(false);
+    }
+    
+    public void setImpostazioniResetButton(){
+        resetButton.setMargin(new Insets(0, 0, 0, 0));
+        resetButton.setOpaque(false);
+        resetButton.setBorderPainted(false);
+        resetButton.setContentAreaFilled(false);
+        resetButton.setFocusable(false);
+    }
+    
+    public void setImpostazioniVarie(){
+        imageLogo.setIcon(new ImageIcon("src/main/java/org/example/Icon/LogoConScritta.png"));
+        imageUnina.setIcon(new ImageIcon("src/main/java/org/example/Icon/logoFedericoII.png"));
+        TextLoginMatricola.setBorder(BorderFactory.createMatteBorder(0,2,0,0,Color.WHITE));
+        TextLoginPassword.setBorder(BorderFactory.createMatteBorder(0,2,0,0,Color.WHITE));
+    }
 }

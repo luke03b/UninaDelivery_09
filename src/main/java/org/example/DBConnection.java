@@ -21,7 +21,6 @@ public class DBConnection {
         return dbcon;
     }
     
-    
     public void getConnection() throws Exception{
 
         try{
@@ -29,7 +28,6 @@ public class DBConnection {
             String url = "jdbc:postgresql://localhost:5432/postgres";
             Connection conn = DriverManager.getConnection(url, "postgres", "24112003");
             System.out.println("Connessione al database riuscita");
-            conn.close();
 
         }catch(ClassNotFoundException e){
             System.out.println("DB driver non trovato");
@@ -39,5 +37,9 @@ public class DBConnection {
             System.out.println("Connessione al database fallita");
             System.out.println(e);
         }
+    }
+    
+    public void closeConnection() throws SQLException {
+        conn.close();
     }
 }

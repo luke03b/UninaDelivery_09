@@ -11,6 +11,8 @@ public class GestoreFinestre {
         dbConnection.getConnection();
 
         GestoreFinestre gestoreFinestre = new GestoreFinestre();
+        
+        dbConnection.closeConnection();
     }
 
     public GestoreFinestre () {
