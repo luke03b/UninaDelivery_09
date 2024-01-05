@@ -25,7 +25,7 @@ public class DBConnection {
     public void getConnection() throws Exception{
 
         try{
-            Class.forName("org.postgres.driver");
+            Class.forName("org.postgresql.Driver");
             String url = "jdbc:postgresql://localhost:5432/postgres";
             Connection conn = DriverManager.getConnection(url, "postgres", "24112003");
             System.out.println("Connessione al database riuscita");
