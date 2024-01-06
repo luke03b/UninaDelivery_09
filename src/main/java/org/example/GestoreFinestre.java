@@ -9,7 +9,6 @@ public class GestoreFinestre {
     static DBConnection dbConnection;
     static Connection conn;
 
-
     public static void main(String[] args) throws Exception{
         // Esegue la connessione con il database
         dbConnection = DBConnection.getDBConnection();
