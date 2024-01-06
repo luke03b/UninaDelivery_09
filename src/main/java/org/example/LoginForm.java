@@ -115,6 +115,16 @@ public class LoginForm extends JFrame {
                 }
             }
         });
+
+        TextLoginMatricola.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char lettera = e.getKeyChar();
+                if(!Character.isDigit(lettera)) {
+                    e.consume();
+                }
+            }
+        });
     }
     
     public void setImpostazioniLoginForm(JFrame parent, GestoreFinestre gp){
