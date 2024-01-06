@@ -95,14 +95,7 @@ public class LoginForm extends JFrame {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String Matricola = TextLoginMatricola.getText();
-                String Password = new String(TextLoginPassword.getPassword());
-                
-                if (Matricola.isEmpty() || Password.isEmpty()){
-                    mostraMessageDialog("Inserire tutti i campi", "Attenzione");
-                } else {
-                    gp.EffettuaLogin(Matricola, Password, LoginForm.this);
-                }
+                ControllaLogin();
             }
         });
         
@@ -125,6 +118,43 @@ public class LoginForm extends JFrame {
                 }
             }
         });
+        TextLoginPassword.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    ControllaLogin();
+                }
+            }
+        });
+
+        TextLoginMatricola.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    ControllaLogin();
+                }
+            }
+        });
+
+        ButtonMostraPassword.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e){
+                if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    ControllaLogin();
+                }
+            }
+        });
+    }
+
+    public void ControllaLogin(){
+        String Matricola = TextLoginMatricola.getText();
+        String Password = new String(TextLoginPassword.getPassword());
+
+        if (Matricola.isEmpty() || Password.isEmpty()) {
+            mostraMessageDialog("Inserire tutti i campi", "Attenzione");
+        } else {
+            gestorePagine.EffettuaLogin(Matricola, Password, LoginForm.this);
+        }
     }
     
     public void setImpostazioniLoginForm(JFrame parent, GestoreFinestre gp){
