@@ -124,6 +124,9 @@ public class LoginForm extends JFrame {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER) {
                     ControllaLogin();
                 }
+                if(e.getKeyCode() == KeyEvent.VK_UP){
+                    TextLoginMatricola.grabFocus();
+                }
             }
         });
 
@@ -132,6 +135,9 @@ public class LoginForm extends JFrame {
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER) {
                     ControllaLogin();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_DOWN){
+                    TextLoginPassword.grabFocus();
                 }
             }
         });
