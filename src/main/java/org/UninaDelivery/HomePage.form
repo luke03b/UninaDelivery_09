@@ -53,7 +53,7 @@
               <text value="user"/>
             </properties>
           </component>
-          <component id="38155" class="javax.swing.JLabel">
+          <component id="38155" class="javax.swing.JLabel" binding="cognomeLabel">
             <constraints>
               <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -61,7 +61,7 @@
               <text value="Cognome"/>
             </properties>
           </component>
-          <component id="e6183" class="javax.swing.JLabel">
+          <component id="e6183" class="javax.swing.JLabel" binding="nomeLabel">
             <constraints>
               <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>

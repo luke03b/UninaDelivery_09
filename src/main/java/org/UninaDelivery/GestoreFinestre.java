@@ -1,5 +1,6 @@
 package org.UninaDelivery;
 import org.UninaDelivery.Operatore.OperatoreDAO;
+import org.UninaDelivery.Operatore.OperatoreDTO;
 import org.UninaDelivery.Ordine.DettagliOrdineDTO;
 import org.UninaDelivery.Ordine.OrdineDAO;
 
@@ -38,11 +39,23 @@ public class GestoreFinestre {
         if (operatoreDAO.ControllaLoginOperatore(matricola, Password, conn) == 0){
             parent.mostraMessageDialog("Matricola o Password non validi", "Errore");
         } else {
-            HomePage homePage = new HomePage(null, this);
+            OperatoreDTO operatoreDTO = operatoreDAO.getOperatoreByMatricola(matricola, conn);
+            HomePage homePage = new HomePage(null, this, operatoreDTO);
             loginForm.setVisible(false);
             homePage.setVisible(true);
             parent.dispose();
         }
+    }
+
+    public void TornaLogin(HomePage homePage){
+        homePage.setVisible(false);
+        homePage.dispose();
+        apriLogin();
+    }
+
+    public void apriLogin(){
+        loginForm = new LoginForm(null,this);
+        loginForm.setVisible(true);
     }
 }
 

@@ -1,10 +1,13 @@
 package org.UninaDelivery;
 
+import org.UninaDelivery.Operatore.OperatoreDTO;
 import org.UninaDelivery.Ordine.DettagliOrdineDTO;
 
 import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class HomePage extends JFrame{
@@ -17,11 +20,24 @@ public class HomePage extends JFrame{
     private JButton statisticaButton;
     private JTable ordiniTable;
     private JButton userInformationButton;
+    private JLabel nomeLabel;
+    private JLabel cognomeLabel;
     public GestoreFinestre gestoreFinestre;
     
-    public HomePage(JFrame parent, GestoreFinestre gf){
+    public HomePage(JFrame parent, GestoreFinestre gf, OperatoreDTO operatoreLoggato){
         setImpostazioniHomePage(parent, gf);
         setImpostazioniTable();
+        setImpostazioniVarie(operatoreLoggato);
+
+        logOutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Object[] Opzioni = {"Si", "No"};
+                if (JOptionPane.showOptionDialog(HomePage.this, "Vuoi eseguire il LogOut?", "LogOut", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, Opzioni, Opzioni[0]) == JOptionPane.OK_OPTION){
+                    gf.TornaLogin(HomePage.this);
+                }
+            }
+        });
     }
     
     private void setImpostazioniHomePage(JFrame parent, GestoreFinestre gf){
@@ -31,7 +47,7 @@ public class HomePage extends JFrame{
         gestoreFinestre = gf;
         setTitle("Home");
         setContentPane(homePanel);
-        setMinimumSize(new Dimension(540, 320));
+        setMinimumSize(new Dimension(1050, 430));
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
@@ -67,5 +83,11 @@ public class HomePage extends JFrame{
                 width=300;
             columnModel.getColumn(column).setPreferredWidth(width);
         }
+    }
+
+    public void setImpostazioniVarie(OperatoreDTO operatoreLoggato){
+        nomeLabel.setText(operatoreLoggato.getNome());
+        cognomeLabel.setText(operatoreLoggato.getCognome());
+        matricolaLabel.setText(String.valueOf(operatoreLoggato.getMatricola()));
     }
 }

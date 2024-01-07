@@ -97,16 +97,6 @@ public class LoginForm extends JFrame {
                 ControllaLogin();
             }
         });
-        
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                if (JOptionPane.showConfirmDialog(LoginForm.this, "Vuoi uscire dal programma?") == JOptionPane.OK_OPTION){
-                    setVisible(false);
-                    dispose();
-                }
-            }
-        });
 
         TextLoginMatricola.addKeyListener(new KeyAdapter() {
             @Override
@@ -171,7 +161,7 @@ public class LoginForm extends JFrame {
         setContentPane(loginPanel);
         setMinimumSize(new Dimension(540, 320));
         setLocationRelativeTo(parent);
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
     
     private void setImpostazioniButtonMostraPassword(){
