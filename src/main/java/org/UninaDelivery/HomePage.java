@@ -22,29 +22,25 @@ public class HomePage extends JFrame{
     private JButton userInformationButton;
     private JLabel nomeLabel;
     private JLabel cognomeLabel;
-    public GestoreFinestre gestoreFinestre;
+    private GestoreFinestre gestoreFinestre;
+    private OperatoreDTO operatoreLoggato;
     
     public HomePage(JFrame parent, GestoreFinestre gf, OperatoreDTO operatoreLoggato){
-        setImpostazioniHomePage(parent, gf);
-        setImpostazioniTable();
-        setImpostazioniVarie(operatoreLoggato);
-
-        logOutButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Object[] Opzioni = {"Si", "No"};
-                if (JOptionPane.showOptionDialog(HomePage.this, "Vuoi eseguire il LogOut?", "LogOut", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, Opzioni, Opzioni[0]) == JOptionPane.OK_OPTION){
-                    gf.TornaLogin(HomePage.this);
-                }
-            }
-        });
+        setImpostazioniHomePage(parent, gf, operatoreLoggato);
+        setImpostazioniTabella();
+        setImpostazioniUserInformationButton();
+        setImpostazioniLogoutButton();
+        setImpostazioniVarie();
+        
+        Listeners();
     }
     
-    private void setImpostazioniHomePage(JFrame parent, GestoreFinestre gf){
+    private void setImpostazioniHomePage(JFrame parent, GestoreFinestre gestoreFinestre, OperatoreDTO operatoreLoggato){
         setLayout(null);
         setResizable(true);
         setExtendedState(MAXIMIZED_BOTH);
-        gestoreFinestre = gf;
+        this.gestoreFinestre = gestoreFinestre;
+        this.operatoreLoggato = operatoreLoggato;
         setTitle("Home");
         setContentPane(homePanel);
         setMinimumSize(new Dimension(1050, 430));
@@ -52,10 +48,16 @@ public class HomePage extends JFrame{
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
     
-    private void setImpostazioniTable(){
+    private void setImpostazioniTabella(){
         ArrayList<DettagliOrdineDTO> listaOrdini = gestoreFinestre.RecuperaOrdiniNonSpediti();
         
-        DefaultTableModel modelloTabella = new DefaultTableModel();
+        DefaultTableModel modelloTabella = new DefaultTableModel(){
+            //rende tutte le colonne della tabella non editabili
+            @Override
+            public boolean isCellEditable(int row, int column){
+                return false;
+            };
+        };
         modelloTabella.addColumn("Data");
         modelloTabella.addColumn("Nominativo");
         modelloTabella.addColumn("Indirizzo");
@@ -70,6 +72,7 @@ public class HomePage extends JFrame{
         
         resizeColumnWidth(ordiniTable);
     }
+    
     public void resizeColumnWidth(JTable table) {
         final TableColumnModel columnModel = table.getColumnModel();
         for (int column = 0; column < table.getColumnCount(); column++) {
@@ -84,10 +87,53 @@ public class HomePage extends JFrame{
             columnModel.getColumn(column).setPreferredWidth(width);
         }
     }
-
-    public void setImpostazioniVarie(OperatoreDTO operatoreLoggato){
+    
+    private void setImpostazioniVarie(){
         nomeLabel.setText(operatoreLoggato.getNome());
         cognomeLabel.setText(operatoreLoggato.getCognome());
         matricolaLabel.setText(String.valueOf(operatoreLoggato.getMatricola()));
+        logoLabel.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScrittePiccolo.png"));
     }
+    
+    private void setImpostazioniUserInformationButton(){
+        userInformationButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/user.png"));
+        userInformationButton.setMargin(new Insets(0, 0, 0, 0));
+        userInformationButton.setOpaque(false);
+        userInformationButton.setBorderPainted(false);
+        userInformationButton.setBorder(null);
+        userInformationButton.setContentAreaFilled(false);
+    }
+    
+    private void setImpostazioniLogoutButton(){
+        logOutButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logOut.png"));
+        logOutButton.setMargin(new Insets(0, 0, 0, 0));
+        logOutButton.setOpaque(false);
+        logOutButton.setBorderPainted(false);
+        logOutButton.setBorder(null);
+        logOutButton.setContentAreaFilled(false);
+    }
+    
+    private void Listeners(){
+        logOutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Object[] Opzioni = {"Si", "No"};
+                if (JOptionPane.showOptionDialog(HomePage.this, "Vuoi eseguire il LogOut?",
+                        "LogOut", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, Opzioni,
+                        Opzioni[0]) == JOptionPane.OK_OPTION){
+                    gestoreFinestre.TornaLogin(HomePage.this);
+                }
+            }
+        });
+        
+        statisticaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+                gestoreFinestre.apriStatistica(operatoreLoggato);
+                dispose();
+            }
+        });
+    }
+    
 }

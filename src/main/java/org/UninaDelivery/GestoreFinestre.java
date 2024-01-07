@@ -19,13 +19,10 @@ public class GestoreFinestre {
         conn = dbConnection.getConnection();
         
         GestoreFinestre gestoreFinestre = new GestoreFinestre();
-        
-//        dbConnection.closeConnection(conn);
     }
 
     public GestoreFinestre () {
-        loginForm = new LoginForm(null,this);
-        loginForm.setVisible(true);
+        apriLogin();
     }
     
     public ArrayList<DettagliOrdineDTO> RecuperaOrdiniNonSpediti(){
@@ -36,12 +33,12 @@ public class GestoreFinestre {
     public void EffettuaLogin(String Matricola, String Password, LoginForm parent){
         OperatoreDAO operatoreDAO = new OperatoreDAO();
         int matricola = Integer.parseInt(Matricola);
-        if (operatoreDAO.ControllaLoginOperatore(matricola, Password, conn) == 0){
+        if (operatoreDAO.ControllaLoginOperatore(matricola, Password, conn)){
             parent.mostraMessageDialog("Matricola o Password non validi", "Errore");
         } else {
             OperatoreDTO operatoreDTO = operatoreDAO.getOperatoreByMatricola(matricola, conn);
             HomePage homePage = new HomePage(null, this, operatoreDTO);
-            loginForm.setVisible(false);
+            parent.setVisible(false);
             homePage.setVisible(true);
             parent.dispose();
         }
@@ -56,6 +53,15 @@ public class GestoreFinestre {
     public void apriLogin(){
         loginForm = new LoginForm(null,this);
         loginForm.setVisible(true);
+    }
+    
+    public void apriStatistica(OperatoreDTO operatoreLoggato){
+        StatisticaPage statisticaPage = new StatisticaPage(null, this, operatoreLoggato);
+        statisticaPage.setVisible(true);
+    }
+    
+    public void chiudiConnessioneDB() throws SQLException {
+        dbConnection.closeConnection(conn);
     }
 }
 

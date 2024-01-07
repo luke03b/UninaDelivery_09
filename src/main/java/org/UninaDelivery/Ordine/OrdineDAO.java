@@ -1,6 +1,5 @@
 package org.UninaDelivery.Ordine;
 
-import javax.management.DescriptorAccess;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,22 +23,9 @@ public class OrdineDAO {
                     "ORDER BY Ordine.DataOrdine ASC");
             
             ResultSet rs = stmt.executeQuery();
-            String tipoCliente;
-            String IndirizzoCompleto = "";
             while(rs.next()){
                 DettagliOrdineDTO ordineCorrente = new DettagliOrdineDTO();
-                ordineCorrente.setDataOrdine(rs.getDate("dataordine").toLocalDate());
-                tipoCliente = rs.getString("tipo");
-                if (tipoCliente.equals("Aziendale"))
-                    ordineCorrente.setNominativo(rs.getString("nomeazienda"));
-                else
-                    ordineCorrente.setNominativo(rs.getString("nome") + " " + rs.getString("cognome"));
-                IndirizzoCompleto = rs.getString("via") + " " + rs.getString("numerocivico") + ", " +
-                rs.getString("cap") + " " + rs.getString("citta") + " " + rs.getString("provincia");
-                ordineCorrente.setIndirizzo(IndirizzoCompleto);
-                ordineCorrente.setPeso(rs.getFloat("peso"));
-                ordineCorrente.setGrandezza(rs.getString("grandezza"));
-                
+                creaOrdineDTO(ordineCorrente, rs);
                 listaOrdini.add(ordineCorrente);
             }
             
@@ -51,5 +37,21 @@ public class OrdineDAO {
         }
         
         return listaOrdini;
+    }
+    
+    private void creaOrdineDTO(DettagliOrdineDTO nuovoOrdine, ResultSet rs) throws SQLException {
+        String IndirizzoCompleto; //variabile d'appoggio
+        nuovoOrdine.setDataOrdine(rs.getDate("dataordine").toLocalDate());
+        
+        if (rs.getString("tipo").equals("Aziendale"))
+            nuovoOrdine.setNominativo(rs.getString("nomeazienda"));
+        else
+            nuovoOrdine.setNominativo(rs.getString("nome") + " " + rs.getString("cognome"));
+        
+        IndirizzoCompleto = rs.getString("via") + " " + rs.getString("numerocivico") + ", " +
+                rs.getString("cap") + " " + rs.getString("citta") + " " + rs.getString("provincia");
+        nuovoOrdine.setIndirizzo(IndirizzoCompleto);
+        nuovoOrdine.setPeso(rs.getFloat("peso"));
+        nuovoOrdine.setGrandezza(rs.getString("grandezza"));
     }
 }

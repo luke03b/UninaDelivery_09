@@ -2,7 +2,7 @@ package org.UninaDelivery.Operatore;
 import java.sql.*;
 
 public class OperatoreDAO {
-    public int ControllaLoginOperatore(int MatricolaInput, String PasswordInput, Connection conn){
+    public boolean ControllaLoginOperatore(int MatricolaInput, String PasswordInput, Connection conn){
         
         int count = 0;
         OperatoreDTO operatoreDTO = new OperatoreDTO();
@@ -13,7 +13,6 @@ public class OperatoreDAO {
             
             ResultSet rs = stmt.executeQuery();
             if (rs.next()){
-//                AggiungiOperatoreDTO(operatoreDTO, rs);
                 count = rs.getInt(1);
             }
             
@@ -27,7 +26,7 @@ public class OperatoreDAO {
             System.out.println(e);
         }
         
-        return count;
+        return count != 0;
     }
 
     public OperatoreDTO getOperatoreByMatricola(int matricola, Connection conn){
