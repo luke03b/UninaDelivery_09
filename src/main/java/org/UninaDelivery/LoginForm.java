@@ -1,9 +1,8 @@
-package org.example;
+package org.UninaDelivery;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Arrays;
 
 public class LoginForm extends JFrame {
 
@@ -17,7 +16,7 @@ public class LoginForm extends JFrame {
     private JLabel imageLogo;
     private Boolean isPasswordVisibile = false;
     public GestoreFinestre gestorePagine;
-    ImageIcon imageIcon = new ImageIcon("src/main/java/org/example/Icon/UninaDelivery.jpg");
+    ImageIcon imageIcon = new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScritte.png");
     
     public LoginForm(JFrame parent, GestoreFinestre gp) {
         
@@ -52,11 +51,11 @@ public class LoginForm extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (!isPasswordVisibile) {
                     isPasswordVisibile = true;
-                    ButtonMostraPassword.setIcon(new ImageIcon("src/main/java/org/example/Icon/visible.png"));
+                    ButtonMostraPassword.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/visible.png"));
                     TextLoginPassword.setEchoChar((char)0);
                 } else {
                     isPasswordVisibile = false;
-                    ButtonMostraPassword.setIcon(new ImageIcon("src/main/java/org/example/Icon/hide.png"));
+                    ButtonMostraPassword.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/hide.png"));
                     TextLoginPassword.setEchoChar('•');
                 }
             }
@@ -66,9 +65,9 @@ public class LoginForm extends JFrame {
             @Override
             public void mouseEntered(MouseEvent e) {
                 if (!isPasswordVisibile){
-                    ButtonMostraPassword.setIcon(new ImageIcon("src/main/java/org/example/Icon/visible.png"));
+                    ButtonMostraPassword.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/visible.png"));
                 } else {
-                    ButtonMostraPassword.setIcon(new ImageIcon("src/main/java/org/example/Icon/hide.png"));
+                    ButtonMostraPassword.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/hide.png"));
                 }
             }
         });
@@ -77,9 +76,9 @@ public class LoginForm extends JFrame {
             @Override
             public void mouseExited(MouseEvent e) {
                 if (!isPasswordVisibile){
-                    ButtonMostraPassword.setIcon(new ImageIcon("src/main/java/org/example/Icon/hide.png"));
+                    ButtonMostraPassword.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/hide.png"));
                 } else {
-                    ButtonMostraPassword.setIcon(new ImageIcon("src/main/java/org/example/Icon/visible.png"));
+                    ButtonMostraPassword.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/visible.png"));
                 }
             }
         });
@@ -163,7 +162,7 @@ public class LoginForm extends JFrame {
         }
     }
     
-    public void setImpostazioniLoginForm(JFrame parent, GestoreFinestre gp){
+    private void setImpostazioniLoginForm(JFrame parent, GestoreFinestre gp){
         setIconImage(imageIcon.getImage());
         setLayout(null);
         setResizable(false);
@@ -175,8 +174,8 @@ public class LoginForm extends JFrame {
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
     }
     
-    public void setImpostazioniButtonMostraPassword(){
-        ButtonMostraPassword.setIcon(new ImageIcon("src/main/java/org/example/Icon/hide.png"));
+    private void setImpostazioniButtonMostraPassword(){
+        ButtonMostraPassword.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/hide.png"));
         ButtonMostraPassword.setMargin(new Insets(0, 0, 0, 0));
         ButtonMostraPassword.setOpaque(false);
         ButtonMostraPassword.setBorderPainted(false);
@@ -184,7 +183,7 @@ public class LoginForm extends JFrame {
         ButtonMostraPassword.setContentAreaFilled(false);
     }
     
-    public void setImpostazioniLoginButton(){
+    private void setImpostazioniLoginButton(){
         loginButton.setMargin(new Insets(0, 0, 0, 0));
         loginButton.setOpaque(false);
         loginButton.setBorderPainted(false);
@@ -192,7 +191,7 @@ public class LoginForm extends JFrame {
         loginButton.setFocusable(false);
     }
     
-    public void setImpostazioniResetButton(){
+    private void setImpostazioniResetButton(){
         resetButton.setMargin(new Insets(0, 0, 0, 0));
         resetButton.setOpaque(false);
         resetButton.setBorderPainted(false);
@@ -200,9 +199,9 @@ public class LoginForm extends JFrame {
         resetButton.setFocusable(false);
     }
     
-    public void setImpostazioniVarie(){
-        imageLogo.setIcon(new ImageIcon("src/main/java/org/example/Icon/LogoConScritta.png"));
-        imageUnina.setIcon(new ImageIcon("src/main/java/org/example/Icon/logoFedericoII.png"));
+    private void setImpostazioniVarie(){
+        imageLogo.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/LogoConScritta.png"));
+        imageUnina.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoFedericoII.png"));
         TextLoginMatricola.setBorder(BorderFactory.createMatteBorder(0,2,0,0,Color.WHITE));
         TextLoginPassword.setBorder(BorderFactory.createMatteBorder(0,2,0,0,Color.WHITE));
     }

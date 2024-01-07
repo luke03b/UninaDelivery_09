@@ -1,7 +1,10 @@
-package org.example;
-import org.example.Operatore.OperatoreDAO;
+package org.UninaDelivery;
+import org.UninaDelivery.Operatore.OperatoreDAO;
+import org.UninaDelivery.Ordine.DettagliOrdineDTO;
+import org.UninaDelivery.Ordine.OrdineDAO;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class GestoreFinestre {
 
@@ -23,7 +26,12 @@ public class GestoreFinestre {
         loginForm = new LoginForm(null,this);
         loginForm.setVisible(true);
     }
-
+    
+    public ArrayList<DettagliOrdineDTO> RecuperaOrdiniNonSpediti(){
+        OrdineDAO ordineDAO = new OrdineDAO();
+        return ordineDAO.getOrdiniNonSpediti(conn);
+    }
+    
     public void EffettuaLogin(String Matricola, String Password, LoginForm parent){
         OperatoreDAO operatoreDAO = new OperatoreDAO();
         int matricola = Integer.parseInt(Matricola);

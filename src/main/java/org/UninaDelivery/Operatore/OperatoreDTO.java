@@ -1,4 +1,4 @@
-package org.example.Operatore;
+package org.UninaDelivery.Operatore;
 import java.time.LocalDate;
 
 public class OperatoreDTO {

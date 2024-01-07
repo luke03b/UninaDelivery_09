@@ -1,4 +1,4 @@
-package org.example;
+package org.UninaDelivery;
 import java.sql.*;
 
 public class DBConnection {
