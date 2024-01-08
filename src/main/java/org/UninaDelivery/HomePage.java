@@ -66,7 +66,7 @@ public class HomePage extends JFrame{
         modelloTabella.addColumn("Peso");
         modelloTabella.addColumn("Grandezza");
         ordiniTable.setModel(modelloTabella);
-        ordiniTable.getTableHeader().setBackground(new Color(167, 169, 172));
+        ordiniTable.getTableHeader().setBackground(new Color(7, 90, 170));
         
         for (DettagliOrdineDTO ordineDTO : listaOrdini){
             modelloTabella.addRow(new Object[]{ordineDTO.getDataOrdine(), ordineDTO.getNominativo(), ordineDTO.getIndirizzo(),
@@ -96,7 +96,7 @@ public class HomePage extends JFrame{
         cognomeLabel.setText(operatoreLoggato.getCognome());
         matricolaLabel.setText(String.valueOf(operatoreLoggato.getMatricola()));
         logoLabel.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScrittePiccolo.png"));
-        PanelContenenteJTable.getViewport().setBackground(new Color(167, 169, 172));
+        PanelContenenteJTable.getViewport().setBackground(new Color(7, 90, 170));
     }
     
     private void setImpostazioniUserInformationButton(){
