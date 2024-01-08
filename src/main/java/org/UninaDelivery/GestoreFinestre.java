@@ -5,6 +5,7 @@ import org.UninaDelivery.Operatore.OperatoreDTO;
 import org.UninaDelivery.Ordine.DettagliOrdineDTO;
 import org.UninaDelivery.Ordine.OrdineDAO;
 
+import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -38,19 +39,21 @@ public class GestoreFinestre {
             operatoreDAO.ControllaLoginOperatore(matricola, Password, conn);
             OperatoreDTO operatoreDTO = operatoreDAO.getOperatoreByMatricola(matricola, conn);
             HomePage homePage = new HomePage(null, this, operatoreDTO);
-            parent.setVisible(false);
-            homePage.setVisible(true);
             parent.dispose();
+            homePage.setVisible(true);
         } catch(OperatoreNonTrovatoException e){
             System.out.println("operatore non valido: " + e);
-            parent.mostraMessageDialog("Matricola o Password non validi", "Errore");
+            mostraMessageDialog(parent, "Matricola o Password non validi", "Errore");
         }
 
     }
-
-    public void TornaLogin(HomePage homePage){
-        homePage.setVisible(false);
-        homePage.dispose();
+    
+    public void mostraMessageDialog(JFrame parent, String testo, String titolo){
+        JOptionPane.showMessageDialog(parent, testo, titolo, JOptionPane.ERROR_MESSAGE);
+    }
+    
+    public void TornaLogin(JFrame parent){
+        parent.dispose();
         apriLogin();
     }
 

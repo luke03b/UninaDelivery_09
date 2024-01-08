@@ -1,5 +1,7 @@
 package org.UninaDelivery;
 
+import org.UninaDelivery.Exception.CampiVuotiException;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -16,7 +18,7 @@ public class LoginForm extends JFrame {
     private JButton ButtonMostraPassword;
     private JLabel imageLogo;
     private Boolean isPasswordVisibile = false;
-    public GestoreFinestre gestoreFinestre;
+    private GestoreFinestre gestoreFinestre;
     ImageIcon imageIcon = new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScritte.png");
     
     public LoginForm(JFrame parent, GestoreFinestre gestoreFinestre) {
@@ -72,10 +74,6 @@ public class LoginForm extends JFrame {
         imageUnina.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoFedericoII.png"));
         TextLoginMatricola.setBorder(BorderFactory.createMatteBorder(0,2,0,0,Color.WHITE));
         TextLoginPassword.setBorder(BorderFactory.createMatteBorder(0,2,0,0,Color.WHITE));
-    }
-    
-    public void mostraMessageDialog(String testo, String titolo){
-        JOptionPane.showMessageDialog(this, testo, titolo, JOptionPane.ERROR_MESSAGE);
     }
     
     public void Listeners(){
@@ -147,7 +145,11 @@ public class LoginForm extends JFrame {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ControllaLogin();
+                try {
+                    ControllaLogin();
+                } catch (CampiVuotiException ex) {
+                    System.out.println("campi vuoti: " + ex);
+                }
             }
         });
         
@@ -164,7 +166,11 @@ public class LoginForm extends JFrame {
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    ControllaLogin();
+                    try {
+                        ControllaLogin();
+                    } catch (CampiVuotiException ex) {
+                        System.out.println("campi vuoti: " + ex);
+                    }
                 }
                 if(e.getKeyCode() == KeyEvent.VK_UP){
                     TextLoginMatricola.grabFocus();
@@ -176,7 +182,11 @@ public class LoginForm extends JFrame {
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    ControllaLogin();
+                    try {
+                        ControllaLogin();
+                    } catch (CampiVuotiException ex) {
+                        System.out.println("campi vuoti: " + ex);
+                    }
                 }
                 if(e.getKeyCode() == KeyEvent.VK_DOWN){
                     TextLoginPassword.grabFocus();
@@ -188,7 +198,11 @@ public class LoginForm extends JFrame {
             @Override
             public void keyPressed(KeyEvent e){
                 if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    ControllaLogin();
+                    try {
+                        ControllaLogin();
+                    } catch (CampiVuotiException ex) {
+                        System.out.println("campi vuoti: " + ex);
+                    }
                 }
             }
         });
@@ -205,14 +219,15 @@ public class LoginForm extends JFrame {
         });
     }
     
-    public void ControllaLogin(){
+    public void ControllaLogin() throws CampiVuotiException {
         String Matricola = TextLoginMatricola.getText();
         String Password = new String(TextLoginPassword.getPassword());
         
-        if (Matricola.isEmpty() || Password.isEmpty()) {
-            mostraMessageDialog("Inserire tutti i campi", "Attenzione");
-        } else {
-            gestoreFinestre.EffettuaLogin(Matricola, Password, LoginForm.this);
-        }
+        
+        if (Matricola.isEmpty() || Password.isEmpty())
+            throw new CampiVuotiException(this, gestoreFinestre);
+        
+        gestoreFinestre.EffettuaLogin(Matricola, Password, LoginForm.this);
+        
     }
 }
