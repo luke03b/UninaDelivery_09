@@ -1,8 +1,10 @@
 package org.UninaDelivery.Operatore;
+import org.UninaDelivery.Exception.OperatoreNonTrovatoException;
+
 import java.sql.*;
 
 public class OperatoreDAO {
-    public boolean ControllaLoginOperatore(int MatricolaInput, String PasswordInput, Connection conn){
+    public boolean ControllaLoginOperatore(int MatricolaInput, String PasswordInput, Connection conn) throws OperatoreNonTrovatoException {
         
         int count = 0;
         OperatoreDTO operatoreDTO = new OperatoreDTO();
@@ -25,8 +27,9 @@ public class OperatoreDAO {
             System.out.println("Errore generico");
             System.out.println(e);
         }
-        
-        return count != 0;
+        if(count == 0)
+            throw new OperatoreNonTrovatoException();
+        return true;
     }
 
     public OperatoreDTO getOperatoreByMatricola(int matricola, Connection conn){

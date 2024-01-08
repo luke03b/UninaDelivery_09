@@ -1,4 +1,5 @@
 package org.UninaDelivery;
+import org.UninaDelivery.Exception.OperatoreNonTrovatoException;
 import org.UninaDelivery.Operatore.OperatoreDAO;
 import org.UninaDelivery.Operatore.OperatoreDTO;
 import org.UninaDelivery.Ordine.DettagliOrdineDTO;
@@ -33,15 +34,18 @@ public class GestoreFinestre {
     public void EffettuaLogin(String Matricola, String Password, LoginForm parent){
         OperatoreDAO operatoreDAO = new OperatoreDAO();
         int matricola = Integer.parseInt(Matricola);
-        if (operatoreDAO.ControllaLoginOperatore(matricola, Password, conn)){
-            parent.mostraMessageDialog("Matricola o Password non validi", "Errore");
-        } else {
+        try{
+            operatoreDAO.ControllaLoginOperatore(matricola, Password, conn);
             OperatoreDTO operatoreDTO = operatoreDAO.getOperatoreByMatricola(matricola, conn);
             HomePage homePage = new HomePage(null, this, operatoreDTO);
             parent.setVisible(false);
             homePage.setVisible(true);
             parent.dispose();
+        } catch(OperatoreNonTrovatoException e){
+            System.out.println("operatore non valido: " + e);
+            parent.mostraMessageDialog("Matricola o Password non validi", "Errore");
         }
+
     }
 
     public void TornaLogin(HomePage homePage){
