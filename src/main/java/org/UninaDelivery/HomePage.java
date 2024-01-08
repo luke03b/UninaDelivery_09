@@ -8,6 +8,7 @@ import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class HomePage extends JFrame{
@@ -52,27 +53,33 @@ public class HomePage extends JFrame{
     
     private void setImpostazioniTabella(){
         ArrayList<DettagliOrdineDTO> listaOrdini = gestoreFinestre.RecuperaOrdiniNonSpediti();
-        
-        DefaultTableModel modelloTabella = new DefaultTableModel(){
-            //rende tutte le colonne della tabella non editabili
+        Object[] nomiColonne = {"Selezionato", "Data", "Nominativo", "Indirizzo", "Peso", "Grandezza"};
+        DefaultTableModel modelloTabella = new DefaultTableModel(new Object[][]{}, nomiColonne){
+            //rende solo la prima colonna della tabella editabile
             @Override
             public boolean isCellEditable(int row, int column){
-                return false;
-            };
+                return column == 0;
+            }
+            
+            @Override
+            public Class getColumnClass(int column){
+                return switch (column) {
+                    case 0 -> Boolean.class;
+                    case 1 -> LocalDate.class;
+                    case 2, 3, 5 -> String.class;
+                    case 4 -> Float.class;
+                    default -> null;
+                };
+            }
         };
-        modelloTabella.addColumn("Data");
-        modelloTabella.addColumn("Nominativo");
-        modelloTabella.addColumn("Indirizzo");
-        modelloTabella.addColumn("Peso");
-        modelloTabella.addColumn("Grandezza");
+        
         ordiniTable.setModel(modelloTabella);
-        ordiniTable.getTableHeader().setBackground(new Color(7, 90, 170));
+        ordiniTable.getTableHeader().setBackground(new Color(155, 155, 155));
         
         for (DettagliOrdineDTO ordineDTO : listaOrdini){
-            modelloTabella.addRow(new Object[]{ordineDTO.getDataOrdine(), ordineDTO.getNominativo(), ordineDTO.getIndirizzo(),
+            modelloTabella.addRow(new Object[]{Boolean.FALSE, ordineDTO.getDataOrdine(), ordineDTO.getNominativo(), ordineDTO.getIndirizzo(),
             ordineDTO.getPeso(), ordineDTO.getGrandezza()});
         }
-        
         resizeColumnWidth(ordiniTable);
     }
     
@@ -96,7 +103,7 @@ public class HomePage extends JFrame{
         cognomeLabel.setText(operatoreLoggato.getCognome());
         matricolaLabel.setText(String.valueOf(operatoreLoggato.getMatricola()));
         logoLabel.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScrittePiccolo.png"));
-        PanelContenenteJTable.getViewport().setBackground(new Color(7, 90, 170));
+        PanelContenenteJTable.getViewport().setBackground(new Color(167, 169, 172));
     }
     
     private void setImpostazioniUserInformationButton(){
