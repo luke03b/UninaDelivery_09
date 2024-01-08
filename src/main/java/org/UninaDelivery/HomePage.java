@@ -22,6 +22,7 @@ public class HomePage extends JFrame{
     private JButton userInformationButton;
     private JLabel nomeLabel;
     private JLabel cognomeLabel;
+    private JScrollPane PanelContenenteJTable;
     private GestoreFinestre gestoreFinestre;
     private OperatoreDTO operatoreLoggato;
     
@@ -46,6 +47,7 @@ public class HomePage extends JFrame{
         setMinimumSize(new Dimension(1050, 430));
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
     }
     
     private void setImpostazioniTabella(){
@@ -64,6 +66,7 @@ public class HomePage extends JFrame{
         modelloTabella.addColumn("Peso");
         modelloTabella.addColumn("Grandezza");
         ordiniTable.setModel(modelloTabella);
+        ordiniTable.getTableHeader().setBackground(new Color(167, 169, 172));
         
         for (DettagliOrdineDTO ordineDTO : listaOrdini){
             modelloTabella.addRow(new Object[]{ordineDTO.getDataOrdine(), ordineDTO.getNominativo(), ordineDTO.getIndirizzo(),
@@ -93,6 +96,7 @@ public class HomePage extends JFrame{
         cognomeLabel.setText(operatoreLoggato.getCognome());
         matricolaLabel.setText(String.valueOf(operatoreLoggato.getMatricola()));
         logoLabel.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScrittePiccolo.png"));
+        PanelContenenteJTable.getViewport().setBackground(new Color(167, 169, 172));
     }
     
     private void setImpostazioniUserInformationButton(){
