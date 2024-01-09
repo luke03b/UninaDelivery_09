@@ -5,6 +5,8 @@ import org.UninaDelivery.Operatore.OperatoreDTO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class StatisticaPage extends JFrame{
     private JLabel matricolaLabel;
@@ -22,6 +24,13 @@ public class StatisticaPage extends JFrame{
     
     public StatisticaPage(JFrame parent, GestoreFinestre gestoreFinestre, OperatoreDTO operatoreLoggato){
         setImpostazioniStatisticaPage(parent, gestoreFinestre, operatoreLoggato);
+        setImpostazioniVarie(parent, gestoreFinestre, operatoreLoggato);
+        indietroButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gestoreFinestre.apriHome(operatoreLoggato, StatisticaPage.this);
+            }
+        });
     }
     
     private void setImpostazioniStatisticaPage(JFrame parent, GestoreFinestre gestoreFinestre, OperatoreDTO operatoreLoggato){
@@ -49,5 +58,11 @@ public class StatisticaPage extends JFrame{
         modelloTabella.addColumn("Ordine con maggior numero di prodotti");
         modelloTabella.addColumn("Ordine con minor numero di prodotti");
         statisticaTable.setModel(modelloTabella);
+    }
+
+    private void setImpostazioniVarie(JFrame parent, GestoreFinestre gestoreFinestre, OperatoreDTO operatoreLoggato){
+        nomeLabel.setText(operatoreLoggato.getNome());
+        cognomeLabel.setText(operatoreLoggato.getCognome());
+        matricolaLabel.setText(String.valueOf(operatoreLoggato.getMatricola()));
     }
 }
