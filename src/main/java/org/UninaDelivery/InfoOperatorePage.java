@@ -1,6 +1,5 @@
 package org.UninaDelivery;
 
-import org.UninaDelivery.GestoreFinestre;
 import org.UninaDelivery.Operatore.OperatoreDTO;
 
 import javax.swing.*;
@@ -21,7 +20,7 @@ public class InfoOperatorePage extends JDialog{
     private JLabel dataNascitaLabel;
     private JLabel dataAssunzioneLabel;
     private JLabel UninaDeliveryLogo;
-    private JPanel FedIILogo;
+    private JLabel FedIILogo;
     private GestoreFinestre gestoreFinestre;
     private OperatoreDTO operatoreLoggato;
 
@@ -58,5 +57,8 @@ public class InfoOperatorePage extends JDialog{
         stipendioLabel.setText(String.valueOf(operatoreLoggato.getStipendio()) + "€");
         dataNascitaLabel.setText(String.valueOf(operatoreLoggato.getDataNascita()));
         dataAssunzioneLabel.setText(String.valueOf(operatoreLoggato.getDataAssunzione()));
+        UninaDeliveryLogo.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScrittePiccolo.png"));
+        FedIILogo.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoFedericoII.png"));
+        fotoProfiloLabel.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/user.png"));
     }
 }
