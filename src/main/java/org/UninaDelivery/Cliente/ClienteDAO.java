@@ -35,5 +35,6 @@ public class ClienteDAO {
             clienteCorrente.setNominativo(rs.getString("nomeazienda"));
         else
             clienteCorrente.setNominativo(rs.getString("nome") + " " + rs.getString("cognome"));
+        clienteCorrente.setNumeroTelefono(rs.getString("numerotelefono"));
     }
 }

@@ -6,6 +6,7 @@ import net.sourceforge.jdatepicker.impl.UtilDateModel;
 import org.UninaDelivery.Cliente.ClienteDTO;
 import org.UninaDelivery.Operatore.OperatoreDTO;
 import org.UninaDelivery.Ordine.DettagliOrdineDTO;
+import org.UninaDelivery.Ordine.OrdineDAO;
 
 import javax.swing.*;
 import javax.swing.table.*;
@@ -98,11 +99,7 @@ public class HomePage extends JFrame{
         ordiniTable.setModel(modelloTabella);
         ordiniTable.getTableHeader().setBackground(new Color(155, 155, 155));
         
-        for (DettagliOrdineDTO ordineDTO : listaOrdini){
-            modelloTabella.addRow(new Object[]{Boolean.FALSE, ordineDTO.getDataOrdine(), ordineDTO.getDestinatario(), ordineDTO.getIndirizzo(),
-            ordineDTO.getPeso(), ordineDTO.getGrandezza()});
-        }
-        resizeColumnWidth(ordiniTable);
+        aggiornaTabella(listaOrdini);
     }
     
     public void resizeColumnWidth(JTable table) {
@@ -156,7 +153,7 @@ public class HomePage extends JFrame{
         ArrayList<ClienteDTO> listaClienti = gestoreFinestre.recuperaClienti();
         filtroUtenti.addItem("<Filtra Utente>");
         for (ClienteDTO clienteDTO : listaClienti) {
-            filtroUtenti.addItem(clienteDTO.getNominativo());
+            filtroUtenti.addItem(clienteDTO.getNominativo() + " " + clienteDTO.getNumeroTelefono());
         }
         ((JLabel)filtroUtenti.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
     }
@@ -193,23 +190,42 @@ public class HomePage extends JFrame{
         aggiornaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Date dataInizio = (Date) pickerDataInizio.getModel().getValue();
-                Date dataFine = (Date) pickerDataFine.getModel().getValue();
+                java.util.Date dataInizio = (java.util.Date) pickerDataInizio.getModel().getValue();
+                java.util.Date dataFine = (java.util.Date) pickerDataFine.getModel().getValue();
                 String utenteSelezionato = filtroUtenti.getSelectedItem().toString();
+                utenteSelezionato = utenteSelezionato.replaceAll("[^0-9]", "");
+                System.out.println(utenteSelezionato);
 
-                if(!utenteSelezionato.isEmpty() && !dataInizio.equals(null) && !dataFine.equals(null)) {
-
-                }else if ((dataInizio.equals(null) && !dataFine.equals(null)) || (!dataInizio.equals(null) && dataFine.equals(null))){
-                    System.out.println("ciao,inserire entrambe le date!! :D :D "); //TODO
+                //TODO sistemare CleanCode
+                if(!utenteSelezionato.isEmpty() && dataInizio != null && dataFine != null) {
+                    ArrayList<DettagliOrdineDTO> listaOrdini = gestoreFinestre.RecuperaOrdiniByUtenteAndData(utenteSelezionato, new java.sql.Date(dataInizio.getTime()), new java.sql.Date(dataFine.getTime()));
+                    aggiornaTabella(listaOrdini);
+                }else if (dataInizio == null ^ dataFine == null){
+                    System.out.println("ciao,inserire entrambe le date!! :D :D "); //TODO aggiungere eccezione personalizzata
                 }else if (!utenteSelezionato.isEmpty()){
-
-                }else if (utenteSelezionato.isEmpty() && !dataInizio.equals(null) && dataFine.equals(null)){
-
+                    ArrayList<DettagliOrdineDTO> listaOrdini = gestoreFinestre.RecuperaOrdiniByUtente(utenteSelezionato);
+                    aggiornaTabella(listaOrdini);
+                }else if (dataInizio != null && dataFine != null){
+                    ArrayList<DettagliOrdineDTO> listaOrdini = gestoreFinestre.RecuperaOrdiniByData(new java.sql.Date(dataInizio.getTime()), new java.sql.Date(dataFine.getTime()));
+                    aggiornaTabella(listaOrdini);
+                }else{
+                    System.out.println("5 if");
+                    ArrayList<DettagliOrdineDTO> listaOrdini = gestoreFinestre.RecuperaOrdiniNonSpediti();
+                    aggiornaTabella(listaOrdini);
                 }
             }
         });
-
-
+    }
+    
+    private void aggiornaTabella(ArrayList<DettagliOrdineDTO> listaAggiornata){
+        DefaultTableModel model = (DefaultTableModel) ordiniTable.getModel();
+        model.setRowCount(0);
+        
+        for (DettagliOrdineDTO ordineDTO : listaAggiornata){
+            model.addRow(new Object[]{Boolean.FALSE, ordineDTO.getDataOrdine(), ordineDTO.getDestinatario(), ordineDTO.getIndirizzo(),
+                    ordineDTO.getPeso(), ordineDTO.getGrandezza()});
+        }
+        resizeColumnWidth(ordiniTable);
     }
     
 }

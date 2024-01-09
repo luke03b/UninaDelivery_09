@@ -7,7 +7,6 @@ public class ClienteDTO {
     private String Mail;
     private String CodiceFiscale;
     private LocalDate DataNascita;
-
     private String Nominativo;
     private String PartitaIVA;
     private String Tipo;

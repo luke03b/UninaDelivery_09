@@ -34,6 +34,21 @@ public class GestoreFinestre {
         return ordineDAO.getOrdiniNonSpediti(conn);
     }
     
+    public ArrayList<DettagliOrdineDTO> RecuperaOrdiniByUtente(String utente){
+        OrdineDAO ordineDAO = new OrdineDAO();
+        return ordineDAO.getOrdiniByUtente(utente, conn);
+    }
+    
+    public ArrayList<DettagliOrdineDTO> RecuperaOrdiniByData(Date dataInizio, Date dataFine){
+        OrdineDAO ordineDAO = new OrdineDAO();
+        return ordineDAO.getOrdiniByData(dataInizio, dataFine, conn);
+    }
+    
+    public ArrayList<DettagliOrdineDTO> RecuperaOrdiniByUtenteAndData(String utente, Date DataInizio, Date DataFine){
+        OrdineDAO ordineDAO = new OrdineDAO();
+        return ordineDAO.getOrdiniByUtenteAndData(utente, DataInizio, DataFine, conn);
+    }
+    
     public void EffettuaLogin(String Matricola, String Password, LoginForm parent){
         OperatoreDTO operatoreDTO = new OperatoreDTO();
         try{
