@@ -13,7 +13,9 @@
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
-        <properties/>
+        <properties>
+          <background color="-1367514"/>
+        </properties>
         <border type="none"/>
         <children>
           <hspacer id="94051">
@@ -76,7 +78,9 @@
         <constraints>
           <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
-        <properties/>
+        <properties>
+          <background color="-16701092"/>
+        </properties>
         <border type="none"/>
         <children>
           <component id="d4f21" class="javax.swing.JButton" binding="indietroButton" default-binding="true">
@@ -98,7 +102,7 @@
             </constraints>
             <properties>
               <model>
-                <item value="&lt;empty&gt;"/>
+                <item value="&lt;Mese&gt;"/>
                 <item value="Gennaio"/>
                 <item value="Febbraio"/>
                 <item value="Marzo"/>
@@ -124,16 +128,20 @@
         <properties/>
         <border type="none"/>
         <children>
-          <scrollpane id="fe989">
+          <scrollpane id="fe989" binding="PanelContenenteJTable">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
-            <properties/>
+            <properties>
+              <background color="-5789268"/>
+            </properties>
             <border type="none"/>
             <children>
               <component id="3fb8c" class="javax.swing.JTable" binding="statisticaTable">
                 <constraints/>
-                <properties/>
+                <properties>
+                  <background color="-5789268"/>
+                </properties>
               </component>
             </children>
           </scrollpane>

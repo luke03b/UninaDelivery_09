@@ -80,6 +80,11 @@ public class GestoreFinestre {
         StatisticaPage statisticaPage = new StatisticaPage(null, this, operatoreLoggato);
         statisticaPage.setVisible(true);
     }
+
+    public void apriInfoOperatore(OperatoreDTO operatoreLoggato){
+        InfoOperatorePage infoOpPage = new InfoOperatorePage(null, this, operatoreLoggato);
+        infoOpPage.setVisible(true);
+    }
     
     public void chiudiConnessioneDB() throws SQLException {
         dbConnection.closeConnection(conn);

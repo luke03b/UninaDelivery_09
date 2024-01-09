@@ -19,6 +19,7 @@ public class StatisticaPage extends JFrame{
     private JComboBox comboBox1;
     private JButton LogoHomeButton;
     private JPanel StatisticaPanel;
+    private JScrollPane PanelContenenteJTable;
     private GestoreFinestre gestoreFinestre;
     private OperatoreDTO operatoreLoggato;
     
@@ -44,6 +45,7 @@ public class StatisticaPage extends JFrame{
         setMinimumSize(new Dimension(1050, 430));
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        PanelContenenteJTable.getViewport().setBackground(new Color(167, 169, 172));
     }
     
     private void setImpostazioniTabella(String mese){

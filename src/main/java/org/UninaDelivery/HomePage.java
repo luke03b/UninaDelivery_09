@@ -35,6 +35,12 @@ public class HomePage extends JFrame{
         setImpostazioniVarie();
         
         Listeners();
+        userInformationButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gestoreFinestre.apriInfoOperatore(operatoreLoggato);
+            }
+        });
     }
     
     private void setImpostazioniHomePage(JFrame parent, GestoreFinestre gestoreFinestre, OperatoreDTO operatoreLoggato){
