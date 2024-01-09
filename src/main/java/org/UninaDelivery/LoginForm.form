@@ -29,6 +29,7 @@
               <font name="JetBrains Mono ExtraBold" size="16" style="1"/>
               <foreground color="-526345"/>
               <text value="UninaDelivery"/>
+              <verticalAlignment value="0"/>
             </properties>
           </component>
           <vspacer id="53238">

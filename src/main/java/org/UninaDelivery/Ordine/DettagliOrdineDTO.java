@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class DettagliOrdineDTO {
     private LocalDate DataOrdine;
-    private String Nominativo;
+    private String Destinatario;
     private String Indirizzo;
     private float Peso;
     private String Grandezza;
@@ -17,12 +17,12 @@ public class DettagliOrdineDTO {
         DataOrdine = dataOrdine;
     }
     
-    public String getNominativo() {
-        return Nominativo;
+    public String getDestinatario() {
+        return Destinatario;
     }
     
-    public void setNominativo(String nominativo) {
-        Nominativo = nominativo;
+    public void setDestinatario(String destinatario) {
+        Destinatario = destinatario;
     }
     
     public String getIndirizzo() {

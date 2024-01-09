@@ -37,7 +37,6 @@ public class StatisticaPage extends JFrame{
     private void setImpostazioniStatisticaPage(JFrame parent, GestoreFinestre gestoreFinestre, OperatoreDTO operatoreLoggato){
         setLayout(null);
         setResizable(true);
-        setExtendedState(MAXIMIZED_BOTH);
         this.gestoreFinestre = gestoreFinestre;
         this.operatoreLoggato = operatoreLoggato;
         setTitle("Report Statistica");

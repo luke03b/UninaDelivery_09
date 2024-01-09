@@ -1,4 +1,6 @@
 package org.UninaDelivery;
+import org.UninaDelivery.Cliente.ClienteDAO;
+import org.UninaDelivery.Cliente.ClienteDTO;
 import org.UninaDelivery.Exception.OperatoreNonTrovatoException;
 import org.UninaDelivery.Operatore.OperatoreDAO;
 import org.UninaDelivery.Operatore.OperatoreDTO;
@@ -41,7 +43,6 @@ public class GestoreFinestre {
             System.out.println("operatore non valido: " + e);
             mostraMessageDialog(parent, "Matricola o Password non validi", "Errore");
         }
-
     }
 
     public OperatoreDTO VerificaDatiInput(String Matricola, String Password, LoginForm parent) throws OperatoreNonTrovatoException {
@@ -89,5 +90,11 @@ public class GestoreFinestre {
     public void chiudiConnessioneDB() throws SQLException {
         dbConnection.closeConnection(conn);
     }
+
+    public ArrayList<ClienteDTO> recuperaClienti(){
+        ClienteDAO clienteDAO = new ClienteDAO();
+        return clienteDAO.recuperaClientiDTO(conn);
+    }
+
 }
 

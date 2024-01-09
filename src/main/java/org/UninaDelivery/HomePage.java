@@ -1,5 +1,9 @@
 package org.UninaDelivery;
 
+import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
+import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
+import net.sourceforge.jdatepicker.impl.UtilDateModel;
+import org.UninaDelivery.Cliente.ClienteDTO;
 import org.UninaDelivery.Operatore.OperatoreDTO;
 import org.UninaDelivery.Ordine.DettagliOrdineDTO;
 
@@ -10,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class HomePage extends JFrame{
     private JPanel homePanel;
@@ -24,29 +29,40 @@ public class HomePage extends JFrame{
     private JLabel nomeLabel;
     private JLabel cognomeLabel;
     private JScrollPane PanelContenenteJTable;
+    private JToolBar toolBar;
+    private JComboBox filtroUtenti;
+    private JButton aggiornaButton;
     private GestoreFinestre gestoreFinestre;
     private OperatoreDTO operatoreLoggato;
-    
+
+    ImageIcon imageIcon = new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScritte.png");
+
+    UtilDateModel modelDataInizio = new UtilDateModel();
+    JDatePanelImpl datePanelDataInizio = new JDatePanelImpl(modelDataInizio);
+    JDatePickerImpl pickerDataInizio = new JDatePickerImpl(datePanelDataInizio);
+
+    UtilDateModel modelDataFine = new UtilDateModel();
+    JDatePanelImpl datePanelDataFine = new JDatePanelImpl(modelDataFine);
+    JDatePickerImpl pickerDataFine = new JDatePickerImpl(datePanelDataFine);
+
+
     public HomePage(JFrame parent, GestoreFinestre gf, OperatoreDTO operatoreLoggato){
         setImpostazioniHomePage(parent, gf, operatoreLoggato);
         setImpostazioniTabella();
+        setImpostazioniToolBar();
         setImpostazioniUserInformationButton();
         setImpostazioniLogoutButton();
         setImpostazioniVarie();
-        
+
         Listeners();
-        userInformationButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                gestoreFinestre.apriInfoOperatore(operatoreLoggato);
-            }
-        });
+
+
     }
     
     private void setImpostazioniHomePage(JFrame parent, GestoreFinestre gestoreFinestre, OperatoreDTO operatoreLoggato){
+        setIconImage(imageIcon.getImage());
         setLayout(null);
         setResizable(true);
-        setExtendedState(MAXIMIZED_BOTH);
         this.gestoreFinestre = gestoreFinestre;
         this.operatoreLoggato = operatoreLoggato;
         setTitle("Home");
@@ -59,7 +75,7 @@ public class HomePage extends JFrame{
     
     private void setImpostazioniTabella(){
         ArrayList<DettagliOrdineDTO> listaOrdini = gestoreFinestre.RecuperaOrdiniNonSpediti();
-        Object[] nomiColonne = {"Selezionato", "Data", "Nominativo", "Indirizzo", "Peso", "Grandezza"};
+        Object[] nomiColonne = {"Selezionato", "Data", "Destinatario", "Indirizzo", "Peso", "Grandezza"};
         DefaultTableModel modelloTabella = new DefaultTableModel(new Object[][]{}, nomiColonne){
             //rende solo la prima colonna della tabella editabile
             @Override
@@ -83,7 +99,7 @@ public class HomePage extends JFrame{
         ordiniTable.getTableHeader().setBackground(new Color(155, 155, 155));
         
         for (DettagliOrdineDTO ordineDTO : listaOrdini){
-            modelloTabella.addRow(new Object[]{Boolean.FALSE, ordineDTO.getDataOrdine(), ordineDTO.getNominativo(), ordineDTO.getIndirizzo(),
+            modelloTabella.addRow(new Object[]{Boolean.FALSE, ordineDTO.getDataOrdine(), ordineDTO.getDestinatario(), ordineDTO.getIndirizzo(),
             ordineDTO.getPeso(), ordineDTO.getGrandezza()});
         }
         resizeColumnWidth(ordiniTable);
@@ -129,6 +145,21 @@ public class HomePage extends JFrame{
         logOutButton.setBorder(null);
         logOutButton.setContentAreaFilled(false);
     }
+
+    public void setImpostazioniToolBar() {
+
+        aggiornaButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/refresh.png"));
+
+        toolBar.add(pickerDataInizio);
+        toolBar.add(pickerDataFine);
+
+        ArrayList<ClienteDTO> listaClienti = gestoreFinestre.recuperaClienti();
+        filtroUtenti.addItem("<Filtra Utente>");
+        for (ClienteDTO clienteDTO : listaClienti) {
+            filtroUtenti.addItem(clienteDTO.getNominativo());
+        }
+        ((JLabel)filtroUtenti.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+    }
     
     private void Listeners(){
         logOutButton.addActionListener(new ActionListener() {
@@ -151,6 +182,34 @@ public class HomePage extends JFrame{
                 dispose();
             }
         });
+
+        userInformationButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gestoreFinestre.apriInfoOperatore(operatoreLoggato);
+            }
+        });
+
+        aggiornaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Date dataInizio = (Date) pickerDataInizio.getModel().getValue();
+                Date dataFine = (Date) pickerDataFine.getModel().getValue();
+                String utenteSelezionato = filtroUtenti.getSelectedItem().toString();
+
+                if(!utenteSelezionato.isEmpty() && !dataInizio.equals(null) && !dataFine.equals(null)) {
+
+                }else if ((dataInizio.equals(null) && !dataFine.equals(null)) || (!dataInizio.equals(null) && dataFine.equals(null))){
+                    System.out.println("ciao,inserire entrambe le date!! :D :D "); //TODO
+                }else if (!utenteSelezionato.isEmpty()){
+
+                }else if (utenteSelezionato.isEmpty() && !dataInizio.equals(null) && dataFine.equals(null)){
+
+                }
+            }
+        });
+
+
     }
     
 }
