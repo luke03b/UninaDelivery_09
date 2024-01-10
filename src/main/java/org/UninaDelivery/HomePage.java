@@ -33,6 +33,7 @@ public class HomePage extends JFrame{
     private JToolBar toolBar;
     private JComboBox filtroUtenti;
     private JButton aggiornaButton;
+    private JButton dettagliOrdineButton;
     private GestoreFinestre gestoreFinestre;
     private OperatoreDTO operatoreLoggato;
 
@@ -56,8 +57,6 @@ public class HomePage extends JFrame{
         setImpostazioniVarie();
 
         Listeners();
-
-
     }
     
     private void setImpostazioniHomePage(JFrame parent, GestoreFinestre gestoreFinestre, OperatoreDTO operatoreLoggato){
@@ -76,7 +75,7 @@ public class HomePage extends JFrame{
     
     private void setImpostazioniTabella(){
         ArrayList<DettagliOrdineDTO> listaOrdini = gestoreFinestre.RecuperaOrdiniNonSpediti();
-        Object[] nomiColonne = {"Selezionato", "Data", "Destinatario", "Indirizzo", "Peso", "Grandezza"};
+        Object[] nomiColonne = {"Selezionato", "Numero Ordine", "Data", "Destinatario", "Indirizzo", "Peso", "Grandezza"};
         DefaultTableModel modelloTabella = new DefaultTableModel(new Object[][]{}, nomiColonne){
             //rende solo la prima colonna della tabella editabile
             @Override
@@ -88,9 +87,9 @@ public class HomePage extends JFrame{
             public Class getColumnClass(int column){
                 return switch (column) {
                     case 0 -> Boolean.class;
-                    case 1 -> LocalDate.class;
-                    case 2, 3, 5 -> String.class;
-                    case 4 -> Float.class;
+                    case 2 -> LocalDate.class;
+                    case 1, 3, 4, 6 -> String.class;
+                    case 5 -> Float.class;
                     default -> null;
                 };
             }
@@ -194,7 +193,6 @@ public class HomePage extends JFrame{
                 java.util.Date dataFine = (java.util.Date) pickerDataFine.getModel().getValue();
                 String utenteSelezionato = filtroUtenti.getSelectedItem().toString();
                 utenteSelezionato = utenteSelezionato.replaceAll("[^0-9]", "");
-                System.out.println(utenteSelezionato);
 
                 //TODO sistemare CleanCode
                 if(!utenteSelezionato.isEmpty() && dataInizio != null && dataFine != null) {
@@ -209,9 +207,25 @@ public class HomePage extends JFrame{
                     ArrayList<DettagliOrdineDTO> listaOrdini = gestoreFinestre.RecuperaOrdiniByData(new java.sql.Date(dataInizio.getTime()), new java.sql.Date(dataFine.getTime()));
                     aggiornaTabella(listaOrdini);
                 }else{
-                    System.out.println("5 if");
                     ArrayList<DettagliOrdineDTO> listaOrdini = gestoreFinestre.RecuperaOrdiniNonSpediti();
                     aggiornaTabella(listaOrdini);
+                }
+            }
+        });
+        
+        dettagliOrdineButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                switch (controllaQuanteFlagTabella()){
+                    case 0:
+                        //TODO eccezione personalizzata NoCampiSelezionatiException
+                        break;
+                    case 1:
+                        mostraDettagliOrdine();
+                        break;
+                    default:
+                        //TODO eccezione personalizzata TroppiCampiSelezionatiException
+                        break;
                 }
             }
         });
@@ -222,10 +236,26 @@ public class HomePage extends JFrame{
         model.setRowCount(0);
         
         for (DettagliOrdineDTO ordineDTO : listaAggiornata){
-            model.addRow(new Object[]{Boolean.FALSE, ordineDTO.getDataOrdine(), ordineDTO.getDestinatario(), ordineDTO.getIndirizzo(),
+            model.addRow(new Object[]{Boolean.FALSE, ordineDTO.getNumeroOrdine(),ordineDTO.getDataOrdine(), ordineDTO.getDestinatario(), ordineDTO.getIndirizzo(),
                     ordineDTO.getPeso(), ordineDTO.getGrandezza()});
         }
         resizeColumnWidth(ordiniTable);
     }
     
+    private int controllaQuanteFlagTabella(){
+        int numeroFlag = 0;
+        for (int i=0; i<ordiniTable.getRowCount(); i++){
+            if ((Boolean) ordiniTable.getValueAt(i, 0))
+                numeroFlag++;
+        }
+        return numeroFlag;
+    }
+    
+    private void mostraDettagliOrdine(){
+        for (int i=0; i<ordiniTable.getRowCount(); i++){
+            if ((Boolean) ordiniTable.getValueAt(i, 0)){
+                gestoreFinestre.apriInfoOrdine((int)ordiniTable.getValueAt(i, 1));
+            }
+        }
+    }
 }

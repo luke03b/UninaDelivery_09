@@ -9,8 +9,8 @@ public class OrdineDAO {
         
         try{
             PreparedStatement stmt = conn.prepareStatement(
-                    "SELECT Ordine.DataOrdine, Cliente.Tipo, Cliente.Nome, Cliente.Cognome, Cliente.NomeAzienda, " +
-                            "Indirizzo.Via, Indirizzo.NumeroCivico, " +
+                    "SELECT Ordine.NumeroOrdine, Ordine.DataOrdine, Cliente.Tipo, Cliente.Nome, Cliente.Cognome, " +
+                            "Cliente.NomeAzienda, Indirizzo.Via, Indirizzo.NumeroCivico, " +
                     "Indirizzo.CAP, Indirizzo.Citta, Indirizzo.Provincia, Ordine.Peso, Ordine.Grandezza " +
                     "FROM Ordine LEFT JOIN Spedizione " +
                     "ON Ordine.NumeroOrdine = Spedizione.NumeroOrdine " +
@@ -41,8 +41,8 @@ public class OrdineDAO {
 
         try{
             PreparedStatement stmt = conn.prepareStatement(
-                    "SELECT Ordine.DataOrdine, Cliente.Tipo, Cliente.Nome, Cliente.Cognome, Cliente.NomeAzienda, " +
-                            "Indirizzo.Via, Indirizzo.NumeroCivico, " +
+                    "SELECT Ordine.NumeroOrdine, Ordine.DataOrdine, Cliente.Tipo, Cliente.Nome, Cliente.Cognome," +
+                            "Cliente.NomeAzienda, Indirizzo.Via, Indirizzo.NumeroCivico, " +
                             "Indirizzo.CAP, Indirizzo.Citta, Indirizzo.Provincia, Ordine.Peso, Ordine.Grandezza " +
                             "FROM Ordine LEFT JOIN Spedizione " +
                             "ON Ordine.NumeroOrdine = Spedizione.NumeroOrdine " +
@@ -79,8 +79,8 @@ public class OrdineDAO {
         
         try{
             PreparedStatement stmt = conn.prepareStatement(
-                    "SELECT Ordine.DataOrdine, Cliente.Tipo, Cliente.Nome, Cliente.Cognome, Cliente.NomeAzienda, " +
-                            "Indirizzo.Via, Indirizzo.NumeroCivico, " +
+                    "SELECT Ordine.NumeroOrdine, Ordine.DataOrdine, Cliente.Tipo, Cliente.Nome, Cliente.Cognome," +
+                            "Cliente.NomeAzienda, Indirizzo.Via, Indirizzo.NumeroCivico, " +
                             "Indirizzo.CAP, Indirizzo.Citta, Indirizzo.Provincia, Ordine.Peso, Ordine.Grandezza " +
                             "FROM Ordine LEFT JOIN Spedizione " +
                             "ON Ordine.NumeroOrdine = Spedizione.NumeroOrdine " +
@@ -114,8 +114,8 @@ public class OrdineDAO {
         
         try{
             PreparedStatement stmt = conn.prepareStatement(
-                    "SELECT Ordine.DataOrdine, Cliente.Tipo, Cliente.Nome, Cliente.Cognome, Cliente.NomeAzienda, " +
-                            "Indirizzo.Via, Indirizzo.NumeroCivico, " +
+                    "SELECT Ordine.NumeroOrdine, Ordine.DataOrdine, Cliente.Tipo, Cliente.Nome, Cliente.Cognome," +
+                            "Cliente.NomeAzienda, Indirizzo.Via, Indirizzo.NumeroCivico, " +
                             "Indirizzo.CAP, Indirizzo.Citta, Indirizzo.Provincia, Ordine.Peso, Ordine.Grandezza " +
                             "FROM Ordine LEFT JOIN Spedizione " +
                             "ON Ordine.NumeroOrdine = Spedizione.NumeroOrdine " +
@@ -146,6 +146,7 @@ public class OrdineDAO {
 
     private void creaOrdineDTO(DettagliOrdineDTO nuovoOrdine, ResultSet rs) throws SQLException {
         String IndirizzoCompleto; //variabile d'appoggio
+        nuovoOrdine.setNumeroOrdine(rs.getInt("numeroordine"));
         nuovoOrdine.setDataOrdine(rs.getDate("dataordine").toLocalDate());
         
         if (rs.getString("tipo").equals("Aziendale"))

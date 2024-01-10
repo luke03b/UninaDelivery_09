@@ -27,12 +27,7 @@ public class InfoOperatorePage extends JDialog{
     public InfoOperatorePage(JFrame parent, GestoreFinestre gf, OperatoreDTO operatoreLoggato){
         setImpostazioniInfoOpPage(parent, gf, operatoreLoggato);
         setContenutiVisivi();
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
+        Listeners();
     }
 
     private void setImpostazioniInfoOpPage(JFrame parent, GestoreFinestre gestoreFinestre, OperatoreDTO operatoreLoggato){
@@ -60,5 +55,14 @@ public class InfoOperatorePage extends JDialog{
         UninaDeliveryLogo.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScrittePiccolo.png"));
         FedIILogo.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoFedericoII.png"));
         fotoProfiloLabel.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/user.png"));
+    }
+    
+    private void Listeners(){
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
     }
 }

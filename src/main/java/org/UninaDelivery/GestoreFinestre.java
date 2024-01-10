@@ -6,6 +6,7 @@ import org.UninaDelivery.Operatore.OperatoreDAO;
 import org.UninaDelivery.Operatore.OperatoreDTO;
 import org.UninaDelivery.Ordine.DettagliOrdineDTO;
 import org.UninaDelivery.Ordine.OrdineDAO;
+import org.UninaDelivery.Prodotto.ProdottoDTO;
 
 import javax.swing.*;
 import java.sql.*;
@@ -100,6 +101,11 @@ public class GestoreFinestre {
     public void apriInfoOperatore(OperatoreDTO operatoreLoggato){
         InfoOperatorePage infoOpPage = new InfoOperatorePage(null, this, operatoreLoggato);
         infoOpPage.setVisible(true);
+    }
+    
+    public void apriInfoOrdine(int codiceProdotto){
+        InfoOrdinePage infoOrdinePage = new InfoOrdinePage(null, this, codiceProdotto);
+        infoOrdinePage.setVisible(true);
     }
     
     public void chiudiConnessioneDB() throws SQLException {

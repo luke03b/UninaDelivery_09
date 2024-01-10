@@ -3,11 +3,20 @@ package org.UninaDelivery.Ordine;
 import java.time.LocalDate;
 
 public class DettagliOrdineDTO {
+    private int NumeroOrdine;
     private LocalDate DataOrdine;
     private String Destinatario;
     private String Indirizzo;
     private float Peso;
     private String Grandezza;
+    
+    public int getNumeroOrdine() {
+        return NumeroOrdine;
+    }
+    
+    public void setNumeroOrdine(int numeroOrdine) {
+        NumeroOrdine = numeroOrdine;
+    }
     
     public LocalDate getDataOrdine() {
         return DataOrdine;
