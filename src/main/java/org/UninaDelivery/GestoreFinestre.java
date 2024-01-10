@@ -5,9 +5,11 @@ import org.UninaDelivery.Exception.OperatoreNonTrovatoException;
 import org.UninaDelivery.Operatore.OperatoreDAO;
 import org.UninaDelivery.Operatore.OperatoreDTO;
 import org.UninaDelivery.Ordine.DettagliOrdineDTO;
-import org.UninaDelivery.Ordine.OrdineDAO;
+import org.UninaDelivery.Ordine.DettagliOrdineDAO;
 import org.UninaDelivery.Prodotto.ProdottoDAO;
 import org.UninaDelivery.Prodotto.ProdottoDTO;
+import org.UninaDelivery.StatisticheOrdini.StatisticheOrdineDTO;
+import org.UninaDelivery.StatisticheOrdini.StatisticheOrdiniDAO;
 
 import javax.swing.*;
 import java.sql.*;
@@ -32,23 +34,23 @@ public class GestoreFinestre {
     }
     
     public ArrayList<DettagliOrdineDTO> RecuperaOrdiniNonSpediti(){
-        OrdineDAO ordineDAO = new OrdineDAO();
-        return ordineDAO.getOrdiniNonSpediti(conn);
+        DettagliOrdineDAO dettagliOrdineDAO = new DettagliOrdineDAO();
+        return dettagliOrdineDAO.getOrdiniNonSpediti(conn);
     }
     
     public ArrayList<DettagliOrdineDTO> RecuperaOrdiniByUtente(String utente){
-        OrdineDAO ordineDAO = new OrdineDAO();
-        return ordineDAO.getOrdiniByUtente(utente, conn);
+        DettagliOrdineDAO dettagliOrdineDAO = new DettagliOrdineDAO();
+        return dettagliOrdineDAO.getOrdiniByUtente(utente, conn);
     }
     
     public ArrayList<DettagliOrdineDTO> RecuperaOrdiniByData(Date dataInizio, Date dataFine){
-        OrdineDAO ordineDAO = new OrdineDAO();
-        return ordineDAO.getOrdiniByData(dataInizio, dataFine, conn);
+        DettagliOrdineDAO dettagliOrdineDAO = new DettagliOrdineDAO();
+        return dettagliOrdineDAO.getOrdiniByData(dataInizio, dataFine, conn);
     }
     
     public ArrayList<DettagliOrdineDTO> RecuperaOrdiniByUtenteAndData(String utente, Date DataInizio, Date DataFine){
-        OrdineDAO ordineDAO = new OrdineDAO();
-        return ordineDAO.getOrdiniByUtenteAndData(utente, DataInizio, DataFine, conn);
+        DettagliOrdineDAO dettagliOrdineDAO = new DettagliOrdineDAO();
+        return dettagliOrdineDAO.getOrdiniByUtenteAndData(utente, DataInizio, DataFine, conn);
     }
     
     public void EffettuaLogin(String Matricola, String Password, LoginForm parent){
@@ -121,6 +123,11 @@ public class GestoreFinestre {
     public ArrayList<ProdottoDTO> recuperaProdotti(int numOrdine){
         ProdottoDAO prodottoDAO = new ProdottoDAO();
         return prodottoDAO.getProdottiDaOrdine(numOrdine, conn);
+    }
+
+    public StatisticheOrdineDTO eseguiStatistica(int mese){
+        StatisticheOrdiniDAO statisticheOrdiniDAO = new StatisticheOrdiniDAO();
+        return statisticheOrdiniDAO.getStatisticheOrdine(conn, mese);
     }
 }
 

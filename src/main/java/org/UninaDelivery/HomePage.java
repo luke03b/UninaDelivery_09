@@ -177,9 +177,7 @@ public class HomePage extends JFrame{
         statisticaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setVisible(false);
                 gestoreFinestre.apriStatistica(operatoreLoggato);
-                dispose();
             }
         });
 

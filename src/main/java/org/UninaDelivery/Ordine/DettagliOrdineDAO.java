@@ -3,7 +3,7 @@ package org.UninaDelivery.Ordine;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class OrdineDAO {
+public class DettagliOrdineDAO {
     public ArrayList<DettagliOrdineDTO> getOrdiniNonSpediti(Connection conn){
         ArrayList<DettagliOrdineDTO> listaOrdini = new ArrayList<DettagliOrdineDTO>();
         
