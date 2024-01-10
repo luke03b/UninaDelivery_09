@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 
 public class InfoOperatorePage extends JDialog{
     private JPanel InfoOpPane;
-    private JButton backButton;
+    private JButton indietroButton;
     private JLabel fotoProfiloLabel;
     private JLabel matricolaLabel;
     private JLabel nomeLabel;
@@ -27,6 +27,7 @@ public class InfoOperatorePage extends JDialog{
     public InfoOperatorePage(JFrame parent, GestoreFinestre gf, OperatoreDTO operatoreLoggato){
         setImpostazioniInfoOpPage(parent, gf, operatoreLoggato);
         setContenutiVisivi();
+        setImpostazioniIndietroButton();
         Listeners();
     }
 
@@ -35,12 +36,21 @@ public class InfoOperatorePage extends JDialog{
         setResizable(false);
         setTitle("Informazioni Operatore");
         setContentPane(InfoOpPane);
-        setMinimumSize(new Dimension(300, 400));
+        setMinimumSize(new Dimension(380, 450));
         setModal(true);
         this.gestoreFinestre = gestoreFinestre;
         this.operatoreLoggato = operatoreLoggato;
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    }
+
+    private void setImpostazioniIndietroButton() {
+        indietroButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/Indietro.png"));
+        indietroButton.setMargin(new Insets(0, 0, 0, 0));
+        indietroButton.setOpaque(false);
+        indietroButton.setBorderPainted(false);
+        indietroButton.setContentAreaFilled(false);
+        indietroButton.setFocusable(false);
     }
 
     private void setContenutiVisivi(){
@@ -58,7 +68,7 @@ public class InfoOperatorePage extends JDialog{
     }
     
     private void Listeners(){
-        backButton.addActionListener(new ActionListener() {
+        indietroButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();

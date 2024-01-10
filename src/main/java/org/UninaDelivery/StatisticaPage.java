@@ -11,19 +11,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class StatisticaPage extends JDialog{
-    private JLabel matricolaLabel;
-    private JButton logOutButton;
     private JButton userInformationButton;
-    private JLabel cognomeLabel;
-    private JLabel nomeLabel;
     private JButton indietroButton;
     private JTable statisticaTable;
     private JComboBox comboBox1;
-    private JButton LogoHomeButton;
     private JPanel StatisticaPanel;
     private JLabel AVGordineLabel;
     private JLabel MaxProdotti;
     private JLabel MinProdotti;
+    private JLabel logoLabel;
     private JScrollPane PanelContenenteJTable;
     private GestoreFinestre gestoreFinestre;
     private OperatoreDTO operatoreLoggato;
@@ -31,6 +27,8 @@ public class StatisticaPage extends JDialog{
     public StatisticaPage(JFrame parent, GestoreFinestre gestoreFinestre, OperatoreDTO operatoreLoggato){
         setImpostazioniStatisticaPage(parent, gestoreFinestre, operatoreLoggato);
         setImpostazioniVarie();
+        setImpostazioniUserInformationButton();
+        setImpostazioniIndietroButton();
         indietroButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -48,6 +46,10 @@ public class StatisticaPage extends JDialog{
                     System.out.println("nessun mese selezionato: " + exception);
                 }
             }
+        });
+        userInformationButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {gestoreFinestre.apriInfoOperatore(operatoreLoggato);}
         });
     }
 
@@ -84,15 +86,30 @@ public class StatisticaPage extends JDialog{
         this.operatoreLoggato = operatoreLoggato;
         setTitle("Report Statistica");
         setContentPane(StatisticaPanel);
-        setMinimumSize(new Dimension(300, 400));
+        setMinimumSize(new Dimension(600, 270));
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setModal(true);
     }
 
     private void setImpostazioniVarie(){
-        nomeLabel.setText(operatoreLoggato.getNome());
-        cognomeLabel.setText(operatoreLoggato.getCognome());
-        matricolaLabel.setText(String.valueOf(operatoreLoggato.getMatricola()));
+        indietroButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/Indietro.png"));
+        logoLabel.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScrittePiccolo.png"));
+    }
+
+    private void setImpostazioniUserInformationButton(){
+        userInformationButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/user.png"));
+        userInformationButton.setMargin(new Insets(0, 0, 0, 0));
+        userInformationButton.setOpaque(false);
+        userInformationButton.setBorderPainted(false);
+        userInformationButton.setBorder(null);
+        userInformationButton.setContentAreaFilled(false);
+    }
+    private void setImpostazioniIndietroButton(){
+        indietroButton.setMargin(new Insets(0, 0, 0, 0));
+        indietroButton.setOpaque(false);
+        indietroButton.setBorderPainted(false);
+        indietroButton.setContentAreaFilled(false);
+        indietroButton.setFocusable(false);
     }
 }

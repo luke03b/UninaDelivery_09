@@ -45,7 +45,6 @@ public class HomePage extends JFrame{
     UtilDateModel modelDataInizio = new UtilDateModel();
     JDatePanelImpl datePanelDataInizio = new JDatePanelImpl(modelDataInizio);
     JDatePickerImpl pickerDataInizio = new JDatePickerImpl(datePanelDataInizio);
-
     UtilDateModel modelDataFine = new UtilDateModel();
     JDatePanelImpl datePanelDataFine = new JDatePanelImpl(modelDataFine);
     JDatePickerImpl pickerDataFine = new JDatePickerImpl(datePanelDataFine);
@@ -130,6 +129,11 @@ public class HomePage extends JFrame{
         programmaButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/schedule.png"));
         selezionaButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/touchscreen.png"));
         dettagliOrdineButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/delivery.png"));
+        statisticaButton.setFocusable(false);
+        programmaButton.setFocusable(false);
+        dettagliOrdineButton.setFocusable(false);
+        selezionaButton.setFocusable(false);
+        selezionaButton.setOpaque(true);
     }
     
     private void setImpostazioniUserInformationButton(){
