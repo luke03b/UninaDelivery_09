@@ -22,6 +22,7 @@ public class HomePage extends JFrame{
     private JPanel homePanel;
     private JLabel logoLabel;
     private JLabel matricolaLabel;
+    private JLabel dataFineLabel;
     private JButton logOutButton;
     private JButton selezionaButton;
     private JButton programmaButton;
@@ -35,6 +36,7 @@ public class HomePage extends JFrame{
     private JComboBox filtroUtenti;
     private JButton aggiornaButton;
     private JButton dettagliOrdineButton;
+    private JLabel dataInizioLabel;
     private GestoreFinestre gestoreFinestre;
     private OperatoreDTO operatoreLoggato;
 
@@ -68,7 +70,7 @@ public class HomePage extends JFrame{
         this.operatoreLoggato = operatoreLoggato;
         setTitle("Home");
         setContentPane(homePanel);
-        setMinimumSize(new Dimension(1150, 430));
+        setMinimumSize(new Dimension(1250, 430));
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -97,7 +99,8 @@ public class HomePage extends JFrame{
         };
         
         ordiniTable.setModel(modelloTabella);
-        ordiniTable.getTableHeader().setBackground(new Color(155, 155, 155));
+        ordiniTable.getTableHeader().setBackground(new Color(0, 18, 51));
+        ordiniTable.getTableHeader().setForeground(new Color (253, 253, 253));
         
         aggiornaTabella(listaOrdini);
     }
@@ -122,7 +125,11 @@ public class HomePage extends JFrame{
         cognomeLabel.setText(operatoreLoggato.getCognome());
         matricolaLabel.setText(String.valueOf(operatoreLoggato.getMatricola()));
         logoLabel.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScrittePiccolo.png"));
-        PanelContenenteJTable.getViewport().setBackground(new Color(167, 169, 172));
+        PanelContenenteJTable.getViewport().setBackground(new Color(202, 192, 179));
+        statisticaButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/data-analytics.png"));
+        programmaButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/schedule.png"));
+        selezionaButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/touchscreen.png"));
+        dettagliOrdineButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/delivery.png"));
     }
     
     private void setImpostazioniUserInformationButton(){
@@ -148,6 +155,13 @@ public class HomePage extends JFrame{
         aggiornaButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/refresh.png"));
 
         toolBar.add(pickerDataInizio);
+
+        dataFineLabel = new JLabel();
+        dataFineLabel.setText("  Data Fine: ");
+        dataFineLabel.setForeground(Color.WHITE);
+        dataFineLabel.setFont(new Font("JetBrains Mono Medium",Font.BOLD,14));
+
+        toolBar.add(dataFineLabel);
         toolBar.add(pickerDataFine);
 
         pickerDataInizio.setToolTipText("Data dalla quale si inizierà a cercare");

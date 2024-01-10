@@ -28,7 +28,8 @@ public class LoginForm extends JFrame {
         setImpostazioniLoginButton();
         setImpostazioniResetButton();
         setImpostazioniVarie();
-        
+
+
         Listeners();
     }
 
@@ -75,6 +76,7 @@ public class LoginForm extends JFrame {
         TextLoginMatricola.setBorder(BorderFactory.createMatteBorder(0,2,0,0,Color.WHITE));
         TextLoginPassword.setBorder(BorderFactory.createMatteBorder(0,2,0,0,Color.WHITE));
     }
+
     
     public void Listeners(){
         loginButton.addMouseListener(new MouseAdapter() {
