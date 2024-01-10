@@ -5,13 +5,11 @@ import org.UninaDelivery.Operatore.OperatoreDTO;
 import org.UninaDelivery.StatisticheOrdini.StatisticheOrdineDTO;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class StatisticaPage extends JDialog{
-    private JButton userInformationButton;
     private JButton indietroButton;
     private JTable statisticaTable;
     private JComboBox comboBox1;
@@ -20,6 +18,7 @@ public class StatisticaPage extends JDialog{
     private JLabel MaxProdotti;
     private JLabel MinProdotti;
     private JLabel logoLabel;
+    private JLabel logoUnina;
     private JScrollPane PanelContenenteJTable;
     private GestoreFinestre gestoreFinestre;
     private OperatoreDTO operatoreLoggato;
@@ -27,7 +26,6 @@ public class StatisticaPage extends JDialog{
     public StatisticaPage(JFrame parent, GestoreFinestre gestoreFinestre, OperatoreDTO operatoreLoggato){
         setImpostazioniStatisticaPage(parent, gestoreFinestre, operatoreLoggato);
         setImpostazioniVarie();
-        setImpostazioniUserInformationButton();
         setImpostazioniIndietroButton();
         indietroButton.addActionListener(new ActionListener() {
             @Override
@@ -46,10 +44,6 @@ public class StatisticaPage extends JDialog{
                     System.out.println("nessun mese selezionato: " + exception);
                 }
             }
-        });
-        userInformationButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {gestoreFinestre.apriInfoOperatore(operatoreLoggato);}
         });
     }
 
@@ -93,19 +87,12 @@ public class StatisticaPage extends JDialog{
     }
 
     private void setImpostazioniVarie(){
-        indietroButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/Indietro.png"));
         logoLabel.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScrittePiccolo.png"));
+        logoUnina.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoFedericoII.png"));
     }
 
-    private void setImpostazioniUserInformationButton(){
-        userInformationButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/user.png"));
-        userInformationButton.setMargin(new Insets(0, 0, 0, 0));
-        userInformationButton.setOpaque(false);
-        userInformationButton.setBorderPainted(false);
-        userInformationButton.setBorder(null);
-        userInformationButton.setContentAreaFilled(false);
-    }
     private void setImpostazioniIndietroButton(){
+        indietroButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/Indietro.png"));
         indietroButton.setMargin(new Insets(0, 0, 0, 0));
         indietroButton.setOpaque(false);
         indietroButton.setBorderPainted(false);

@@ -1,6 +1,5 @@
 package org.UninaDelivery;
 
-import org.UninaDelivery.Ordine.DettagliOrdineDTO;
 import org.UninaDelivery.Prodotto.ProdottoDTO;
 
 import javax.swing.*;
@@ -10,16 +9,15 @@ import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class InfoOrdinePage extends JDialog{
     private JLabel FedIILogo;
     private JLabel UninaDeliveryLogo;
-    private JLabel fotoProfiloLabel;
-    private JButton backButton;
+    private JButton indietroButton;
     private JPanel InfoOrdinePage;
     private JTable prodottiTable;
+    private JScrollPane PanelContenenteJTable;
     private GestoreFinestre gestoreFinestre;
     private int numOrdine;
     
@@ -27,6 +25,7 @@ public class InfoOrdinePage extends JDialog{
         setImpostazioniInfoOrdinePage(parent, gestoreFinestre, numOrdine);
         setContenutiVisivi();
         setImpostazioniTabella();
+        setImpostazioniIndietroButton();
         Listeners();
     }
     
@@ -66,7 +65,8 @@ public class InfoOrdinePage extends JDialog{
         //TODO aggiustare la descrizione che non entra nella cella della tabella
         setRigheTable(modelloTabella, listaProdotti);
         prodottiTable.setModel(modelloTabella);
-        prodottiTable.getTableHeader().setBackground(new Color(155, 155, 155));
+        prodottiTable.getTableHeader().setBackground(new Color(0, 18, 51));
+        prodottiTable.getTableHeader().setForeground(new Color (255, 255, 255));
         resizeColumnWidth(prodottiTable);
     }
 
@@ -95,12 +95,20 @@ public class InfoOrdinePage extends JDialog{
     private void setContenutiVisivi(){
         UninaDeliveryLogo.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScrittePiccolo.png"));
         FedIILogo.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoFedericoII.png"));
-        fotoProfiloLabel.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/user.png"));
-
+        PanelContenenteJTable.getViewport().setBackground(new Color(202, 192, 179));
     }
-    
+
+    private void setImpostazioniIndietroButton(){
+        indietroButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/Indietro.png"));
+        indietroButton.setMargin(new Insets(0, 0, 0, 0));
+        indietroButton.setOpaque(false);
+        indietroButton.setBorderPainted(false);
+        indietroButton.setContentAreaFilled(false);
+        indietroButton.setFocusable(false);
+    }
+
     private void Listeners(){
-        backButton.addActionListener(new ActionListener() {
+        indietroButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();

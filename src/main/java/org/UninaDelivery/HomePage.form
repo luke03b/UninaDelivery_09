@@ -101,7 +101,7 @@
             <properties>
               <font name="JetBrains Mono Medium" size="14" style="0"/>
               <foreground color="-394241"/>
-              <text value="Accesso effettauto come:"/>
+              <text value="Accesso effettuato come:"/>
             </properties>
           </component>
           <component id="37172" class="javax.swing.JLabel">

@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 public class InfoOperatorePage extends JDialog{
     private JPanel InfoOpPane;
     private JButton indietroButton;
-    private JLabel fotoProfiloLabel;
     private JLabel matricolaLabel;
     private JLabel nomeLabel;
     private JLabel cognomeLabel;
@@ -64,7 +63,6 @@ public class InfoOperatorePage extends JDialog{
         dataAssunzioneLabel.setText(String.valueOf(operatoreLoggato.getDataAssunzione()));
         UninaDeliveryLogo.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScrittePiccolo.png"));
         FedIILogo.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoFedericoII.png"));
-        fotoProfiloLabel.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/user.png"));
     }
     
     private void Listeners(){
