@@ -4,9 +4,11 @@ import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
 import org.UninaDelivery.Cliente.ClienteDTO;
+import org.UninaDelivery.Exception.FiltroNonValidoException;
+import org.UninaDelivery.Exception.NoCampiSelezionatiException;
+import org.UninaDelivery.Exception.TroppiCampiSelezionatiException;
 import org.UninaDelivery.Operatore.OperatoreDTO;
 import org.UninaDelivery.Ordine.DettagliOrdineDTO;
-import org.UninaDelivery.Ordine.OrdineDAO;
 
 import javax.swing.*;
 import javax.swing.table.*;
@@ -15,7 +17,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class HomePage extends JFrame{
     private JPanel homePanel;
@@ -194,43 +195,63 @@ public class HomePage extends JFrame{
                 String utenteSelezionato = filtroUtenti.getSelectedItem().toString();
                 utenteSelezionato = utenteSelezionato.replaceAll("[^0-9]", "");
 
-                //TODO sistemare CleanCode
-                if(!utenteSelezionato.isEmpty() && dataInizio != null && dataFine != null) {
-                    ArrayList<DettagliOrdineDTO> listaOrdini = gestoreFinestre.RecuperaOrdiniByUtenteAndData(utenteSelezionato, new java.sql.Date(dataInizio.getTime()), new java.sql.Date(dataFine.getTime()));
-                    aggiornaTabella(listaOrdini);
-                }else if (dataInizio == null ^ dataFine == null){
-                    System.out.println("ciao,inserire entrambe le date!! :D :D "); //TODO aggiungere eccezione personalizzata
-                }else if (!utenteSelezionato.isEmpty()){
-                    ArrayList<DettagliOrdineDTO> listaOrdini = gestoreFinestre.RecuperaOrdiniByUtente(utenteSelezionato);
-                    aggiornaTabella(listaOrdini);
-                }else if (dataInizio != null && dataFine != null){
-                    ArrayList<DettagliOrdineDTO> listaOrdini = gestoreFinestre.RecuperaOrdiniByData(new java.sql.Date(dataInizio.getTime()), new java.sql.Date(dataFine.getTime()));
-                    aggiornaTabella(listaOrdini);
-                }else{
-                    ArrayList<DettagliOrdineDTO> listaOrdini = gestoreFinestre.RecuperaOrdiniNonSpediti();
-                    aggiornaTabella(listaOrdini);
+                try {
+                    applicaFiltro(utenteSelezionato, dataInizio, dataFine);
+                } catch (FiltroNonValidoException exception) {
+                    System.out.println("Filtro non valido: " + exception);
                 }
             }
         });
-        
+
         dettagliOrdineButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                switch (controllaQuanteFlagTabella()){
-                    case 0:
-                        //TODO eccezione personalizzata NoCampiSelezionatiException
-                        break;
-                    case 1:
-                        mostraDettagliOrdine();
-                        break;
-                    default:
-                        //TODO eccezione personalizzata TroppiCampiSelezionatiException
-                        break;
+                try {
+                    isSelezioneValida();
+                } catch (NoCampiSelezionatiException ex) {
+                    System.out.println("Nessuna checkBox selezionata: " + ex);
+                } catch (TroppiCampiSelezionatiException ex) {
+                    System.out.println("Più di una checkBox selezionata: " + ex);
                 }
             }
         });
     }
-    
+
+    private void isSelezioneValida() throws NoCampiSelezionatiException, TroppiCampiSelezionatiException {
+        switch (controllaQuanteFlagTabella()) {
+            case 0:
+                throw new NoCampiSelezionatiException();
+            case 1:
+                mostraDettagliOrdine();
+                break;
+            default:
+                throw new TroppiCampiSelezionatiException();
+        }
+    }
+
+    private void applicaFiltro(String utenteSelezionato, java.util.Date dataInizio, java.util.Date dataFine) throws FiltroNonValidoException {
+        if (!utenteSelezionato.isEmpty() && dataInizio != null && dataFine != null) {
+            ArrayList<DettagliOrdineDTO> listaOrdini = gestoreFinestre.RecuperaOrdiniByUtenteAndData(utenteSelezionato, new java.sql.Date(dataInizio.getTime()), new java.sql.Date(dataFine.getTime()));
+            aggiornaTabella(listaOrdini);
+            return;
+        }
+        if (dataInizio == null ^ dataFine == null) {
+            throw new FiltroNonValidoException();
+        }
+        if (!utenteSelezionato.isEmpty()) {
+            ArrayList<DettagliOrdineDTO> listaOrdini = gestoreFinestre.RecuperaOrdiniByUtente(utenteSelezionato);
+            aggiornaTabella(listaOrdini);
+            return;
+        }
+        if(dataInizio != null && dataFine != null) {
+            ArrayList<DettagliOrdineDTO> listaOrdini = gestoreFinestre.RecuperaOrdiniByData(new java.sql.Date(dataInizio.getTime()), new java.sql.Date(dataFine.getTime()));
+            aggiornaTabella(listaOrdini);
+            return;
+        }
+        ArrayList<DettagliOrdineDTO> listaOrdini = gestoreFinestre.RecuperaOrdiniNonSpediti();
+        aggiornaTabella(listaOrdini);
+    }
+
     private void aggiornaTabella(ArrayList<DettagliOrdineDTO> listaAggiornata){
         DefaultTableModel model = (DefaultTableModel) ordiniTable.getModel();
         model.setRowCount(0);
@@ -252,9 +273,9 @@ public class HomePage extends JFrame{
     }
     
     private void mostraDettagliOrdine(){
-        for (int i=0; i<ordiniTable.getRowCount(); i++){
+        for (int i = 0; i < ordiniTable.getRowCount(); i++){
             if ((Boolean) ordiniTable.getValueAt(i, 0)){
-                gestoreFinestre.apriInfoOrdine((int)ordiniTable.getValueAt(i, 1));
+                gestoreFinestre.apriInfoOrdine((int) ordiniTable.getValueAt(i, 1));
             }
         }
     }

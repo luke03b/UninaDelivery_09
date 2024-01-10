@@ -14,9 +14,9 @@ public class ProdottoDAO {
         
         try{
             PreparedStatement stmt = conn.prepareStatement(
-                    "SELECT Prodotto.*, ProdottiVenduti.Quantita" +
+                    "SELECT Prodotto.*, ProdottiVenduti.Quantita " +
                         "FROM Ordine JOIN ProdottiVenduti ON Ordine.NumeroOrdine = ProdottiVenduti.NumeroOrdine " +
-                        "JOIN Prodotto ON ProdottiVenduti.CodiceProdotto = Prodotto.CodiceProdotto" +
+                        "JOIN Prodotto ON ProdottiVenduti.CodiceProdotto = Prodotto.CodiceProdotto " +
                         "WHERE Ordine.NumeroOrdine = ?");
             stmt.setInt(1, numeroOrdine);
             

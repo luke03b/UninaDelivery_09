@@ -6,6 +6,7 @@ import org.UninaDelivery.Operatore.OperatoreDAO;
 import org.UninaDelivery.Operatore.OperatoreDTO;
 import org.UninaDelivery.Ordine.DettagliOrdineDTO;
 import org.UninaDelivery.Ordine.OrdineDAO;
+import org.UninaDelivery.Prodotto.ProdottoDAO;
 import org.UninaDelivery.Prodotto.ProdottoDTO;
 
 import javax.swing.*;
@@ -103,8 +104,8 @@ public class GestoreFinestre {
         infoOpPage.setVisible(true);
     }
     
-    public void apriInfoOrdine(int codiceProdotto){
-        InfoOrdinePage infoOrdinePage = new InfoOrdinePage(null, this, codiceProdotto);
+    public void apriInfoOrdine(int numOrdine){
+        InfoOrdinePage infoOrdinePage = new InfoOrdinePage(null, this, numOrdine);
         infoOrdinePage.setVisible(true);
     }
     
@@ -117,5 +118,9 @@ public class GestoreFinestre {
         return clienteDAO.recuperaClientiDTO(conn);
     }
 
+    public ArrayList<ProdottoDTO> recuperaProdotti(int numOrdine){
+        ProdottoDAO prodottoDAO = new ProdottoDAO();
+        return prodottoDAO.getProdottiDaOrdine(numOrdine, conn);
+    }
 }
 
