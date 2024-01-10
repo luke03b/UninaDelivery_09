@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="homePanel" layout-manager="GridLayoutManager" row-count="2" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="500" height="400"/>
+      <xy x="20" y="20" width="549" height="400"/>
     </constraints>
     <properties>
       <background color="-13947600"/>
@@ -39,6 +39,7 @@
             </constraints>
             <properties>
               <text value="Matricola"/>
+              <toolTipText value="Matricola"/>
             </properties>
           </component>
           <component id="6f9f1" class="javax.swing.JButton" binding="logOutButton">
@@ -47,6 +48,7 @@
             </constraints>
             <properties>
               <text value=""/>
+              <toolTipText value="LogOut"/>
             </properties>
           </component>
           <component id="ddd27" class="javax.swing.JButton" binding="userInformationButton">
@@ -55,6 +57,7 @@
             </constraints>
             <properties>
               <text value=""/>
+              <toolTipText value="Visualizza dati operatore"/>
             </properties>
           </component>
           <component id="38155" class="javax.swing.JLabel" binding="cognomeLabel">
@@ -63,6 +66,7 @@
             </constraints>
             <properties>
               <text value="Cognome"/>
+              <toolTipText value="Cognome"/>
             </properties>
           </component>
           <component id="e6183" class="javax.swing.JLabel" binding="nomeLabel">
@@ -71,6 +75,7 @@
             </constraints>
             <properties>
               <text value="Nome"/>
+              <toolTipText value="Nome"/>
             </properties>
           </component>
         </children>
@@ -103,6 +108,7 @@
             <properties>
               <background color="-5789268"/>
               <text value="Programma"/>
+              <toolTipText value="programma la spedizione"/>
             </properties>
           </component>
           <component id="e359d" class="javax.swing.JButton" binding="statisticaButton" default-binding="true">
@@ -112,6 +118,7 @@
             <properties>
               <background color="-5789268"/>
               <text value="Statistica"/>
+              <toolTipText value="Visualizza le statistiche dell'azienda"/>
             </properties>
           </component>
           <hspacer id="81e43">
@@ -131,6 +138,7 @@
             <properties>
               <background color="-5789268"/>
               <text value="Dettagli Ordine"/>
+              <toolTipText value="visualizza i dettagli di un ordine selezionato"/>
             </properties>
           </component>
         </children>
@@ -180,6 +188,7 @@
                 <constraints/>
                 <properties>
                   <text value="Aggiorna"/>
+                  <toolTipText value="Aggiorna la tabella"/>
                 </properties>
               </component>
               <component id="e643" class="javax.swing.JComboBox" binding="filtroUtenti">
@@ -187,6 +196,12 @@
                 <properties>
                   <font name="JetBrains Mono Medium" size="14" style="2"/>
                   <toolTipText value="Filtra per utente"/>
+                </properties>
+              </component>
+              <component id="ec578" class="javax.swing.JLabel">
+                <constraints/>
+                <properties>
+                  <text value="Data Inizio - Data Fine:"/>
                 </properties>
               </component>
             </children>

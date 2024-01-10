@@ -105,6 +105,7 @@
                 <properties>
                   <background color="-5789268"/>
                   <text value="Indietro"/>
+                  <toolTipText value="Torna alla home"/>
                 </properties>
               </component>
               <hspacer id="61b52">

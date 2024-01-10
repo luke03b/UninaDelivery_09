@@ -115,6 +115,7 @@
             </constraints>
             <properties>
               <font name="JetBrains Mono Medium" size="15" style="3"/>
+              <toolTipText value="Inserire la matricola"/>
             </properties>
           </component>
           <component id="ef0b6" class="javax.swing.JPasswordField" binding="TextLoginPassword">
@@ -125,6 +126,7 @@
             </constraints>
             <properties>
               <font name="JetBrains Mono Medium" size="15" style="3"/>
+              <toolTipText value="Inserire la password"/>
             </properties>
           </component>
           <hspacer id="e663f">
@@ -139,6 +141,7 @@
             <properties>
               <background color="-16701092"/>
               <text value=""/>
+              <toolTipText value="Visualizza password"/>
             </properties>
           </component>
           <component id="e6c2d" class="javax.swing.JButton" binding="resetButton">
@@ -150,6 +153,7 @@
               <font name="JetBrains Mono ExtraBold" size="16" style="1"/>
               <foreground color="-262152"/>
               <text value="Reset"/>
+              <toolTipText value="Cancella ciò che hai scritto"/>
             </properties>
           </component>
           <component id="650f7" class="javax.swing.JButton" binding="loginButton" default-binding="true">
@@ -161,6 +165,7 @@
               <font name="JetBrains Mono ExtraBold" size="16" style="1"/>
               <foreground color="-262152"/>
               <text value="Login"/>
+              <toolTipText value="Esegui il LogIn"/>
             </properties>
           </component>
           <hspacer id="b52f7">

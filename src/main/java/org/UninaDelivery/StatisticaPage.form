@@ -37,6 +37,7 @@
             </constraints>
             <properties>
               <text value=""/>
+              <toolTipText value="LogOut"/>
             </properties>
           </component>
           <component id="b22f2" class="javax.swing.JButton" binding="userInformationButton">
@@ -45,6 +46,7 @@
             </constraints>
             <properties>
               <text value=""/>
+              <toolTipText value="Visualizza dati operatore"/>
             </properties>
           </component>
           <component id="2ee7b" class="javax.swing.JLabel" binding="cognomeLabel">
@@ -89,6 +91,7 @@
             </constraints>
             <properties>
               <text value="Indietro"/>
+              <toolTipText value="Torna alla home"/>
             </properties>
           </component>
           <hspacer id="48b18">
@@ -116,6 +119,7 @@
                 <item value="Novembre"/>
                 <item value="Dicembre"/>
               </model>
+              <toolTipText value="Seleziona il mese"/>
             </properties>
           </component>
         </children>

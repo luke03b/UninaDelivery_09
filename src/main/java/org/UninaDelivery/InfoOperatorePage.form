@@ -67,6 +67,7 @@
             </constraints>
             <properties>
               <background color="-1367514"/>
+              <toolTipText value="Foto profilo utente"/>
             </properties>
             <border type="none"/>
             <children>
@@ -107,6 +108,7 @@
                 <properties>
                   <background color="-5789268"/>
                   <text value="Indietro"/>
+                  <toolTipText value="Torna alla home"/>
                 </properties>
               </component>
               <hspacer id="d85f7">

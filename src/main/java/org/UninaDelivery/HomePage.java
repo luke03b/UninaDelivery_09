@@ -68,7 +68,7 @@ public class HomePage extends JFrame{
         this.operatoreLoggato = operatoreLoggato;
         setTitle("Home");
         setContentPane(homePanel);
-        setMinimumSize(new Dimension(1050, 430));
+        setMinimumSize(new Dimension(1150, 430));
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -149,6 +149,9 @@ public class HomePage extends JFrame{
 
         toolBar.add(pickerDataInizio);
         toolBar.add(pickerDataFine);
+
+        pickerDataInizio.setToolTipText("Data dalla quale si inizierà a cercare");
+        pickerDataFine.setToolTipText("Data dalla quale si finirà di cercare");
 
         ArrayList<ClienteDTO> listaClienti = gestoreFinestre.recuperaClienti();
         filtroUtenti.addItem("<Filtra Utente>");
