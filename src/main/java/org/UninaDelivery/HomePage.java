@@ -100,24 +100,12 @@ public class HomePage extends JFrame{
         ordiniTable.setModel(modelloTabella);
         ordiniTable.getTableHeader().setBackground(new Color(0, 18, 51));
         ordiniTable.getTableHeader().setForeground(new Color (253, 253, 253));
+        ordiniTable.getTableHeader().setReorderingAllowed(false);
+        ordiniTable.getTableHeader().setResizingAllowed(false);
         
         aggiornaTabella(listaOrdini);
     }
     
-    public void resizeColumnWidth(JTable table) {
-        final TableColumnModel columnModel = table.getColumnModel();
-        for (int column = 0; column < table.getColumnCount(); column++) {
-            int width = 15; // Min width
-            for (int row = 0; row < table.getRowCount(); row++) {
-                TableCellRenderer renderer = table.getCellRenderer(row, column);
-                Component comp = table.prepareRenderer(renderer, row, column);
-                width = Math.max(comp.getPreferredSize().width +1 , width);
-            }
-            if(width > 300)
-                width=300;
-            columnModel.getColumn(column).setPreferredWidth(width);
-        }
-    }
     
     private void setImpostazioniVarie(){
         nomeLabel.setText(operatoreLoggato.getNome());
@@ -177,6 +165,8 @@ public class HomePage extends JFrame{
             filtroUtenti.addItem(clienteDTO.getNominativo() + " " + clienteDTO.getNumeroTelefono());
         }
         ((JLabel)filtroUtenti.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+        
+        toolBar.setFloatable(false);
     }
     
     private void Listeners(){
@@ -239,12 +229,12 @@ public class HomePage extends JFrame{
     private void isSelezioneValida() throws NoCampiSelezionatiException, TroppiCampiSelezionatiException {
         switch (controllaQuanteFlagTabella()) {
             case 0:
-                throw new NoCampiSelezionatiException();
+                throw new NoCampiSelezionatiException(this, gestoreFinestre);
             case 1:
                 mostraDettagliOrdine();
                 break;
             default:
-                throw new TroppiCampiSelezionatiException();
+                throw new TroppiCampiSelezionatiException(this, gestoreFinestre);
         }
     }
 
@@ -255,7 +245,7 @@ public class HomePage extends JFrame{
             return;
         }
         if (dataInizio == null ^ dataFine == null) {
-            throw new FiltroNonValidoException();
+            throw new FiltroNonValidoException(this, gestoreFinestre);
         }
         if (!utenteSelezionato.isEmpty()) {
             ArrayList<DettagliOrdineDTO> listaOrdini = gestoreFinestre.RecuperaOrdiniByUtente(utenteSelezionato);
@@ -279,7 +269,7 @@ public class HomePage extends JFrame{
             model.addRow(new Object[]{Boolean.FALSE, ordineDTO.getNumeroOrdine(),ordineDTO.getDataOrdine(), ordineDTO.getDestinatario(), ordineDTO.getIndirizzo(),
                     ordineDTO.getPeso(), ordineDTO.getGrandezza()});
         }
-        resizeColumnWidth(ordiniTable);
+        gestoreFinestre.resizeColumnWidth(ordiniTable);
     }
     
     private int controllaQuanteFlagTabella(){

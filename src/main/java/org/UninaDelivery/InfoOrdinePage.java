@@ -62,12 +62,17 @@ public class InfoOrdinePage extends JDialog{
                 };
             }
         };
-        //TODO aggiustare la descrizione che non entra nella cella della tabella
+        
         setRigheTable(modelloTabella, listaProdotti);
         prodottiTable.setModel(modelloTabella);
         prodottiTable.getTableHeader().setBackground(new Color(0, 18, 51));
         prodottiTable.getTableHeader().setForeground(new Color (255, 255, 255));
-        resizeColumnWidth(prodottiTable);
+        gestoreFinestre.resizeColumnWidth(prodottiTable);
+        prodottiTable.getColumnModel().getColumn(5).setCellRenderer(new WordWrapCellRenderer());
+        prodottiTable.setFocusable(false);
+        prodottiTable.setRowSelectionAllowed(false);
+        prodottiTable.getTableHeader().setReorderingAllowed(false);
+        prodottiTable.getTableHeader().setResizingAllowed(false);
     }
 
     public void setRigheTable(DefaultTableModel modelloTabella, ArrayList<ProdottoDTO> listaProdotti){
@@ -76,21 +81,7 @@ public class InfoOrdinePage extends JDialog{
                     prodottoDTO.getCategoria(), prodottoDTO.getDescrizione(), prodottoDTO.getQuantitaOrdine()});
         }
     }
-
-    public void resizeColumnWidth(JTable table) {
-        final TableColumnModel columnModel = table.getColumnModel();
-        for (int column = 0; column < table.getColumnCount(); column++) {
-            int width = 15; // Min width
-            for (int row = 0; row < table.getRowCount(); row++) {
-                TableCellRenderer renderer = table.getCellRenderer(row, column);
-                Component comp = table.prepareRenderer(renderer, row, column);
-                width = Math.max(comp.getPreferredSize().width +1 , width);
-            }
-            if(width > 300)
-                width=300;
-            columnModel.getColumn(column).setPreferredWidth(width);
-        }
-    }
+    
 
     private void setContenutiVisivi(){
         UninaDeliveryLogo.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScrittePiccolo.png"));
@@ -114,5 +105,26 @@ public class InfoOrdinePage extends JDialog{
                 dispose();
             }
         });
+    }
+    
+    static class WordWrapCellRenderer extends JTextArea implements TableCellRenderer {
+        WordWrapCellRenderer() {
+            setLineWrap(true);
+            setWrapStyleWord(true);
+        }
+        
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            setText(value.toString());
+            setSize(table.getColumnModel().getColumn(column).getWidth(), getPreferredSize().height);
+            setBackground(new Color(202, 192, 179));
+            setForeground(new Color(0, 0, 0));
+            setSelectionColor(new Color(255, 89, 90));
+            setFont(new Font("JetBrains Mono Medium", Font.BOLD, 14));
+            
+            if (table.getRowHeight(row) != getPreferredSize().height) {
+                table.setRowHeight(row, getPreferredSize().height);
+            }
+            return this;
+        }
     }
 }

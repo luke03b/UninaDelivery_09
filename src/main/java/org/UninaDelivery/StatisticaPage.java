@@ -50,6 +50,7 @@ public class StatisticaPage extends JDialog{
     private void recuperaStatisticaMese(String meseSelezionato) throws meseNonValidoException{
         StatisticheOrdineDTO statisticheOrdineDTO = new StatisticheOrdineDTO();
         switch (meseSelezionato){
+            case "<Mese>" -> {AVGordineLabel.setText(""); MaxProdotti.setText(""); MinProdotti.setText(""); return;}
             case "Gennaio" -> statisticheOrdineDTO = gestoreFinestre.eseguiStatistica(1);
             case "Febbraio" -> statisticheOrdineDTO = gestoreFinestre.eseguiStatistica(2);
             case "Marzo" -> statisticheOrdineDTO = gestoreFinestre.eseguiStatistica(3);

@@ -5,6 +5,7 @@ import java.time.LocalDate;
 public class DettagliOrdineDTO {
     private int NumeroOrdine;
     private LocalDate DataOrdine;
+    private String Mittente;
     private String Destinatario;
     private String Indirizzo;
     private float Peso;
@@ -24,6 +25,14 @@ public class DettagliOrdineDTO {
     
     public void setDataOrdine(LocalDate dataOrdine) {
         DataOrdine = dataOrdine;
+    }
+    
+    public String getMittente() {
+        return Mittente;
+    }
+    
+    public void setMittente(String mittente) {
+        Mittente = mittente;
     }
     
     public String getDestinatario() {
