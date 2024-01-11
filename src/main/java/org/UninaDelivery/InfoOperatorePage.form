@@ -67,7 +67,7 @@
             </constraints>
             <properties>
               <background color="-42662"/>
-              <toolTipText value="Foto profilo utente"/>
+              <toolTipText value=""/>
             </properties>
             <border type="none"/>
             <children>
@@ -79,6 +79,7 @@
                   <font name="Castellar" size="18" style="1"/>
                   <foreground color="-16772557"/>
                   <text value="Unina Delivery ®"/>
+                  <toolTipText value="Bentornato su UninaDelivery"/>
                 </properties>
               </component>
             </children>

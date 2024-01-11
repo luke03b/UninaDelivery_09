@@ -11,10 +11,13 @@ public class DettagliOrdineDAO {
             PreparedStatement stmt = conn.prepareStatement(
                     "SELECT Ordine.NumeroOrdine, Ordine.DataOrdine, Cliente.Tipo, Cliente.Nome, Cliente.Cognome, " +
                             "Cliente.NomeAzienda, Indirizzo.Via, Indirizzo.NumeroCivico, " +
-                    "Indirizzo.CAP, Indirizzo.Citta, Indirizzo.Provincia, Ordine.Peso, Ordine.Grandezza " +
+                    "Indirizzo.CAP, Indirizzo.Citta, Indirizzo.Provincia, Ordine.Peso, Ordine.Grandezza, " +
+                    "Cl2.Tipo AS TipoMT, Cl2.Nome AS NomeMT, Cl2.Cognome AS CognomeMT, " +
+                    "Cl2.NomeAzienda AS NomeAziendaMT " +
                     "FROM Ordine LEFT JOIN Spedizione " +
                     "ON Ordine.NumeroOrdine = Spedizione.NumeroOrdine " +
                     "JOIN Cliente ON Cliente.Ruolo <> 'Mittente' AND Ordine.NumeroTelefonoDT = Cliente.NumeroTelefono " +
+                    "JOIN Cliente    AS Cl2 ON Cl2.Ruolo <> 'Destinatario' AND Ordine.NumeroTelefonoMT = Cl2.NumeroTelefono " +
                     "JOIN Indirizzo ON Cliente.IdIndirizzo = Indirizzo.IdIndirizzo " +
                     "WHERE Spedizione.Stato IS NULL " +
                     "ORDER BY Ordine.DataOrdine ASC");
@@ -41,16 +44,18 @@ public class DettagliOrdineDAO {
 
         try{
             PreparedStatement stmt = conn.prepareStatement(
-                    "SELECT Ordine.NumeroOrdine, Ordine.DataOrdine, Cliente.Tipo, Cliente.Nome, Cliente.Cognome," +
-                            "Cliente.NomeAzienda, Indirizzo.Via, Indirizzo.NumeroCivico, " +
-                            "Indirizzo.CAP, Indirizzo.Citta, Indirizzo.Provincia, Ordine.Peso, Ordine.Grandezza " +
-                            "FROM Ordine LEFT JOIN Spedizione " +
-                            "ON Ordine.NumeroOrdine = Spedizione.NumeroOrdine " +
-                            "JOIN Cliente ON Cliente.Ruolo <> 'Mittente' AND Ordine.NumeroTelefonoDT = Cliente.NumeroTelefono " +
-                            "JOIN Indirizzo ON Cliente.IdIndirizzo = Indirizzo.IdIndirizzo " +
-                            "WHERE Spedizione.Stato IS NULL AND (ordine.numeroTelefonoDT = ? OR ordine.numeroTelefonoMT = ?) AND " +
-                            "ordine.dataOrdine BETWEEN ? AND ? " +
-                            "ORDER BY Ordine.DataOrdine ASC");
+                    "   SELECT O.NumeroOrdine, O.DataOrdine, Cl.Tipo, Cl.Nome, Cl.Cognome, Cl.NomeAzienda, I.Via, I.NumeroCivico, " +
+                                  "I.CAP, I.Citta, I.Provincia, O.Peso, O.Grandezza, Cl2.Tipo AS TipoMT, Cl2.Nome AS NomeMT, Cl2.Cognome AS CognomeMT, " +
+                                  "Cl2.NomeAzienda AS NomeAziendaMT " +
+                             "FROM Ordine     AS O " +
+                            "LEFT JOIN Spedizione AS S   ON O.NumeroOrdine = S.NumeroOrdine " +
+                            "JOIN Cliente    AS Cl  ON Cl.Ruolo <> 'Mittente' AND O.NumeroTelefonoDT = Cl.NumeroTelefono " +
+                            "JOIN Cliente    AS Cl2 ON Cl2.Ruolo <> 'Destinatario' AND O.NumeroTelefonoMT = Cl2.NumeroTelefono " +
+                            "JOIN Indirizzo  AS I   ON Cl.IdIndirizzo = I.IdIndirizzo " +
+                            "WHERE S.Stato IS NULL " +
+                            "AND (O.numeroTelefonoDT = ? OR O.numeroTelefonoMT = ?) " +
+                            "AND O.dataOrdine BETWEEN ? AND ? " +
+                            " ORDER BY O.DataOrdine ASC");
 
             stmt.setString(1,utente);
             stmt.setString(2,utente);
@@ -81,10 +86,13 @@ public class DettagliOrdineDAO {
             PreparedStatement stmt = conn.prepareStatement(
                     "SELECT Ordine.NumeroOrdine, Ordine.DataOrdine, Cliente.Tipo, Cliente.Nome, Cliente.Cognome," +
                             "Cliente.NomeAzienda, Indirizzo.Via, Indirizzo.NumeroCivico, " +
-                            "Indirizzo.CAP, Indirizzo.Citta, Indirizzo.Provincia, Ordine.Peso, Ordine.Grandezza " +
+                            "Indirizzo.CAP, Indirizzo.Citta, Indirizzo.Provincia, Ordine.Peso, Ordine.Grandezza, " +
+                            "Cl2.Tipo AS TipoMT, Cl2.Nome AS NomeMT, Cl2.Cognome AS CognomeMT, " +
+                            "Cl2.NomeAzienda AS NomeAziendaMT " +
                             "FROM Ordine LEFT JOIN Spedizione " +
                             "ON Ordine.NumeroOrdine = Spedizione.NumeroOrdine " +
                             "JOIN Cliente ON Cliente.Ruolo <> 'Mittente' AND Ordine.NumeroTelefonoDT = Cliente.NumeroTelefono " +
+                            "JOIN Cliente    AS Cl2 ON Cl2.Ruolo <> 'Destinatario' AND Ordine.NumeroTelefonoMT = Cl2.NumeroTelefono " +
                             "JOIN Indirizzo ON Cliente.IdIndirizzo = Indirizzo.IdIndirizzo " +
                             "WHERE Spedizione.Stato IS NULL AND (ordine.numeroTelefonoDT = ? OR ordine.numeroTelefonoMT = ?) " +
                             "ORDER BY Ordine.DataOrdine ASC");
@@ -116,10 +124,13 @@ public class DettagliOrdineDAO {
             PreparedStatement stmt = conn.prepareStatement(
                     "SELECT Ordine.NumeroOrdine, Ordine.DataOrdine, Cliente.Tipo, Cliente.Nome, Cliente.Cognome," +
                             "Cliente.NomeAzienda, Indirizzo.Via, Indirizzo.NumeroCivico, " +
-                            "Indirizzo.CAP, Indirizzo.Citta, Indirizzo.Provincia, Ordine.Peso, Ordine.Grandezza " +
+                            "Indirizzo.CAP, Indirizzo.Citta, Indirizzo.Provincia, Ordine.Peso, Ordine.Grandezza, " +
+                            "Cl2.Tipo AS TipoMT, Cl2.Nome AS NomeMT, Cl2.Cognome AS CognomeMT, " +
+                            "Cl2.NomeAzienda AS NomeAziendaMT " +
                             "FROM Ordine LEFT JOIN Spedizione " +
                             "ON Ordine.NumeroOrdine = Spedizione.NumeroOrdine " +
                             "JOIN Cliente ON Cliente.Ruolo <> 'Mittente' AND Ordine.NumeroTelefonoDT = Cliente.NumeroTelefono " +
+                            "JOIN Cliente    AS Cl2 ON Cl2.Ruolo <> 'Destinatario' AND Ordine.NumeroTelefonoMT = Cl2.NumeroTelefono " +
                             "JOIN Indirizzo ON Cliente.IdIndirizzo = Indirizzo.IdIndirizzo " +
                             "WHERE Spedizione.Stato IS NULL AND ordine.dataOrdine BETWEEN ? AND ? " +
                             "ORDER BY Ordine.DataOrdine ASC");
@@ -153,7 +164,12 @@ public class DettagliOrdineDAO {
             nuovoOrdine.setDestinatario(rs.getString("nomeazienda"));
         else
             nuovoOrdine.setDestinatario(rs.getString("nome") + " " + rs.getString("cognome"));
-        
+
+        if (rs.getString("tipomt").equals("Aziendale"))
+            nuovoOrdine.setMittente(rs.getString("nomeaziendamt"));
+        else
+            nuovoOrdine.setMittente(rs.getString("nomemt") + " " + rs.getString("cognomemt"));
+
         IndirizzoCompleto = rs.getString("via") + " " + rs.getString("numerocivico") + ", " +
                 rs.getString("cap") + " " + rs.getString("citta") + " " + rs.getString("provincia");
         nuovoOrdine.setIndirizzo(IndirizzoCompleto);

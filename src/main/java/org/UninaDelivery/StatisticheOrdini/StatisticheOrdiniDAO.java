@@ -35,17 +35,16 @@ public class StatisticheOrdiniDAO {
     }
 
     private void getOrdineNumProdottiMaxMensile(int mese, StatisticheOrdineDTO statisticheOrdineDTO, Connection conn) throws SQLException{
-        PreparedStatement stmt = conn.prepareStatement("SELECT O2.NumeroOrdine, date_part('MONTH', O2.DataOrdine) AS Mese " +
+        PreparedStatement stmt = conn.prepareStatement("SELECT SUM(PV2.Quantita), O2.NumeroOrdine, date_part('MONTH', O2.DataOrdine) AS Mese " +
                 "FROM Ordine AS O2 NATURAL JOIN ProdottiVenduti AS PV2 " +
                 "WHERE date_part('MONTH', O2.DataOrdine) = ? " +
                 "GROUP BY (date_part('MONTH', O2.DataOrdine), O2.NumeroOrdine) " +
-                "HAVING (COUNT(PV2.CodiceProdotto) = (SELECT MAX(NumProdottiInOrdine.NumProdotti) " +
-                "FROM (SELECT COUNT(PV.CodiceProdotto) AS NumProdotti, date_part('MONTH', O.DataOrdine) AS Mese " +
+                "HAVING (SUM(PV2.Quantita) = (SELECT MAX(NumProdottiInOrdine.NumProdotti) " +
+                "FROM\t(SELECT SUM(PV.Quantita) AS NumProdotti, date_part('MONTH', O.DataOrdine) AS Mese " +
                 "FROM Ordine AS O NATURAL JOIN ProdottiVenduti AS PV " +
                 "GROUP BY (date_part('MONTH', O.DataOrdine), O.NumeroOrdine)) AS NumProdottiInOrdine " +
                 "WHERE Mese = ? " +
-                "GROUP BY (Mese))) " +
-                "LIMIT 1");
+                "GROUP BY (Mese)))");
         stmt.setInt(1, mese);
         stmt.setInt(2, mese);
         ResultSet rs = stmt.executeQuery();
@@ -55,17 +54,16 @@ public class StatisticheOrdiniDAO {
     }
 
     private void getOrdineNumProdottiMinMensile(int mese, StatisticheOrdineDTO statisticheOrdineDTO, Connection conn) throws SQLException{
-        PreparedStatement stmt = conn.prepareStatement("SELECT O2.NumeroOrdine, date_part('MONTH', O2.DataOrdine) AS Mese " +
+        PreparedStatement stmt = conn.prepareStatement("SELECT SUM(PV2.Quantita), O2.NumeroOrdine, date_part('MONTH', O2.DataOrdine) AS Mese " +
                 "FROM Ordine AS O2 NATURAL JOIN ProdottiVenduti AS PV2 " +
                 "WHERE date_part('MONTH', O2.DataOrdine) = ? " +
                 "GROUP BY (date_part('MONTH', O2.DataOrdine), O2.NumeroOrdine) " +
-                "HAVING (COUNT(PV2.CodiceProdotto) = (SELECT MIN(NumProdottiInOrdine.NumProdotti) " +
-                "FROM (SELECT COUNT(PV.CodiceProdotto) AS NumProdotti, date_part('MONTH', O.DataOrdine) AS Mese " +
+                "HAVING (SUM(PV2.Quantita) = (SELECT MIN(NumProdottiInOrdine.NumProdotti) " +
+                "FROM (SELECT SUM(PV.Quantita) AS NumProdotti, date_part('MONTH', O.DataOrdine) AS Mese " +
                 "FROM Ordine AS O NATURAL JOIN ProdottiVenduti AS PV " +
                 "GROUP BY (date_part('MONTH', O.DataOrdine), O.NumeroOrdine)) AS NumProdottiInOrdine " +
                 "WHERE Mese = ? " +
-                "GROUP BY (Mese))) " +
-                "LIMIT 1");
+                "GROUP BY (Mese)))");
         stmt.setInt(1, mese);
         stmt.setInt(2, mese);
         ResultSet rs = stmt.executeQuery();

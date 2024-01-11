@@ -77,7 +77,7 @@ public class HomePage extends JFrame{
     
     private void setImpostazioniTabella(){
         ArrayList<DettagliOrdineDTO> listaOrdini = gestoreFinestre.RecuperaOrdiniNonSpediti();
-        Object[] nomiColonne = {"Selezionato", "Numero Ordine", "Data", "Destinatario", "Indirizzo", "Peso", "Grandezza"};
+        Object[] nomiColonne = {"Selezionato", "Numero Ordine", "Data", "Mittente", "Destinatario", "Indirizzo di Spedizione", "Peso", "Grandezza"};
         DefaultTableModel modelloTabella = new DefaultTableModel(new Object[][]{}, nomiColonne){
             //rende solo la prima colonna della tabella editabile
             @Override
@@ -90,8 +90,8 @@ public class HomePage extends JFrame{
                 return switch (column) {
                     case 0 -> Boolean.class;
                     case 2 -> LocalDate.class;
-                    case 1, 3, 4, 6 -> String.class;
-                    case 5 -> Float.class;
+                    case 1, 3, 4, 5, 7 -> String.class;
+                    case 6 -> Float.class;
                     default -> null;
                 };
             }
@@ -266,7 +266,8 @@ public class HomePage extends JFrame{
         model.setRowCount(0);
         
         for (DettagliOrdineDTO ordineDTO : listaAggiornata){
-            model.addRow(new Object[]{Boolean.FALSE, ordineDTO.getNumeroOrdine(),ordineDTO.getDataOrdine(), ordineDTO.getDestinatario(), ordineDTO.getIndirizzo(),
+            model.addRow(new Object[]{Boolean.FALSE, ordineDTO.getNumeroOrdine(),ordineDTO.getDataOrdine(), ordineDTO.getMittente(),
+                    ordineDTO.getDestinatario(), ordineDTO.getIndirizzo(),
                     ordineDTO.getPeso(), ordineDTO.getGrandezza()});
         }
         gestoreFinestre.resizeColumnWidth(ordiniTable);
