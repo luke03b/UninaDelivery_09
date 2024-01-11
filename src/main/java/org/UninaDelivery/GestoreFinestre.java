@@ -2,6 +2,8 @@ package org.UninaDelivery;
 import org.UninaDelivery.Cliente.ClienteDAO;
 import org.UninaDelivery.Cliente.ClienteDTO;
 import org.UninaDelivery.Exception.OperatoreNonTrovatoException;
+import org.UninaDelivery.MezzoTrasporto.MezzoTrasportoDAO;
+import org.UninaDelivery.MezzoTrasporto.MezzoTrasportoDTO;
 import org.UninaDelivery.Operatore.OperatoreDAO;
 import org.UninaDelivery.Operatore.OperatoreDTO;
 import org.UninaDelivery.Ordine.DettagliOrdineDTO;
@@ -16,6 +18,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class GestoreFinestre {
@@ -135,7 +138,12 @@ public class GestoreFinestre {
 
     public StatisticheOrdineDTO eseguiStatistica(int mese){
         StatisticheOrdiniDAO statisticheOrdiniDAO = new StatisticheOrdiniDAO();
-        return statisticheOrdiniDAO.getStatisticheOrdine(conn, mese);
+        return statisticheOrdiniDAO.getStatisticheOrdine(mese, conn);
+    }
+    
+    public ArrayList<MezzoTrasportoDTO> recuperaMezzi(LocalDate DataOrdine){
+        MezzoTrasportoDAO mezzoTrasportoDAO = new MezzoTrasportoDAO();
+        return mezzoTrasportoDAO.recuperaMezziDisponibili(DataOrdine, conn);
     }
     
     public void resizeColumnWidth(JTable table) {
