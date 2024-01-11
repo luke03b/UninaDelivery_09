@@ -114,6 +114,11 @@ public class GestoreFinestre {
         infoOrdinePage.setVisible(true);
     }
     
+    public void apriWizardCreazioneSpedizione(){
+        WizardCreazioneSpedizione wizardCreazioneSpedizione = new WizardCreazioneSpedizione(null, this);
+        wizardCreazioneSpedizione.setVisible(true);
+    }
+    
     public void chiudiConnessioneDB() throws SQLException {
         dbConnection.closeConnection(conn);
     }

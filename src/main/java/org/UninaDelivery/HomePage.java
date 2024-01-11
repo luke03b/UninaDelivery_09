@@ -50,8 +50,8 @@ public class HomePage extends JFrame{
     JDatePickerImpl pickerDataFine = new JDatePickerImpl(datePanelDataFine);
 
 
-    public HomePage(JFrame parent, GestoreFinestre gf, OperatoreDTO operatoreLoggato){
-        setImpostazioniHomePage(parent, gf, operatoreLoggato);
+    public HomePage(JFrame parent, GestoreFinestre gestoreFinestre, OperatoreDTO operatoreLoggato){
+        setImpostazioniHomePage(parent, gestoreFinestre, operatoreLoggato);
         setImpostazioniTabella();
         setImpostazioniToolBar();
         setImpostazioniUserInformationButton();
@@ -230,6 +230,13 @@ public class HomePage extends JFrame{
                 } catch (TroppiCampiSelezionatiException ex) {
                     System.out.println("Più di una checkBox selezionata: " + ex);
                 }
+            }
+        });
+        
+        selezionaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gestoreFinestre.apriWizardCreazioneSpedizione();
             }
         });
     }
