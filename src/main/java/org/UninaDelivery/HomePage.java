@@ -31,7 +31,7 @@ public class HomePage extends JFrame{
     private JButton userInformationButton;
     private JLabel nomeLabel;
     private JLabel cognomeLabel;
-    private JScrollPane PanelContenenteJTable;
+    private JScrollPane panelContenenteJTable;
     private JToolBar toolBar;
     private JComboBox filtroUtenti;
     private JButton aggiornaButton;
@@ -120,7 +120,7 @@ public class HomePage extends JFrame{
         cognomeLabel.setText(operatoreLoggato.getCognome());
         matricolaLabel.setText(String.valueOf(operatoreLoggato.getMatricola()));
         logoLabel.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScrittePiccolo.png"));
-        PanelContenenteJTable.getViewport().setBackground(new Color(202, 192, 179));
+        panelContenenteJTable.getViewport().setBackground(new Color(202, 192, 179));
         statisticaButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/data-analytics.png"));
         programmaButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/schedule.png"));
         selezionaButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/tracking.png"));
