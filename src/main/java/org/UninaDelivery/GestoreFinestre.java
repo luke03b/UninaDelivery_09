@@ -1,7 +1,11 @@
 package org.UninaDelivery;
 import org.UninaDelivery.Cliente.ClienteDAO;
 import org.UninaDelivery.Cliente.ClienteDTO;
+import org.UninaDelivery.Corriere.CorriereDAO;
+import org.UninaDelivery.Corriere.CorriereDTO;
 import org.UninaDelivery.Exception.OperatoreNonTrovatoException;
+import org.UninaDelivery.MezzoTrasporto.MezzoTrasportoDAO;
+import org.UninaDelivery.MezzoTrasporto.MezzoTrasportoDTO;
 import org.UninaDelivery.Operatore.OperatoreDAO;
 import org.UninaDelivery.Operatore.OperatoreDTO;
 import org.UninaDelivery.Ordine.DettagliOrdineDTO;
@@ -16,7 +20,9 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class GestoreFinestre {
 
@@ -85,7 +91,7 @@ public class GestoreFinestre {
         homePage.setVisible(true);
     }
     
-    public void mostraMessageDialog(JFrame parent, String testo, String titolo){
+    public void mostraMessageDialog(Component parent, String testo, String titolo){
         JOptionPane.showMessageDialog(parent, testo, titolo, JOptionPane.ERROR_MESSAGE);
     }
     
@@ -114,7 +120,8 @@ public class GestoreFinestre {
         infoOrdinePage.setVisible(true);
     }
     
-    public void apriWizardCreazioneSpedizione(){
+    public void apriWizardCreazioneSpedizione(ArrayList<LocalDate> listaOrdiniDaSpedire){
+        LocalDate dataSpedizione = Collections.max(listaOrdiniDaSpedire);
         WizardCreazioneSpedizione wizardCreazioneSpedizione = new WizardCreazioneSpedizione(null, this);
         wizardCreazioneSpedizione.setVisible(true);
     }
@@ -136,6 +143,16 @@ public class GestoreFinestre {
     public StatisticheOrdineDTO eseguiStatistica(int mese){
         StatisticheOrdiniDAO statisticheOrdiniDAO = new StatisticheOrdiniDAO();
         return statisticheOrdiniDAO.getStatisticheOrdine(mese, conn);
+    }
+    
+    public ArrayList<MezzoTrasportoDTO> recuperaMezziDisponibili(){
+        MezzoTrasportoDAO mezzoTrasportoDAO = new MezzoTrasportoDAO();
+        return  mezzoTrasportoDAO.getMezziDisponibili(conn);
+    }
+    
+    public ArrayList<CorriereDTO> recuperaCorrieriDisponibili(){
+        CorriereDAO corriereDAO = new CorriereDAO();
+        return corriereDAO.getCorrieriDisponibili(conn);
     }
     
     public void resizeColumnWidth(JTable table) {

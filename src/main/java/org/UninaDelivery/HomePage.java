@@ -56,6 +56,8 @@ public class HomePage extends JFrame{
         setImpostazioniToolBar();
         setImpostazioniUserInformationButton();
         setImpostazioniLogoutButton();
+        setImpostazioniVisive();
+        setImpostazioniBottoni();
         setImpostazioniVarie();
 
         Listeners();
@@ -78,6 +80,25 @@ public class HomePage extends JFrame{
     
     private void setImpostazioniTabella(){
         ArrayList<DettagliOrdineDTO> listaOrdini = gestoreFinestre.RecuperaOrdiniNonSpediti();
+        DefaultTableModel modelloTabella = getModelloTabella();
+        
+        ordiniTable.setModel(modelloTabella);
+        ordiniTable.getTableHeader().setBackground(new Color(0, 18, 51));
+        ordiniTable.getTableHeader().setForeground(new Color (253, 253, 253));
+        ordiniTable.getTableHeader().setReorderingAllowed(false);
+        ordiniTable.getTableHeader().setResizingAllowed(false);
+        
+        aggiornaTabella(listaOrdini);
+        
+        DefaultTableCellRenderer modelloCelle = new DefaultTableCellRenderer();
+        modelloCelle.setHorizontalAlignment(SwingConstants.CENTER);
+        ordiniTable.getColumnModel().getColumn(1).setCellRenderer(modelloCelle);
+        ordiniTable.getColumnModel().getColumn(2).setCellRenderer(modelloCelle);
+        ordiniTable.getColumnModel().getColumn(6).setCellRenderer(modelloCelle);
+        ordiniTable.getColumnModel().getColumn(7).setCellRenderer(modelloCelle);
+    }
+    
+    private static DefaultTableModel getModelloTabella() {
         Object[] nomiColonne = {"Seleziona", "Numero Ordine", "Data", "Mittente", "Destinatario", "Indirizzo di Spedizione", "Peso (Kg)", "Grandezza"};
         DefaultTableModel modelloTabella = new DefaultTableModel(new Object[][]{}, nomiColonne){
             //rende solo la prima colonna della tabella editabile
@@ -97,38 +118,30 @@ public class HomePage extends JFrame{
                 };
             }
         };
-        
-        ordiniTable.setModel(modelloTabella);
-        ordiniTable.getTableHeader().setBackground(new Color(0, 18, 51));
-        ordiniTable.getTableHeader().setForeground(new Color (253, 253, 253));
-        ordiniTable.getTableHeader().setReorderingAllowed(false);
-        ordiniTable.getTableHeader().setResizingAllowed(false);
-        
-        aggiornaTabella(listaOrdini);
-        
-        DefaultTableCellRenderer modelloCelle = new DefaultTableCellRenderer();
-        modelloCelle.setHorizontalAlignment(SwingConstants.CENTER);
-        ordiniTable.getColumnModel().getColumn(1).setCellRenderer(modelloCelle);
-        ordiniTable.getColumnModel().getColumn(2).setCellRenderer(modelloCelle);
-        ordiniTable.getColumnModel().getColumn(6).setCellRenderer(modelloCelle);
-        ordiniTable.getColumnModel().getColumn(7).setCellRenderer(modelloCelle);
+        return modelloTabella;
     }
-    
     
     private void setImpostazioniVarie(){
         nomeLabel.setText(operatoreLoggato.getNome());
         cognomeLabel.setText(operatoreLoggato.getCognome());
         matricolaLabel.setText(String.valueOf(operatoreLoggato.getMatricola()));
-        logoLabel.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScrittePiccolo.png"));
         panelContenenteJTable.getViewport().setBackground(new Color(202, 192, 179));
+    }
+    
+    private void setImpostazioniVisive(){
+        logoLabel.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScrittePiccolo.png"));
         statisticaButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/data-analytics.png"));
         programmaButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/schedule.png"));
         selezionaButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/tracking.png"));
         dettagliOrdineButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/find.png"));
+    }
+    
+    private void setImpostazioniBottoni(){
         statisticaButton.setFocusable(false);
         programmaButton.setFocusable(false);
         dettagliOrdineButton.setFocusable(false);
         selezionaButton.setFocusable(false);
+        aggiornaButton.setFocusable(false);
         selezionaButton.setOpaque(true);
     }
     
@@ -236,7 +249,13 @@ public class HomePage extends JFrame{
         selezionaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gestoreFinestre.apriWizardCreazioneSpedizione();
+                try{
+                    if(controllaQuanteFlagTabella() == 0)
+                        throw new NoCampiSelezionatiException(HomePage.this, gestoreFinestre);
+                    apriWizardSpedizione();
+                } catch (NoCampiSelezionatiException exception){
+                    System.out.println("Nessuna checkBox selezionata: " + exception);
+                }
             }
         });
     }
@@ -303,5 +322,15 @@ public class HomePage extends JFrame{
                 gestoreFinestre.apriInfoOrdine((int) ordiniTable.getValueAt(i, 1));
             }
         }
+    }
+    
+    private void apriWizardSpedizione(){
+        ArrayList<LocalDate> listaOrdiniDaSpedire = new ArrayList<>();
+        for (int i = 0; i < ordiniTable.getRowCount(); i++){
+            if ((Boolean) ordiniTable.getValueAt(i, 0)){
+                listaOrdiniDaSpedire.add((LocalDate) ordiniTable.getValueAt(i, 2));
+            }
+        }
+        gestoreFinestre.apriWizardCreazioneSpedizione(listaOrdiniDaSpedire);
     }
 }

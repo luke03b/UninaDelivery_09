@@ -43,7 +43,6 @@ public class InfoOrdinePage extends JDialog{
     }
 
     public void setImpostazioniTabella(){
-        int maxCellHeight;
         ArrayList<ProdottoDTO> listaProdotti = gestoreFinestre.recuperaProdotti(numOrdine);
         Object[] nomiColonne = {"Codice Prodotto", "Nome", "Prezzo", "Peso", "Categoria", "Descrizione", "Quantità"};
         DefaultTableModel modelloTabella = new DefaultTableModel(new Object[][]{}, nomiColonne){

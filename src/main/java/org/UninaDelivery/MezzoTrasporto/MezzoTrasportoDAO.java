@@ -8,16 +8,15 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class MezzoTrasportoDAO {
-    public ArrayList<MezzoTrasportoDTO> recuperaMezziDisponibili(LocalDate DataOrdine, Connection conn){
+    public ArrayList<MezzoTrasportoDTO> getMezziDisponibili(Connection conn){
         ArrayList<MezzoTrasportoDTO> listaMezziDisponibili = new ArrayList<>();
         
         try{
             PreparedStatement stmt = conn.prepareStatement(
                     "SELECT * " +
                     "FROM MezzoTrasporto " +
-                    "WHERE Targa NOT IN (SELECT Targa FROM MezziInUso WHERE DataUtilizzo = ? + 3)");
+                    "WHERE Targa NOT IN (SELECT Targa FROM MezziInUso WHERE DataUtilizzo = CURRENT_DATE + 3)");
             
-            stmt.setDate(1, java.sql.Date.valueOf(DataOrdine));
             ResultSet rs = stmt.executeQuery();
             while(rs.next()){
                 MezzoTrasportoDTO mezzoCorrente = new MezzoTrasportoDTO();

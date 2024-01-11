@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
-    <file url="file://$PROJECT_DIR$/src/main/java/org/UninaDelivery/Ordine/DettagliOrdineDAO.java" dialect="GenericSQL" />
-    <file url="file://$PROJECT_DIR$/src/main/java/org/UninaDelivery/StatisticheOrdini/StatisticheOrdiniDAO.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/org/UninaDelivery/Corriere/CorriereDAO.java" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/org/UninaDelivery/MezzoTrasporto/MezzoTrasportoDAO.java" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/org/UninaDelivery/Ordine/DettagliOrdineDAO.java" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/org/UninaDelivery/StatisticheOrdini/StatisticheOrdiniDAO.java" dialect="PostgreSQL" />
   </component>
 </project>

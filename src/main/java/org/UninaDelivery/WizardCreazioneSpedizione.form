@@ -127,10 +127,11 @@
                     <properties/>
                     <border type="none"/>
                     <children>
-                      <component id="a59f2" class="javax.swing.JTable" binding="table1" default-binding="true">
+                      <component id="a59f2" class="javax.swing.JTable" binding="tabellaCorrieri">
                         <constraints/>
                         <properties>
                           <background color="-3489613"/>
+                          <font name="JetBrains Mono Medium" size="14" style="1"/>
                           <foreground color="-16777216"/>
                           <gridColor color="-16772557"/>
                           <selectionBackground color="-42662"/>
@@ -270,10 +271,11 @@
                     <properties/>
                     <border type="none"/>
                     <children>
-                      <component id="901ec" class="javax.swing.JTable" default-binding="true">
+                      <component id="901ec" class="javax.swing.JTable" binding="tabellaMezzi">
                         <constraints/>
                         <properties>
                           <background color="-3489613"/>
+                          <font name="JetBrains Mono Medium" size="14" style="1"/>
                           <foreground color="-16777216"/>
                           <gridColor color="-16772557"/>
                           <selectionBackground color="-42662"/>
@@ -395,7 +397,7 @@
                 </properties>
                 <border type="none"/>
                 <children>
-                  <component id="7fef9" class="javax.swing.JLabel">
+                  <component id="7fef9" class="javax.swing.JLabel" binding="matricolaLabel">
                     <constraints>
                       <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
@@ -404,7 +406,7 @@
                       <text value="Label"/>
                     </properties>
                   </component>
-                  <component id="912c8" class="javax.swing.JLabel">
+                  <component id="912c8" class="javax.swing.JLabel" binding="targaLabel">
                     <constraints>
                       <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
@@ -431,7 +433,7 @@
                       <text value="Mezzo di trasporto: "/>
                     </properties>
                   </component>
-                  <component id="738d6" class="javax.swing.JLabel">
+                  <component id="738d6" class="javax.swing.JLabel" binding="nomeLabel">
                     <constraints>
                       <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
@@ -440,7 +442,7 @@
                       <text value="Label"/>
                     </properties>
                   </component>
-                  <component id="eeff0" class="javax.swing.JLabel">
+                  <component id="eeff0" class="javax.swing.JLabel" binding="marcaLabel">
                     <constraints>
                       <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
@@ -449,7 +451,7 @@
                       <text value="Label"/>
                     </properties>
                   </component>
-                  <component id="6f465" class="javax.swing.JLabel">
+                  <component id="6f465" class="javax.swing.JLabel" binding="cognomeLabel">
                     <constraints>
                       <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
@@ -458,7 +460,7 @@
                       <text value="Label"/>
                     </properties>
                   </component>
-                  <component id="314b8" class="javax.swing.JLabel">
+                  <component id="314b8" class="javax.swing.JLabel" binding="modelloLabel">
                     <constraints>
                       <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>

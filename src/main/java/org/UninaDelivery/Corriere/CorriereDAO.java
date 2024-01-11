@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class CorriereDAO {
-    public ArrayList<CorriereDTO> getCorrieriDisponibili(LocalDate DataOrdine, Connection conn){
+    public ArrayList<CorriereDTO> getCorrieriDisponibili(Connection conn){
         ArrayList<CorriereDTO> listaCorrieriDisp = new ArrayList<CorriereDTO>();
 
         try{
@@ -17,9 +17,8 @@ public class CorriereDAO {
                     "EXCEPT " +
                     "(SELECT Cr.* " +
                     "FROM MezziInUso AS MIU NATURAL JOIN Corriere AS Cr " +
-                    "WHERE MIU.DataUtilizzo = ? + 3))");
+                    "WHERE MIU.DataUtilizzo = CURRENT_DATE + 3))");
             ResultSet rs = stmt.executeQuery();
-            stmt.setDate(1, java.sql.Date.valueOf(DataOrdine));
             while (rs.next()) {
                 CorriereDTO CorriereCorrente= new CorriereDTO();
                 creaCorriereDTO(CorriereCorrente, rs);
@@ -34,7 +33,7 @@ public class CorriereDAO {
         return listaCorrieriDisp;
     }
 
-    public CorriereDTO creaCorriereDTO(CorriereDTO corriereDTO, ResultSet rs) throws SQLException {
+    private CorriereDTO creaCorriereDTO(CorriereDTO corriereDTO, ResultSet rs) throws SQLException {
         corriereDTO.setMatricola(rs.getInt("matricola"));
         corriereDTO.setNome(rs.getString("nome"));
         corriereDTO.setCognome(rs.getString("cognome"));
