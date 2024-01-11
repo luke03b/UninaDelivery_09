@@ -65,11 +65,12 @@ public class HomePage extends JFrame{
         setIconImage(imageIcon.getImage());
         setLayout(null);
         setResizable(true);
+        setExtendedState(MAXIMIZED_BOTH);
         this.gestoreFinestre = gestoreFinestre;
         this.operatoreLoggato = operatoreLoggato;
         setTitle("Home");
         setContentPane(homePanel);
-        setMinimumSize(new Dimension(1250, 430));
+        setMinimumSize(new Dimension(1550, 430));
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -77,7 +78,7 @@ public class HomePage extends JFrame{
     
     private void setImpostazioniTabella(){
         ArrayList<DettagliOrdineDTO> listaOrdini = gestoreFinestre.RecuperaOrdiniNonSpediti();
-        Object[] nomiColonne = {"Selezionato", "Numero Ordine", "Data", "Mittente", "Destinatario", "Indirizzo di Spedizione", "Peso", "Grandezza"};
+        Object[] nomiColonne = {"Seleziona", "Numero Ordine", "Data", "Mittente", "Destinatario", "Indirizzo di Spedizione", "Peso (Kg)", "Grandezza"};
         DefaultTableModel modelloTabella = new DefaultTableModel(new Object[][]{}, nomiColonne){
             //rende solo la prima colonna della tabella editabile
             @Override
@@ -104,6 +105,13 @@ public class HomePage extends JFrame{
         ordiniTable.getTableHeader().setResizingAllowed(false);
         
         aggiornaTabella(listaOrdini);
+        
+        DefaultTableCellRenderer modelloCelle = new DefaultTableCellRenderer();
+        modelloCelle.setHorizontalAlignment(SwingConstants.CENTER);
+        ordiniTable.getColumnModel().getColumn(1).setCellRenderer(modelloCelle);
+        ordiniTable.getColumnModel().getColumn(2).setCellRenderer(modelloCelle);
+        ordiniTable.getColumnModel().getColumn(6).setCellRenderer(modelloCelle);
+        ordiniTable.getColumnModel().getColumn(7).setCellRenderer(modelloCelle);
     }
     
     
@@ -115,8 +123,8 @@ public class HomePage extends JFrame{
         PanelContenenteJTable.getViewport().setBackground(new Color(202, 192, 179));
         statisticaButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/data-analytics.png"));
         programmaButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/schedule.png"));
-        selezionaButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/touchscreen.png"));
-        dettagliOrdineButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/delivery.png"));
+        selezionaButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/tracking.png"));
+        dettagliOrdineButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/find.png"));
         statisticaButton.setFocusable(false);
         programmaButton.setFocusable(false);
         dettagliOrdineButton.setFocusable(false);
