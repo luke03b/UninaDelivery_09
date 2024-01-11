@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class StatisticheOrdiniDAO {
-    public StatisticheOrdineDTO getStatisticheOrdine(Connection conn, int mese){
+    public StatisticheOrdineDTO getStatisticheOrdine(int mese, Connection conn){
         StatisticheOrdineDTO statisticheOrdineDTO = new StatisticheOrdineDTO();
         try{
             getNumeroMedioOrdiniMensili(mese, statisticheOrdineDTO, conn);
