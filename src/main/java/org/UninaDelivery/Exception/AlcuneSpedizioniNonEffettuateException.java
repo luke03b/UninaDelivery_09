@@ -2,11 +2,8 @@ package org.UninaDelivery.Exception;
 
 import org.UninaDelivery.Controller;
 
-public class SpedizioniNonEffettuateException extends Exception{
-    public SpedizioniNonEffettuateException(int numeroSpedizioniNonEffettuate, Controller controller){
-        if (numeroSpedizioniNonEffettuate == 0)
-            controller.mostraMessageDialog(null, "Merce Insufficiente in magazzino.\nNessuna spedizione completata", "Attenzione");
-        
+public class AlcuneSpedizioniNonEffettuateException extends Exception{
+    public AlcuneSpedizioniNonEffettuateException(int numeroSpedizioniNonEffettuate, Controller controller){
         if (numeroSpedizioniNonEffettuate == 1)
             controller.mostraMessageDialog(null, "Merce Insufficiente in magazzino.\n" + numeroSpedizioniNonEffettuate + " spedizione non completata", "Attenzione");
         

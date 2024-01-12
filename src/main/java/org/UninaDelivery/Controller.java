@@ -3,8 +3,10 @@ import org.UninaDelivery.Cliente.ClienteDAO;
 import org.UninaDelivery.Cliente.ClienteDTO;
 import org.UninaDelivery.Corriere.CorriereDAO;
 import org.UninaDelivery.Corriere.CorriereDTO;
+import org.UninaDelivery.Exception.NessunaSpedizioneEffettuataException;
 import org.UninaDelivery.Exception.OperatoreNonTrovatoException;
-import org.UninaDelivery.Exception.SpedizioniNonEffettuateException;
+import org.UninaDelivery.Exception.AlcuneSpedizioniNonEffettuateException;
+import org.UninaDelivery.MezziInUso.MezziInUsoDAO;
 import org.UninaDelivery.MezzoTrasporto.MezzoTrasportoDAO;
 import org.UninaDelivery.MezzoTrasporto.MezzoTrasportoDTO;
 import org.UninaDelivery.Operatore.OperatoreDAO;
@@ -22,7 +24,6 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Controller {
@@ -159,13 +160,23 @@ public class Controller {
             if (spedizioneDAO.creaSpedizione(dettagliSpedizione, conn, this))
                 JOptionPane.showMessageDialog(chiamante, "Tutte le spedizioni sono state effettuate con successo",
                         "Avviso", JOptionPane.INFORMATION_MESSAGE);
-        } catch (SpedizioniNonEffettuateException e) {
+            aggiungiMezziUtilizzati((Integer) dettagliSpedizione.get(1), (String) dettagliSpedizione.get(2), conn);
+        } catch (AlcuneSpedizioniNonEffettuateException e) {
+            aggiungiMezziUtilizzati((Integer) dettagliSpedizione.get(1), (String) dettagliSpedizione.get(2), conn);
             System.out.println("Spedizioni non effettuate " + e);
+        } catch (NessunaSpedizioneEffettuataException e) {
+            System.out.println("Nessuna spedizione effettuata: " + e);
+
         }
     }
     
     public void aggiornaTabellaHome(HomePage parent){
         parent.aggiornaTabella();
+    }
+
+    public void aggiungiMezziUtilizzati(int matricola, String targa, Connection conn){
+        MezziInUsoDAO mezziInUsoDAO = new MezziInUsoDAO();
+        mezziInUsoDAO.aggiungiMezziInUso(matricola, targa, conn);
     }
     
     public void resizeColumnWidth(JTable table) {
