@@ -9,6 +9,7 @@ import org.UninaDelivery.Exception.NoCampiSelezionatiException;
 import org.UninaDelivery.Exception.TroppiCampiSelezionatiException;
 import org.UninaDelivery.Operatore.OperatoreDTO;
 import org.UninaDelivery.Ordine.DettagliOrdineDTO;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import javax.swing.*;
 import javax.swing.table.*;
@@ -24,7 +25,7 @@ public class HomePage extends JFrame{
     private JLabel matricolaLabel;
     private JLabel dataFineLabel;
     private JButton logOutButton;
-    private JButton selezionaButton;
+    private JButton creaSpedizioneButton;
     private JButton programmaButton;
     private JButton statisticaButton;
     private JTable ordiniTable;
@@ -37,7 +38,7 @@ public class HomePage extends JFrame{
     private JButton aggiornaButton;
     private JButton dettagliOrdineButton;
     private JLabel dataInizioLabel;
-    private GestoreFinestre gestoreFinestre;
+    private Controller controller;
     private OperatoreDTO operatoreLoggato;
 
     ImageIcon imageIcon = new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScritte.png");
@@ -50,8 +51,8 @@ public class HomePage extends JFrame{
     JDatePickerImpl pickerDataFine = new JDatePickerImpl(datePanelDataFine);
 
 
-    public HomePage(JFrame parent, GestoreFinestre gestoreFinestre, OperatoreDTO operatoreLoggato){
-        setImpostazioniHomePage(parent, gestoreFinestre, operatoreLoggato);
+    public HomePage(JFrame parent, Controller controller, OperatoreDTO operatoreLoggato){
+        setImpostazioniHomePage(parent, controller, operatoreLoggato);
         setImpostazioniTabella();
         setImpostazioniToolBar();
         setImpostazioniUserInformationButton();
@@ -60,15 +61,15 @@ public class HomePage extends JFrame{
         setImpostazioniBottoni();
         setImpostazioniVarie();
 
-        Listeners();
+        listeners();
     }
     
-    private void setImpostazioniHomePage(JFrame parent, GestoreFinestre gestoreFinestre, OperatoreDTO operatoreLoggato){
+    private void setImpostazioniHomePage(JFrame parent, Controller controller, OperatoreDTO operatoreLoggato){
         setIconImage(imageIcon.getImage());
         setLayout(null);
         setResizable(true);
         setExtendedState(MAXIMIZED_BOTH);
-        this.gestoreFinestre = gestoreFinestre;
+        this.controller = controller;
         this.operatoreLoggato = operatoreLoggato;
         setTitle("Home");
         setContentPane(homePanel);
@@ -79,7 +80,7 @@ public class HomePage extends JFrame{
     }
     
     private void setImpostazioniTabella(){
-        ArrayList<DettagliOrdineDTO> listaOrdini = gestoreFinestre.RecuperaOrdiniNonSpediti();
+        ArrayList<DettagliOrdineDTO> listaOrdini = controller.getOrdiniNonSpediti();
         DefaultTableModel modelloTabella = getModelloTabella();
         
         ordiniTable.setModel(modelloTabella);
@@ -132,7 +133,7 @@ public class HomePage extends JFrame{
         logoLabel.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScrittePiccolo.png"));
         statisticaButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/data-analytics.png"));
         programmaButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/schedule.png"));
-        selezionaButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/tracking.png"));
+        creaSpedizioneButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/tracking.png"));
         dettagliOrdineButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/find.png"));
     }
     
@@ -140,9 +141,9 @@ public class HomePage extends JFrame{
         statisticaButton.setFocusable(false);
         programmaButton.setFocusable(false);
         dettagliOrdineButton.setFocusable(false);
-        selezionaButton.setFocusable(false);
+        creaSpedizioneButton.setFocusable(false);
         aggiornaButton.setFocusable(false);
-        selezionaButton.setOpaque(true);
+        creaSpedizioneButton.setOpaque(true);
     }
     
     private void setImpostazioniUserInformationButton(){
@@ -176,21 +177,22 @@ public class HomePage extends JFrame{
 
         toolBar.add(dataFineLabel);
         toolBar.add(pickerDataFine);
+        toolBar.add(aggiornaButton);
 
         pickerDataInizio.setToolTipText("Data dalla quale si inizierà a cercare");
         pickerDataFine.setToolTipText("Data dalla quale si finirà di cercare");
 
-        ArrayList<ClienteDTO> listaClienti = gestoreFinestre.recuperaClienti();
+        ArrayList<ClienteDTO> listaClienti = controller.recuperaClienti();
         filtroUtenti.addItem("<Filtra Utente>");
         for (ClienteDTO clienteDTO : listaClienti) {
             filtroUtenti.addItem(clienteDTO.getNominativo() + " " + clienteDTO.getNumeroTelefono());
         }
+        AutoCompleteDecorator.decorate(filtroUtenti);
         ((JLabel)filtroUtenti.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-        
         toolBar.setFloatable(false);
     }
     
-    private void Listeners(){
+    private void listeners(){
         logOutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -198,7 +200,7 @@ public class HomePage extends JFrame{
                 if (JOptionPane.showOptionDialog(HomePage.this, "Vuoi eseguire il LogOut?",
                         "LogOut", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, Opzioni,
                         Opzioni[0]) == JOptionPane.OK_OPTION){
-                    gestoreFinestre.TornaLogin(HomePage.this);
+                    controller.tornaLogin(HomePage.this);
                 }
             }
         });
@@ -206,14 +208,14 @@ public class HomePage extends JFrame{
         statisticaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gestoreFinestre.apriStatistica(operatoreLoggato);
+                controller.apriStatistica(operatoreLoggato);
             }
         });
 
         userInformationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gestoreFinestre.apriInfoOperatore(operatoreLoggato);
+                controller.apriInfoOperatore(operatoreLoggato);
             }
         });
 
@@ -246,13 +248,13 @@ public class HomePage extends JFrame{
             }
         });
         
-        selezionaButton.addActionListener(new ActionListener() {
+        creaSpedizioneButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try{
                     if(controllaQuanteFlagTabella() == 0)
-                        throw new NoCampiSelezionatiException(HomePage.this, gestoreFinestre);
-                    apriWizardSpedizione();
+                        throw new NoCampiSelezionatiException(HomePage.this, controller);
+                    controller.apriWizardCreazioneSpedizione(getOrdiniSelezionatiDaTabella());
                 } catch (NoCampiSelezionatiException exception){
                     System.out.println("Nessuna checkBox selezionata: " + exception);
                 }
@@ -263,35 +265,35 @@ public class HomePage extends JFrame{
     private void isSelezioneValida() throws NoCampiSelezionatiException, TroppiCampiSelezionatiException {
         switch (controllaQuanteFlagTabella()) {
             case 0:
-                throw new NoCampiSelezionatiException(this, gestoreFinestre);
+                throw new NoCampiSelezionatiException(this, controller);
             case 1:
                 mostraDettagliOrdine();
                 break;
             default:
-                throw new TroppiCampiSelezionatiException(this, gestoreFinestre);
+                throw new TroppiCampiSelezionatiException(this, controller);
         }
     }
 
     private void applicaFiltro(String utenteSelezionato, java.util.Date dataInizio, java.util.Date dataFine) throws FiltroNonValidoException {
         if (!utenteSelezionato.isEmpty() && dataInizio != null && dataFine != null) {
-            ArrayList<DettagliOrdineDTO> listaOrdini = gestoreFinestre.RecuperaOrdiniByUtenteAndData(utenteSelezionato, new java.sql.Date(dataInizio.getTime()), new java.sql.Date(dataFine.getTime()));
+            ArrayList<DettagliOrdineDTO> listaOrdini = controller.getOrdiniByUtenteAndData(utenteSelezionato, new java.sql.Date(dataInizio.getTime()), new java.sql.Date(dataFine.getTime()));
             aggiornaTabella(listaOrdini);
             return;
         }
         if (dataInizio == null ^ dataFine == null) {
-            throw new FiltroNonValidoException(this, gestoreFinestre);
+            throw new FiltroNonValidoException(this, controller);
         }
         if (!utenteSelezionato.isEmpty()) {
-            ArrayList<DettagliOrdineDTO> listaOrdini = gestoreFinestre.RecuperaOrdiniByUtente(utenteSelezionato);
+            ArrayList<DettagliOrdineDTO> listaOrdini = controller.getOrdiniByUtente(utenteSelezionato);
             aggiornaTabella(listaOrdini);
             return;
         }
         if(dataInizio != null && dataFine != null) {
-            ArrayList<DettagliOrdineDTO> listaOrdini = gestoreFinestre.RecuperaOrdiniByData(new java.sql.Date(dataInizio.getTime()), new java.sql.Date(dataFine.getTime()));
+            ArrayList<DettagliOrdineDTO> listaOrdini = controller.getOrdiniByData(new java.sql.Date(dataInizio.getTime()), new java.sql.Date(dataFine.getTime()));
             aggiornaTabella(listaOrdini);
             return;
         }
-        ArrayList<DettagliOrdineDTO> listaOrdini = gestoreFinestre.RecuperaOrdiniNonSpediti();
+        ArrayList<DettagliOrdineDTO> listaOrdini = controller.getOrdiniNonSpediti();
         aggiornaTabella(listaOrdini);
     }
 
@@ -304,33 +306,47 @@ public class HomePage extends JFrame{
                     ordineDTO.getDestinatario(), ordineDTO.getIndirizzo(),
                     ordineDTO.getPeso(), ordineDTO.getGrandezza()});
         }
-        gestoreFinestre.resizeColumnWidth(ordiniTable);
+        controller.resizeColumnWidth(ordiniTable);
     }
     
     private int controllaQuanteFlagTabella(){
         int numeroFlag = 0;
-        for (int i=0; i<ordiniTable.getRowCount(); i++){
-            if ((Boolean) ordiniTable.getValueAt(i, 0))
+        for (int i = 0; i < ordiniTable.getRowCount(); i++){
+            if (isCellaSelezionata(i))
                 numeroFlag++;
         }
         return numeroFlag;
     }
+
+    public ArrayList<DettagliOrdineDTO> getOrdiniSelezionatiDaTabella(){
+        ArrayList<DettagliOrdineDTO> listaOrdiniSelezionati = new ArrayList<>();
+        for (int riga = 0; riga < ordiniTable.getRowCount(); riga++){
+            if(isCellaSelezionata(riga))
+                listaOrdiniSelezionati.add(recuperaContenutoRiga(riga));
+        }
+        return listaOrdiniSelezionati;
+    }
+
+    private boolean isCellaSelezionata(int riga){
+        return (Boolean) ordiniTable.getValueAt(riga, 0);
+    }
+
+    private DettagliOrdineDTO recuperaContenutoRiga(int riga){
+        DettagliOrdineDTO ordineCorrente = new DettagliOrdineDTO();
+        ordineCorrente.setNumeroOrdine((int) ordiniTable.getValueAt(riga, 1));
+        ordineCorrente.setMittente((String) ordiniTable.getValueAt(riga, 3));
+        ordineCorrente.setDestinatario((String) ordiniTable.getValueAt(riga, 4));
+        ordineCorrente.setIndirizzo((String) ordiniTable.getValueAt(riga, 5));
+        ordineCorrente.setPeso((float) ordiniTable.getValueAt(riga, 6));
+        ordineCorrente.setGrandezza((String) ordiniTable.getValueAt(riga, 7));
+        return ordineCorrente;
+    }
     
     private void mostraDettagliOrdine(){
         for (int i = 0; i < ordiniTable.getRowCount(); i++){
-            if ((Boolean) ordiniTable.getValueAt(i, 0)){
-                gestoreFinestre.apriInfoOrdine((int) ordiniTable.getValueAt(i, 1));
+            if (isCellaSelezionata(i)){
+                controller.apriInfoOrdine((int) ordiniTable.getValueAt(i, 1));
             }
         }
-    }
-    
-    private void apriWizardSpedizione(){
-        ArrayList<LocalDate> listaOrdiniDaSpedire = new ArrayList<>();
-        for (int i = 0; i < ordiniTable.getRowCount(); i++){
-            if ((Boolean) ordiniTable.getValueAt(i, 0)){
-                listaOrdiniDaSpedire.add((LocalDate) ordiniTable.getValueAt(i, 2));
-            }
-        }
-        gestoreFinestre.apriWizardCreazioneSpedizione(listaOrdiniDaSpedire);
     }
 }

@@ -13,7 +13,9 @@ public class ClienteDAO {
 
         try {
             PreparedStatement stmt = conn.prepareStatement(
-                    "SELECT C.* FROM cliente C JOIN ordine O ON C.numeroTelefono IN (O.numeroTelefonoDT, O.numeroTelefonoMT)");
+                    "SELECT DISTINCT C.* " +
+                        "FROM cliente C " +
+                        "JOIN ordine O ON C.numeroTelefono IN (O.numeroTelefonoDT, O.numeroTelefonoMT)");
             ResultSet rs = stmt.executeQuery();
             while (rs.next()){
                 ClienteDTO clienteCorrente = new ClienteDTO();

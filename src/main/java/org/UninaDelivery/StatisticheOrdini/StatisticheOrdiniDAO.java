@@ -32,6 +32,8 @@ public class StatisticheOrdiniDAO {
         while(rs.next()){
             statisticheOrdineDTO.setAVGNumOrdini(rs.getDouble(1));
         }
+        stmt.close();
+        rs.close();
     }
 
     private void getOrdineNumProdottiMaxMensile(int mese, StatisticheOrdineDTO statisticheOrdineDTO, Connection conn) throws SQLException{
@@ -51,6 +53,8 @@ public class StatisticheOrdiniDAO {
         while(rs.next()){
             statisticheOrdineDTO.setMaxNumProdottiInOrdine(rs.getInt(1));
         }
+        stmt.close();
+        rs.close();
     }
 
     private void getOrdineNumProdottiMinMensile(int mese, StatisticheOrdineDTO statisticheOrdineDTO, Connection conn) throws SQLException{
@@ -70,5 +74,7 @@ public class StatisticheOrdiniDAO {
         while(rs.next()){
             statisticheOrdineDTO.setMinNumProdottiInOrdine(rs.getInt(1));
         }
+        stmt.close();
+        rs.close();
     }
 }

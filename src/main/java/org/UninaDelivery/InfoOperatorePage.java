@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class InfoOperatorePage extends JDialog{
-    private JPanel InfoOpPane;
+    private JPanel infoOpPane;
     private JButton indietroButton;
     private JLabel matricolaLabel;
     private JLabel nomeLabel;
@@ -18,26 +18,26 @@ public class InfoOperatorePage extends JDialog{
     private JLabel stipendioLabel;
     private JLabel dataNascitaLabel;
     private JLabel dataAssunzioneLabel;
-    private JLabel UninaDeliveryLogo;
-    private JLabel FedIILogo;
-    private GestoreFinestre gestoreFinestre;
+    private JLabel uninaDeliveryLogo;
+    private JLabel fedIILogo;
+    private Controller controller;
     private OperatoreDTO operatoreLoggato;
 
-    public InfoOperatorePage(JFrame parent, GestoreFinestre gf, OperatoreDTO operatoreLoggato){
+    public InfoOperatorePage(JFrame parent, Controller gf, OperatoreDTO operatoreLoggato){
         setImpostazioniInfoOpPage(parent, gf, operatoreLoggato);
         setContenutiVisivi();
         setImpostazioniIndietroButton();
-        Listeners();
+        listeners();
     }
 
-    private void setImpostazioniInfoOpPage(JFrame parent, GestoreFinestre gestoreFinestre, OperatoreDTO operatoreLoggato){
+    private void setImpostazioniInfoOpPage(JFrame parent, Controller controller, OperatoreDTO operatoreLoggato){
         setLayout(null);
         setResizable(false);
         setTitle("Informazioni Operatore");
-        setContentPane(InfoOpPane);
+        setContentPane(infoOpPane);
         setMinimumSize(new Dimension(380, 450));
         setModal(true);
-        this.gestoreFinestre = gestoreFinestre;
+        this.controller = controller;
         this.operatoreLoggato = operatoreLoggato;
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -61,11 +61,11 @@ public class InfoOperatorePage extends JDialog{
         stipendioLabel.setText(String.valueOf(operatoreLoggato.getStipendio()) + "€");
         dataNascitaLabel.setText(String.valueOf(operatoreLoggato.getDataNascita()));
         dataAssunzioneLabel.setText(String.valueOf(operatoreLoggato.getDataAssunzione()));
-        UninaDeliveryLogo.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScrittePiccolo.png"));
-        FedIILogo.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoFedericoII.png"));
+        uninaDeliveryLogo.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScrittePiccolo.png"));
+        fedIILogo.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoFedericoII.png"));
     }
     
-    private void Listeners(){
+    private void listeners(){
         indietroButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

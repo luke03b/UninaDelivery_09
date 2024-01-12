@@ -4,12 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class CorriereDAO {
     public ArrayList<CorriereDTO> getCorrieriDisponibili(Connection conn){
-        ArrayList<CorriereDTO> listaCorrieriDisp = new ArrayList<CorriereDTO>();
+        ArrayList<CorriereDTO> listaCorrieriDisp = new ArrayList<>();
 
         try{
             PreparedStatement stmt = conn.prepareStatement("((SELECT Cr.* " +
@@ -23,10 +22,9 @@ public class CorriereDAO {
                 CorriereDTO CorriereCorrente= new CorriereDTO();
                 creaCorriereDTO(CorriereCorrente, rs);
                 listaCorrieriDisp.add(CorriereCorrente);
-
             }
-        } catch (SQLException ex) {
-            System.out.println("Errore sql: " + ex);
+        } catch (SQLException exception) {
+            System.out.println("Errore sql: " + exception);
         } catch (Exception exception){
             System.out.println("Errore generico: " + exception);
         }

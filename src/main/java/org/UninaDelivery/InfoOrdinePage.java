@@ -5,45 +5,44 @@ import org.UninaDelivery.Prodotto.ProdottoDTO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class InfoOrdinePage extends JDialog{
-    private JLabel FedIILogo;
-    private JLabel UninaDeliveryLogo;
+    private JLabel fedIILogo;
+    private JLabel uninaDeliveryLogo;
     private JButton indietroButton;
-    private JPanel InfoOrdinePage;
+    private JPanel infoOrdinePage;
     private JTable prodottiTable;
-    private JScrollPane PanelContenenteJTable;
-    private GestoreFinestre gestoreFinestre;
+    private JScrollPane panelContenenteJTable;
+    private Controller controller;
     private int numOrdine;
     
-    public InfoOrdinePage(JFrame parent, GestoreFinestre gestoreFinestre, int numOrdine){
-        setImpostazioniInfoOrdinePage(parent, gestoreFinestre, numOrdine);
+    public InfoOrdinePage(JFrame parent, Controller controller, int numOrdine){
+        setImpostazioniInfoOrdinePage(parent, controller, numOrdine);
         setContenutiVisivi();
         setImpostazioniTabella();
         setImpostazioniIndietroButton();
-        Listeners();
+        listeners();
     }
     
-    private void setImpostazioniInfoOrdinePage(JFrame parent, GestoreFinestre gestoreFinestre, int numOrd){
+    private void setImpostazioniInfoOrdinePage(JFrame parent, Controller controller, int numOrd){
         setLayout(null);
         setResizable(false);
         setTitle("Dettagli Ordine");
-        setContentPane(InfoOrdinePage);
+        setContentPane(infoOrdinePage);
         setMinimumSize(new Dimension(800, 400));
         setModal(true);
-        this.gestoreFinestre = gestoreFinestre;
+        this.controller = controller;
         this.numOrdine = numOrd;
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     public void setImpostazioniTabella(){
-        ArrayList<ProdottoDTO> listaProdotti = gestoreFinestre.recuperaProdotti(numOrdine);
+        ArrayList<ProdottoDTO> listaProdotti = controller.recuperaProdotti(numOrdine);
         Object[] nomiColonne = {"Codice Prodotto", "Nome", "Prezzo", "Peso", "Categoria", "Descrizione", "Quantità"};
         DefaultTableModel modelloTabella = new DefaultTableModel(new Object[][]{}, nomiColonne){
             //nessuna cella della tabella editabile
@@ -66,7 +65,7 @@ public class InfoOrdinePage extends JDialog{
         prodottiTable.setModel(modelloTabella);
         prodottiTable.getTableHeader().setBackground(new Color(0, 18, 51));
         prodottiTable.getTableHeader().setForeground(new Color (255, 255, 255));
-        gestoreFinestre.resizeColumnWidth(prodottiTable);
+        controller.resizeColumnWidth(prodottiTable);
         prodottiTable.getColumnModel().getColumn(5).setCellRenderer(new WordWrapCellRenderer());
         prodottiTable.setFocusable(false);
         prodottiTable.setRowSelectionAllowed(false);
@@ -83,9 +82,9 @@ public class InfoOrdinePage extends JDialog{
     
 
     private void setContenutiVisivi(){
-        UninaDeliveryLogo.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScrittePiccolo.png"));
-        FedIILogo.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoFedericoII.png"));
-        PanelContenenteJTable.getViewport().setBackground(new Color(202, 192, 179));
+        uninaDeliveryLogo.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScrittePiccolo.png"));
+        fedIILogo.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoFedericoII.png"));
+        panelContenenteJTable.getViewport().setBackground(new Color(202, 192, 179));
     }
 
     private void setImpostazioniIndietroButton(){
@@ -97,7 +96,7 @@ public class InfoOrdinePage extends JDialog{
         indietroButton.setFocusable(false);
     }
 
-    private void Listeners(){
+    private void listeners(){
         indietroButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

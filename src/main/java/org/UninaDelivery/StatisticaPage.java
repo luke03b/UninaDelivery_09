@@ -13,18 +13,17 @@ public class StatisticaPage extends JDialog{
     private JButton indietroButton;
     private JTable statisticaTable;
     private JComboBox comboBox1;
-    private JPanel StatisticaPanel;
+    private JPanel statisticaPanel;
     private JLabel AVGordineLabel;
-    private JLabel MaxProdotti;
-    private JLabel MinProdotti;
+    private JLabel maxProdotti;
+    private JLabel minProdotti;
     private JLabel logoLabel;
     private JLabel logoUnina;
-    private JScrollPane PanelContenenteJTable;
-    private GestoreFinestre gestoreFinestre;
-    private OperatoreDTO operatoreLoggato;
+    private JScrollPane panelContenenteJTable;
+    private Controller controller;
     
-    public StatisticaPage(JFrame parent, GestoreFinestre gestoreFinestre, OperatoreDTO operatoreLoggato){
-        setImpostazioniStatisticaPage(parent, gestoreFinestre, operatoreLoggato);
+    public StatisticaPage(JFrame parent, Controller controller){
+        setImpostazioniStatisticaPage(parent, controller);
         setImpostazioniVarie();
         setImpostazioniIndietroButton();
         indietroButton.addActionListener(new ActionListener() {
@@ -50,19 +49,19 @@ public class StatisticaPage extends JDialog{
     private void recuperaStatisticaMese(String meseSelezionato) throws meseNonValidoException{
         StatisticheOrdineDTO statisticheOrdineDTO = new StatisticheOrdineDTO();
         switch (meseSelezionato){
-            case "<Mese>" -> {AVGordineLabel.setText(""); MaxProdotti.setText(""); MinProdotti.setText(""); return;}
-            case "Gennaio" -> statisticheOrdineDTO = gestoreFinestre.eseguiStatistica(1);
-            case "Febbraio" -> statisticheOrdineDTO = gestoreFinestre.eseguiStatistica(2);
-            case "Marzo" -> statisticheOrdineDTO = gestoreFinestre.eseguiStatistica(3);
-            case "Aprile" -> statisticheOrdineDTO = gestoreFinestre.eseguiStatistica(4);
-            case "Maggio" -> statisticheOrdineDTO = gestoreFinestre.eseguiStatistica(5);
-            case "Giugno" -> statisticheOrdineDTO = gestoreFinestre.eseguiStatistica(6);
-            case "Luglio" -> statisticheOrdineDTO = gestoreFinestre.eseguiStatistica(7);
-            case "Agosto" -> statisticheOrdineDTO = gestoreFinestre.eseguiStatistica(8);
-            case "Settembre" -> statisticheOrdineDTO = gestoreFinestre.eseguiStatistica(9);
-            case "Ottobre" -> statisticheOrdineDTO = gestoreFinestre.eseguiStatistica(10);
-            case "Novembre" -> statisticheOrdineDTO = gestoreFinestre.eseguiStatistica(11);
-            case "Dicembre" -> statisticheOrdineDTO = gestoreFinestre.eseguiStatistica(12);
+            case "<Mese>" -> {AVGordineLabel.setText(""); maxProdotti.setText(""); minProdotti.setText(""); return;}
+            case "Gennaio" -> statisticheOrdineDTO = controller.eseguiStatistica(1);
+            case "Febbraio" -> statisticheOrdineDTO = controller.eseguiStatistica(2);
+            case "Marzo" -> statisticheOrdineDTO = controller.eseguiStatistica(3);
+            case "Aprile" -> statisticheOrdineDTO = controller.eseguiStatistica(4);
+            case "Maggio" -> statisticheOrdineDTO = controller.eseguiStatistica(5);
+            case "Giugno" -> statisticheOrdineDTO = controller.eseguiStatistica(6);
+            case "Luglio" -> statisticheOrdineDTO = controller.eseguiStatistica(7);
+            case "Agosto" -> statisticheOrdineDTO = controller.eseguiStatistica(8);
+            case "Settembre" -> statisticheOrdineDTO = controller.eseguiStatistica(9);
+            case "Ottobre" -> statisticheOrdineDTO = controller.eseguiStatistica(10);
+            case "Novembre" -> statisticheOrdineDTO = controller.eseguiStatistica(11);
+            case "Dicembre" -> statisticheOrdineDTO = controller.eseguiStatistica(12);
             default -> throw new meseNonValidoException();
         }
         aggiornaLabels(statisticheOrdineDTO);
@@ -70,17 +69,16 @@ public class StatisticaPage extends JDialog{
 
     private void aggiornaLabels(StatisticheOrdineDTO statisticheOrdineDTO){
         AVGordineLabel.setText(String.valueOf(statisticheOrdineDTO.getAVGNumOrdini()));
-        MaxProdotti.setText(String.valueOf(statisticheOrdineDTO.getMaxNumProdottiInOrdine()));
-        MinProdotti.setText(String.valueOf(statisticheOrdineDTO.getMinNumProdottiInOrdine()));
+        maxProdotti.setText(String.valueOf(statisticheOrdineDTO.getMaxNumProdottiInOrdine()));
+        minProdotti.setText(String.valueOf(statisticheOrdineDTO.getMinNumProdottiInOrdine()));
     }
 
-    private void setImpostazioniStatisticaPage(JFrame parent, GestoreFinestre gestoreFinestre, OperatoreDTO operatoreLoggato){
+    private void setImpostazioniStatisticaPage(JFrame parent, Controller controller){
         setLayout(null);
         setResizable(true);
-        this.gestoreFinestre = gestoreFinestre;
-        this.operatoreLoggato = operatoreLoggato;
+        this.controller = controller;
         setTitle("Report Statistica");
-        setContentPane(StatisticaPanel);
+        setContentPane(statisticaPanel);
         setMinimumSize(new Dimension(600, 270));
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);

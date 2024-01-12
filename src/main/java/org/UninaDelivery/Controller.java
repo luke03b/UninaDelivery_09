@@ -22,11 +22,8 @@ import java.awt.*;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 
-public class GestoreFinestre {
-
-    LoginForm loginForm;
+public class Controller {
     static DBConnection dbConnection;
     static Connection conn;
 
@@ -34,38 +31,38 @@ public class GestoreFinestre {
         // Esegue la connessione con il database
         dbConnection = DBConnection.getDBConnection();
         conn = dbConnection.getConnection();
-        
-        GestoreFinestre gestoreFinestre = new GestoreFinestre();
+
+        Controller controller = new Controller();
     }
 
-    public GestoreFinestre () {
+    public Controller() {
         apriLogin();
     }
     
-    public ArrayList<DettagliOrdineDTO> RecuperaOrdiniNonSpediti(){
+    public ArrayList<DettagliOrdineDTO> getOrdiniNonSpediti(){
         DettagliOrdineDAO dettagliOrdineDAO = new DettagliOrdineDAO();
         return dettagliOrdineDAO.getOrdiniNonSpediti(conn);
     }
     
-    public ArrayList<DettagliOrdineDTO> RecuperaOrdiniByUtente(String utente){
+    public ArrayList<DettagliOrdineDTO> getOrdiniByUtente(String utente){
         DettagliOrdineDAO dettagliOrdineDAO = new DettagliOrdineDAO();
         return dettagliOrdineDAO.getOrdiniByUtente(utente, conn);
     }
     
-    public ArrayList<DettagliOrdineDTO> RecuperaOrdiniByData(Date dataInizio, Date dataFine){
+    public ArrayList<DettagliOrdineDTO> getOrdiniByData(Date dataInizio, Date dataFine){
         DettagliOrdineDAO dettagliOrdineDAO = new DettagliOrdineDAO();
         return dettagliOrdineDAO.getOrdiniByData(dataInizio, dataFine, conn);
     }
     
-    public ArrayList<DettagliOrdineDTO> RecuperaOrdiniByUtenteAndData(String utente, Date DataInizio, Date DataFine){
+    public ArrayList<DettagliOrdineDTO> getOrdiniByUtenteAndData(String utente, Date DataInizio, Date DataFine){
         DettagliOrdineDAO dettagliOrdineDAO = new DettagliOrdineDAO();
         return dettagliOrdineDAO.getOrdiniByUtenteAndData(utente, DataInizio, DataFine, conn);
     }
     
-    public void EffettuaLogin(String Matricola, String Password, LoginForm parent){
-        OperatoreDTO operatoreDTO = new OperatoreDTO();
+    public void effettuaLogin(String Matricola, String Password, LoginForm parent){
+        OperatoreDTO operatoreDTO;
         try{
-            operatoreDTO = VerificaDatiInput(Matricola, Password, parent);
+            operatoreDTO = verificaDatiInput(Matricola, Password, parent);
             apriHome(operatoreDTO, parent);
         } catch(OperatoreNonTrovatoException e){
             System.out.println("operatore non valido: " + e);
@@ -73,7 +70,7 @@ public class GestoreFinestre {
         }
     }
 
-    public OperatoreDTO VerificaDatiInput(String Matricola, String Password, LoginForm parent) throws OperatoreNonTrovatoException {
+    public OperatoreDTO verificaDatiInput(String Matricola, String Password, LoginForm parent) throws OperatoreNonTrovatoException {
         try{
             OperatoreDAO operatoreDAO = new OperatoreDAO();
             int matricola = Integer.parseInt(Matricola);
@@ -95,18 +92,18 @@ public class GestoreFinestre {
         JOptionPane.showMessageDialog(parent, testo, titolo, JOptionPane.ERROR_MESSAGE);
     }
     
-    public void TornaLogin(JFrame parent){
+    public void tornaLogin(JFrame parent){
         parent.dispose();
         apriLogin();
     }
 
     public void apriLogin(){
-        loginForm = new LoginForm(null,this);
+        LoginForm loginForm = new LoginForm(null,this);
         loginForm.setVisible(true);
     }
     
     public void apriStatistica(OperatoreDTO operatoreLoggato){
-        StatisticaPage statisticaPage = new StatisticaPage(null, this, operatoreLoggato);
+        StatisticaPage statisticaPage = new StatisticaPage(null, this);
         statisticaPage.setVisible(true);
     }
 
@@ -120,9 +117,9 @@ public class GestoreFinestre {
         infoOrdinePage.setVisible(true);
     }
     
-    public void apriWizardCreazioneSpedizione(ArrayList<LocalDate> listaOrdiniDaSpedire){
-        LocalDate dataSpedizione = Collections.max(listaOrdiniDaSpedire);
-        WizardCreazioneSpedizione wizardCreazioneSpedizione = new WizardCreazioneSpedizione(null, this);
+    public void apriWizardCreazioneSpedizione(ArrayList<DettagliOrdineDTO> listaOrdiniDaSpedire){
+        LocalDate dataSpedizione = LocalDate.now();
+        WizardCreazioneSpedizione wizardCreazioneSpedizione = new WizardCreazioneSpedizione(null, this, listaOrdiniDaSpedire);
         wizardCreazioneSpedizione.setVisible(true);
     }
     

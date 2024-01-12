@@ -21,8 +21,7 @@ public class DBConnection {
         return dbcon;
     }
     
-    public Connection getConnection() throws Exception{
-
+    public Connection getConnection(){
         try{
             if (conn == null || conn.isClosed()) {
                 Class.forName("org.postgresql.Driver");
@@ -30,11 +29,10 @@ public class DBConnection {
                 conn = DriverManager.getConnection(url, "postgres", "24112003");
                 System.out.println("Connessione al database riuscita");
             }
-        }catch(ClassNotFoundException e){
+        } catch(ClassNotFoundException e) {
             System.out.println("DB driver non trovato");
             System.out.println(e);
-
-        }catch(SQLException e){
+        } catch(SQLException e) {
             System.out.println("Connessione al database fallita");
             System.out.println(e);
         }

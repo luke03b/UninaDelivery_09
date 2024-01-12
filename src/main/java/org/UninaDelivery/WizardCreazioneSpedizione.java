@@ -4,6 +4,7 @@ import org.UninaDelivery.Corriere.CorriereDTO;
 import org.UninaDelivery.Exception.NoCampiSelezionatiException;
 import org.UninaDelivery.Exception.TroppiCampiSelezionatiException;
 import org.UninaDelivery.MezzoTrasporto.MezzoTrasportoDTO;
+import org.UninaDelivery.Ordine.DettagliOrdineDTO;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -13,7 +14,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class WizardCreazioneSpedizione extends JDialog{
@@ -26,7 +26,7 @@ public class WizardCreazioneSpedizione extends JDialog{
     private JButton annullaButton;
     private JButton indietroButton2;
     private JTable tabellaCorrieri;
-    private JScrollPane panelContenenteJTable1;
+    private JScrollPane panelContenenteTableCorrieri;
     private JLabel iconaSceltaCorriere;
     private JLabel iconaMezzo;
     private JLabel iconaRiepilogo;
@@ -37,21 +37,24 @@ public class WizardCreazioneSpedizione extends JDialog{
     private JLabel iconaRiepilogo3;
     private JLabel iconaMezzo3;
     private JButton indietroButton3;
-    private JScrollPane panelContenenteJTable2;
+    private JScrollPane panelContenenteTableMezzi;
     private JButton confermaButton;
     private JTable tabellaMezzi;
+    private JTable riepilogoOrdiniTable;
     private JLabel matricolaLabel;
     private JLabel nomeLabel;
     private JLabel cognomeLabel;
     private JLabel targaLabel;
     private JLabel marcaLabel;
     private JLabel modelloLabel;
-    private GestoreFinestre gestoreFinestre;
+    private JScrollPane panelContenenteTableOrdini;
+    private Controller controller;
+    private ArrayList<DettagliOrdineDTO> listaOrdiniSelezionati;
     ImageIcon imageIcon = new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScritte.png");
     CardLayout cardLayout = (CardLayout) cards.getLayout();
     
-    public WizardCreazioneSpedizione(JFrame parent, GestoreFinestre gestoreFinestre){
-        setImpostazioniWizardPage(parent, gestoreFinestre);
+    public WizardCreazioneSpedizione(HomePage parent, Controller controller, ArrayList<DettagliOrdineDTO> listaOrdiniSelezionati){
+        setImpostazioniWizardPage(parent, controller, listaOrdiniSelezionati);
         setImpostazioniAnnullaButton();
         setImpostazioniAvantiButton();
         setImpostazioniIndietroButton();
@@ -60,15 +63,17 @@ public class WizardCreazioneSpedizione extends JDialog{
         setImpostazioniIcone();
         setImpostazioniTabellaCorrieri();
         setImpostazioniTabellaMezzi();
+        setImpostazioniTabellaRiepilogoOrdini();
 
-        Listeners();
+        listeners();
     }
     
-    private void setImpostazioniWizardPage(JFrame parent, GestoreFinestre gestoreFinestre){
+    private void setImpostazioniWizardPage(JFrame parent, Controller controller, ArrayList<DettagliOrdineDTO> listaOrdiniSelezionati){
+        this.listaOrdiniSelezionati = listaOrdiniSelezionati;
         setIconImage(imageIcon.getImage());
         setLayout(null);
         setResizable(true);
-        this.gestoreFinestre = gestoreFinestre;
+        this.controller = controller;
         setTitle("Creazione Spedizione");
         setContentPane(cards);
         setMinimumSize(new Dimension(800, 400));
@@ -81,8 +86,9 @@ public class WizardCreazioneSpedizione extends JDialog{
     }
 
     public void setImpostazioniVarie() {
-        panelContenenteJTable1.getViewport().setBackground(new Color(202, 192, 179));
-        panelContenenteJTable2.getViewport().setBackground(new Color(202, 192, 179));
+        panelContenenteTableCorrieri.getViewport().setBackground(new Color(202, 192, 179));
+        panelContenenteTableMezzi.getViewport().setBackground(new Color(202, 192, 179));
+        panelContenenteTableOrdini.getViewport().setBackground(new Color(202, 192, 179));
     }
 
     public void setImpostazioniIcone(){
@@ -150,14 +156,14 @@ public class WizardCreazioneSpedizione extends JDialog{
     }
     
     private void setImpostazioniTabellaCorrieri(){
-        ArrayList<CorriereDTO> listaCorrieriDisponibili = gestoreFinestre.recuperaCorrieriDisponibili();
+        ArrayList<CorriereDTO> listaCorrieriDisponibili = controller.recuperaCorrieriDisponibili();
         DefaultTableModel modelloTabella = getModelloTabellaCorrieri();
         setRigheTabellaCorrieri(modelloTabella, listaCorrieriDisponibili);
         
         tabellaCorrieri.setModel(modelloTabella);
         tabellaCorrieri.getTableHeader().setBackground(new Color(0, 18, 51));
         tabellaCorrieri.getTableHeader().setForeground(new Color (253, 253, 253));
-        gestoreFinestre.resizeColumnWidth(tabellaCorrieri);
+        controller.resizeColumnWidth(tabellaCorrieri);
         tabellaCorrieri.getTableHeader().setReorderingAllowed(false);
         tabellaCorrieri.getTableHeader().setResizingAllowed(false);
         
@@ -167,20 +173,36 @@ public class WizardCreazioneSpedizione extends JDialog{
     }
     
     private void setImpostazioniTabellaMezzi(){
-        ArrayList<MezzoTrasportoDTO> listaMezziDisponibili = gestoreFinestre.recuperaMezziDisponibili();
+        ArrayList<MezzoTrasportoDTO> listaMezziDisponibili = controller.recuperaMezziDisponibili();
         DefaultTableModel modelloTabella = getModelloTabellaMezzi();
         setRigheTabellaMezzi(modelloTabella, listaMezziDisponibili);
         
         tabellaMezzi.setModel(modelloTabella);
         tabellaMezzi.getTableHeader().setBackground(new Color(0, 18, 51));
         tabellaMezzi.getTableHeader().setForeground(new Color (253, 253, 253));
-        gestoreFinestre.resizeColumnWidth(tabellaMezzi);
+        controller.resizeColumnWidth(tabellaMezzi);
         tabellaMezzi.getTableHeader().setReorderingAllowed(false);
         tabellaMezzi.getTableHeader().setResizingAllowed(false);
         
         DefaultTableCellRenderer modelloCelle = new DefaultTableCellRenderer();
         modelloCelle.setHorizontalAlignment(SwingConstants.CENTER);
         tabellaMezzi.getColumnModel().getColumn(1).setCellRenderer(modelloCelle);
+    }
+
+    private void setImpostazioniTabellaRiepilogoOrdini(){
+        DefaultTableModel modelloTabella = getModelloTabellaOrdiniSelezionati();
+        setRigheTabellaOrdiniSelezionati(modelloTabella, listaOrdiniSelezionati);
+
+        riepilogoOrdiniTable.setModel(modelloTabella);
+        riepilogoOrdiniTable.getTableHeader().setBackground(new Color(0, 18, 51));
+        riepilogoOrdiniTable.getTableHeader().setForeground(new Color (253, 253, 253));
+        controller.resizeColumnWidth(riepilogoOrdiniTable);
+        riepilogoOrdiniTable.getTableHeader().setReorderingAllowed(false);
+        riepilogoOrdiniTable.getTableHeader().setResizingAllowed(false);
+
+        DefaultTableCellRenderer modelloCelle = new DefaultTableCellRenderer();
+        modelloCelle.setHorizontalAlignment(SwingConstants.CENTER);
+        riepilogoOrdiniTable.getColumnModel().getColumn(1).setCellRenderer(modelloCelle);
     }
     
     private static DefaultTableModel getModelloTabellaCorrieri() {
@@ -225,7 +247,23 @@ public class WizardCreazioneSpedizione extends JDialog{
         };
         return modelloTabella;
     }
-    
+
+    private static DefaultTableModel getModelloTabellaOrdiniSelezionati() {
+        Object[] nomiColonne = {"Numero Ordine", "Mittente", "Destinatario", "Indirizzo", "Peso (Kg)", "Grandezza"};
+        DefaultTableModel modelloTabella = new DefaultTableModel(new Object[][]{}, nomiColonne){
+            @Override
+            public Class getColumnClass(int column){
+                return switch (column) {
+                    case 0 -> int.class;
+                    case 1, 2, 3, 5 -> String.class;
+                    case 4 -> float.class;
+                    default -> null;
+                };
+            }
+        };
+        return modelloTabella;
+    }
+
     private void setRigheTabellaCorrieri(DefaultTableModel modelloTabella, ArrayList<CorriereDTO> listaCorrieriDisponibili){
         for (CorriereDTO corriereDTO : listaCorrieriDisponibili){
             modelloTabella.addRow(new Object[]{Boolean.FALSE, corriereDTO.getMatricola(), corriereDTO.getNome(), corriereDTO.getCognome()});
@@ -238,7 +276,14 @@ public class WizardCreazioneSpedizione extends JDialog{
         }
     }
 
-    private void Listeners(){
+    private void setRigheTabellaOrdiniSelezionati(DefaultTableModel modelloTabella, ArrayList<DettagliOrdineDTO> listaOrdini){
+        for(DettagliOrdineDTO ordineDTO : listaOrdini){
+            modelloTabella.addRow(new Object[]{ordineDTO.getNumeroOrdine(), ordineDTO.getMittente(), ordineDTO.getDestinatario(),
+                    ordineDTO.getIndirizzo(), ordineDTO.getPeso(), ordineDTO.getGrandezza()});
+        }
+    }
+
+    private void listeners(){
         avantiButton1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -303,12 +348,12 @@ public class WizardCreazioneSpedizione extends JDialog{
     private void isSelezioneValida(JTable tabella) throws NoCampiSelezionatiException, TroppiCampiSelezionatiException {
         switch (controllaQuanteFlagTabella(tabella)) {
             case 0:
-                throw new NoCampiSelezionatiException(this, gestoreFinestre);
+                throw new NoCampiSelezionatiException(this, controller);
             case 1:
                 cardLayout.next(cards);
                 break;
             default:
-                throw new TroppiCampiSelezionatiException(this, gestoreFinestre);
+                throw new TroppiCampiSelezionatiException(this, controller);
         }
     }
     

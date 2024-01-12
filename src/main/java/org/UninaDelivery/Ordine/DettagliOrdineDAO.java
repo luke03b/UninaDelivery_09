@@ -4,9 +4,8 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class DettagliOrdineDAO {
+    ArrayList<DettagliOrdineDTO> listaOrdini = new ArrayList<>();
     public ArrayList<DettagliOrdineDTO> getOrdiniNonSpediti(Connection conn){
-        ArrayList<DettagliOrdineDTO> listaOrdini = new ArrayList<DettagliOrdineDTO>();
-        
         try{
             PreparedStatement stmt = conn.prepareStatement(
                     "SELECT Ordine.NumeroOrdine, Ordine.DataOrdine, Cliente.Tipo, Cliente.Nome, Cliente.Cognome, " +
@@ -28,6 +27,9 @@ public class DettagliOrdineDAO {
                 creaOrdineDTO(ordineCorrente, rs);
                 listaOrdini.add(ordineCorrente);
             }
+
+            stmt.close();
+            rs.close();
             
         } catch (SQLException e) {
             System.out.println(e);
@@ -40,8 +42,6 @@ public class DettagliOrdineDAO {
     }
 
     public ArrayList<DettagliOrdineDTO> getOrdiniByUtenteAndData (String utente, Date dataInizio, Date dataFine, Connection conn) {
-        ArrayList<DettagliOrdineDTO> listaOrdini = new ArrayList<DettagliOrdineDTO>();
-
         try{
             PreparedStatement stmt = conn.prepareStatement(
                     "   SELECT O.NumeroOrdine, O.DataOrdine, Cl.Tipo, Cl.Nome, Cl.Cognome, Cl.NomeAzienda, I.Via, I.NumeroCivico, " +
@@ -57,10 +57,10 @@ public class DettagliOrdineDAO {
                             "AND O.dataOrdine BETWEEN ? AND ? " +
                             " ORDER BY O.DataOrdine ASC");
 
-            stmt.setString(1,utente);
-            stmt.setString(2,utente);
-            stmt.setDate(3,dataInizio);
-            stmt.setDate(4,dataFine);
+            stmt.setString(1, utente);
+            stmt.setString(2, utente);
+            stmt.setDate(3, dataInizio);
+            stmt.setDate(4, dataFine);
 
             ResultSet rs = stmt.executeQuery();
             while(rs.next()){
@@ -68,6 +68,9 @@ public class DettagliOrdineDAO {
                 creaOrdineDTO(ordineCorrente, rs);
                 listaOrdini.add(ordineCorrente);
             }
+
+            stmt.close();
+            rs.close();
 
         } catch (SQLException e) {
             System.out.println(e);
@@ -80,8 +83,6 @@ public class DettagliOrdineDAO {
     }
     
     public ArrayList<DettagliOrdineDTO> getOrdiniByUtente (String utente, Connection conn) {
-        ArrayList<DettagliOrdineDTO> listaOrdini = new ArrayList<DettagliOrdineDTO>();
-        
         try{
             PreparedStatement stmt = conn.prepareStatement(
                     "SELECT Ordine.NumeroOrdine, Ordine.DataOrdine, Cliente.Tipo, Cliente.Nome, Cliente.Cognome," +
@@ -97,8 +98,8 @@ public class DettagliOrdineDAO {
                             "WHERE Spedizione.Stato IS NULL AND (ordine.numeroTelefonoDT = ? OR ordine.numeroTelefonoMT = ?) " +
                             "ORDER BY Ordine.DataOrdine ASC");
             
-            stmt.setString(1,utente);
-            stmt.setString(2,utente);
+            stmt.setString(1, utente);
+            stmt.setString(2, utente);
             
             ResultSet rs = stmt.executeQuery();
             while(rs.next()){
@@ -106,7 +107,10 @@ public class DettagliOrdineDAO {
                 creaOrdineDTO(ordineCorrente, rs);
                 listaOrdini.add(ordineCorrente);
             }
-            
+
+            stmt.close();
+            rs.close();
+
         } catch (SQLException e) {
             System.out.println(e);
             throw new RuntimeException(e);
@@ -118,8 +122,6 @@ public class DettagliOrdineDAO {
     }
     
     public ArrayList<DettagliOrdineDTO> getOrdiniByData (Date dataInizio, Date dataFine, Connection conn) {
-        ArrayList<DettagliOrdineDTO> listaOrdini = new ArrayList<DettagliOrdineDTO>();
-        
         try{
             PreparedStatement stmt = conn.prepareStatement(
                     "SELECT Ordine.NumeroOrdine, Ordine.DataOrdine, Cliente.Tipo, Cliente.Nome, Cliente.Cognome," +
@@ -144,6 +146,9 @@ public class DettagliOrdineDAO {
                 creaOrdineDTO(ordineCorrente, rs);
                 listaOrdini.add(ordineCorrente);
             }
+
+            stmt.close();
+            rs.close();
             
         } catch (SQLException e) {
             System.out.println(e);

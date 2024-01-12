@@ -120,7 +120,7 @@
                 </properties>
                 <border type="none"/>
                 <children>
-                  <scrollpane id="6a707" binding="panelContenenteJTable1">
+                  <scrollpane id="6a707" binding="panelContenenteTableCorrieri">
                     <constraints>
                       <card name="Card1"/>
                     </constraints>
@@ -264,7 +264,7 @@
                 </properties>
                 <border type="none"/>
                 <children>
-                  <scrollpane id="5c49c" binding="panelContenenteJTable2">
+                  <scrollpane id="5c49c" binding="panelContenenteTableMezzi">
                     <constraints>
                       <card name="Card1"/>
                     </constraints>
@@ -301,7 +301,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <grid id="d3878" layout-manager="GridLayoutManager" row-count="4" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="d3878" layout-manager="GridLayoutManager" row-count="3" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <card name="Card1"/>
@@ -313,7 +313,7 @@
             <children>
               <component id="a8e8b" class="javax.swing.JButton" binding="confermaButton">
                 <constraints>
-                  <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <background color="-5789268"/>
@@ -387,7 +387,7 @@
                   </component>
                 </children>
               </grid>
-              <grid id="12951" layout-manager="GridLayoutManager" row-count="2" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+              <grid id="12951" layout-manager="GridLayoutManager" row-count="4" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
                   <grid row="1" column="0" row-span="1" col-span="3" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -397,83 +397,98 @@
                 </properties>
                 <border type="none"/>
                 <children>
-                  <component id="7fef9" class="javax.swing.JLabel" binding="matricolaLabel">
+                  <scrollpane id="16e67" binding="panelContenenteTableOrdini">
                     <constraints>
-                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="3" column="0" row-span="1" col-span="4" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
-                    <properties>
-                      <font name="JetBrains Mono Medium" size="14" style="1"/>
-                      <text value="Label"/>
-                    </properties>
-                  </component>
-                  <component id="912c8" class="javax.swing.JLabel" binding="targaLabel">
-                    <constraints>
-                      <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <font name="JetBrains Mono Medium" size="14" style="1"/>
-                      <text value="Label"/>
-                    </properties>
-                  </component>
-                  <component id="53948" class="javax.swing.JLabel">
-                    <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <font name="JetBrains Mono Medium" size="14" style="1"/>
-                      <text value="Corriere: "/>
-                    </properties>
-                  </component>
-                  <component id="c324f" class="javax.swing.JLabel">
-                    <constraints>
-                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <font name="JetBrains Mono Medium" size="14" style="1"/>
-                      <text value="Mezzo di trasporto: "/>
-                    </properties>
-                  </component>
-                  <component id="738d6" class="javax.swing.JLabel" binding="nomeLabel">
-                    <constraints>
-                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <font name="JetBrains Mono Medium" size="14" style="1"/>
-                      <text value="Label"/>
-                    </properties>
-                  </component>
-                  <component id="eeff0" class="javax.swing.JLabel" binding="marcaLabel">
-                    <constraints>
-                      <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <font name="JetBrains Mono Medium" size="14" style="1"/>
-                      <text value="Label"/>
-                    </properties>
-                  </component>
-                  <component id="6f465" class="javax.swing.JLabel" binding="cognomeLabel">
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="6c04f" class="javax.swing.JTable" binding="riepilogoOrdiniTable">
+                        <constraints/>
+                        <properties>
+                          <background color="-3489613"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </scrollpane>
+                  <component id="91a7" class="javax.swing.JLabel" binding="cognomeLabel">
                     <constraints>
                       <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <font name="JetBrains Mono Medium" size="14" style="1"/>
                       <text value="Label"/>
                     </properties>
                   </component>
-                  <component id="314b8" class="javax.swing.JLabel" binding="modelloLabel">
+                  <component id="f7189" class="javax.swing.JLabel" binding="modelloLabel">
                     <constraints>
                       <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <font name="JetBrains Mono Medium" size="14" style="1"/>
                       <text value="Label"/>
+                    </properties>
+                  </component>
+                  <component id="a643b" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Corriere:"/>
+                    </properties>
+                  </component>
+                  <component id="35fee" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Mezzo di Trasporto:"/>
+                    </properties>
+                  </component>
+                  <component id="8771f" class="javax.swing.JLabel" binding="matricolaLabel">
+                    <constraints>
+                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Label"/>
+                    </properties>
+                  </component>
+                  <component id="20667" class="javax.swing.JLabel" binding="targaLabel">
+                    <constraints>
+                      <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Label"/>
+                    </properties>
+                  </component>
+                  <component id="6c6a5" class="javax.swing.JLabel" binding="nomeLabel">
+                    <constraints>
+                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Label"/>
+                    </properties>
+                  </component>
+                  <component id="c713" class="javax.swing.JLabel" binding="marcaLabel">
+                    <constraints>
+                      <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Label"/>
+                    </properties>
+                  </component>
+                  <component id="3c8d2" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Ordini selezionati:"/>
                     </properties>
                   </component>
                 </children>
               </grid>
               <component id="faa61" class="javax.swing.JButton" binding="indietroButton3">
                 <constraints>
-                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <font name="JetBrains Mono Medium" size="16" style="1"/>
@@ -481,11 +496,6 @@
                   <text value="Indietro"/>
                 </properties>
               </component>
-              <vspacer id="10c43">
-                <constraints>
-                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-                </constraints>
-              </vspacer>
             </children>
           </grid>
         </children>

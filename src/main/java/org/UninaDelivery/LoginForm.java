@@ -9,35 +9,35 @@ import java.sql.SQLException;
 
 public class LoginForm extends JFrame {
 
-    private JTextField TextLoginMatricola;
-    private JPasswordField TextLoginPassword;
+    private JTextField textLoginMatricola;
+    private JPasswordField textLoginPassword;
     private JButton loginButton;
     private JButton resetButton;
     private JPanel loginPanel;
     private JLabel imageUnina;
-    private JButton ButtonMostraPassword;
+    private JButton mostraPasswordButton;
     private JLabel imageLogo;
     private Boolean isPasswordVisibile = false;
-    private GestoreFinestre gestoreFinestre;
+    private Controller controller;
     ImageIcon imageIcon = new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScritte.png");
     
-    public LoginForm(JFrame parent, GestoreFinestre gestoreFinestre) {
+    public LoginForm(JFrame parent, Controller controller) {
         
-        setImpostazioniLoginForm(parent, gestoreFinestre);
+        setImpostazioniLoginForm(parent, controller);
         setImpostazioniButtonMostraPassword();
         setImpostazioniLoginButton();
         setImpostazioniResetButton();
         setImpostazioniVarie();
 
 
-        Listeners();
+        listeners();
     }
 
-    private void setImpostazioniLoginForm(JFrame parent, GestoreFinestre gestoreFinestre){
+    private void setImpostazioniLoginForm(JFrame parent, Controller controller){
         setIconImage(imageIcon.getImage());
         setLayout(null);
         setResizable(false);
-        this.gestoreFinestre = gestoreFinestre;
+        this.controller = controller;
         setTitle("Login");
         setContentPane(loginPanel);
         setMinimumSize(new Dimension(540, 320));
@@ -46,12 +46,13 @@ public class LoginForm extends JFrame {
     }
     
     private void setImpostazioniButtonMostraPassword(){
-        ButtonMostraPassword.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/hide.png"));
-        ButtonMostraPassword.setMargin(new Insets(0, 0, 0, 0));
-        ButtonMostraPassword.setOpaque(false);
-        ButtonMostraPassword.setBorderPainted(false);
-        ButtonMostraPassword.setBorder(null);
-        ButtonMostraPassword.setContentAreaFilled(false);
+        mostraPasswordButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/hide.png"));
+        mostraPasswordButton.setMargin(new Insets(0, 0, 0, 0));
+        mostraPasswordButton.setOpaque(false);
+        mostraPasswordButton.setBorderPainted(false);
+        mostraPasswordButton.setBorder(null);
+        mostraPasswordButton.setContentAreaFilled(false);
+        mostraPasswordButton.setFocusable(false);
     }
     
     private void setImpostazioniLoginButton(){
@@ -73,12 +74,12 @@ public class LoginForm extends JFrame {
     private void setImpostazioniVarie(){
         imageLogo.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/LogoConScritta.png"));
         imageUnina.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoFedericoII.png"));
-        TextLoginMatricola.setBorder(BorderFactory.createMatteBorder(0,2,0,0,Color.WHITE));
-        TextLoginPassword.setBorder(BorderFactory.createMatteBorder(0,2,0,0,Color.WHITE));
+        textLoginMatricola.setBorder(BorderFactory.createMatteBorder(0,2,0,0,Color.WHITE));
+        textLoginPassword.setBorder(BorderFactory.createMatteBorder(0,2,0,0,Color.WHITE));
     }
 
     
-    public void Listeners(){
+    public void listeners(){
         loginButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -99,39 +100,39 @@ public class LoginForm extends JFrame {
             }
         });
         
-        ButtonMostraPassword.addActionListener(new ActionListener() {
+        mostraPasswordButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!isPasswordVisibile) {
                     isPasswordVisibile = true;
-                    ButtonMostraPassword.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/visible.png"));
-                    TextLoginPassword.setEchoChar((char)0);
+                    mostraPasswordButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/visible.png"));
+                    textLoginPassword.setEchoChar((char)0);
                 } else {
                     isPasswordVisibile = false;
-                    ButtonMostraPassword.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/hide.png"));
-                    TextLoginPassword.setEchoChar('•');
+                    mostraPasswordButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/hide.png"));
+                    textLoginPassword.setEchoChar('•');
                 }
             }
         });
         
-        ButtonMostraPassword.addMouseListener(new MouseAdapter() {
+        mostraPasswordButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
                 if (!isPasswordVisibile){
-                    ButtonMostraPassword.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/visible.png"));
+                    mostraPasswordButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/visible.png"));
                 } else {
-                    ButtonMostraPassword.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/hide.png"));
+                    mostraPasswordButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/hide.png"));
                 }
             }
         });
         
-        ButtonMostraPassword.addMouseListener(new MouseAdapter() {
+        mostraPasswordButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseExited(MouseEvent e) {
                 if (!isPasswordVisibile){
-                    ButtonMostraPassword.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/hide.png"));
+                    mostraPasswordButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/hide.png"));
                 } else {
-                    ButtonMostraPassword.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/visible.png"));
+                    mostraPasswordButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/visible.png"));
                 }
             }
         });
@@ -139,8 +140,8 @@ public class LoginForm extends JFrame {
         resetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                TextLoginMatricola.setText("");
-                TextLoginPassword.setText("");
+                textLoginMatricola.setText("");
+                textLoginPassword.setText("");
             }
         });
         
@@ -155,7 +156,7 @@ public class LoginForm extends JFrame {
             }
         });
         
-        TextLoginMatricola.addKeyListener(new KeyAdapter() {
+        textLoginMatricola.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
                 char lettera = e.getKeyChar();
@@ -164,7 +165,7 @@ public class LoginForm extends JFrame {
                 }
             }
         });
-        TextLoginPassword.addKeyListener(new KeyAdapter() {
+        textLoginPassword.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -175,12 +176,12 @@ public class LoginForm extends JFrame {
                     }
                 }
                 if(e.getKeyCode() == KeyEvent.VK_UP){
-                    TextLoginMatricola.grabFocus();
+                    textLoginMatricola.grabFocus();
                 }
             }
         });
         
-        TextLoginMatricola.addKeyListener(new KeyAdapter() {
+        textLoginMatricola.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -191,20 +192,7 @@ public class LoginForm extends JFrame {
                     }
                 }
                 if(e.getKeyCode() == KeyEvent.VK_DOWN){
-                    TextLoginPassword.grabFocus();
-                }
-            }
-        });
-        
-        ButtonMostraPassword.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e){
-                if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    try {
-                        ControllaLogin();
-                    } catch (CampiVuotiException ex) {
-                        System.out.println("campi vuoti: " + ex);
-                    }
+                    textLoginPassword.grabFocus();
                 }
             }
         });
@@ -213,7 +201,7 @@ public class LoginForm extends JFrame {
             @Override
             public void windowClosing(WindowEvent e) {
                 try {
-                    gestoreFinestre.chiudiConnessioneDB();
+                    controller.chiudiConnessioneDB();
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -222,14 +210,14 @@ public class LoginForm extends JFrame {
     }
     
     public void ControllaLogin() throws CampiVuotiException {
-        String Matricola = TextLoginMatricola.getText();
-        String Password = new String(TextLoginPassword.getPassword());
+        String Matricola = textLoginMatricola.getText();
+        String Password = new String(textLoginPassword.getPassword());
         
         
         if (Matricola.isEmpty() || Password.isEmpty())
-            throw new CampiVuotiException(this, gestoreFinestre);
+            throw new CampiVuotiException(this, controller);
         
-        gestoreFinestre.EffettuaLogin(Matricola, Password, LoginForm.this);
+        controller.effettuaLogin(Matricola, Password, LoginForm.this);
         
     }
 }

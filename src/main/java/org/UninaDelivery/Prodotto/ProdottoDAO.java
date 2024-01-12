@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class ProdottoDAO {
     public ArrayList<ProdottoDTO> getProdottiDaOrdine(int numeroOrdine, Connection conn){
-        ArrayList<ProdottoDTO> listaProdotti = new ArrayList<ProdottoDTO>();
+        ArrayList<ProdottoDTO> listaProdotti = new ArrayList<>();
         
         try{
             PreparedStatement stmt = conn.prepareStatement(
@@ -26,7 +26,10 @@ public class ProdottoDAO {
                 creaProdottoDTO(prodottoCorrente, rs);
                 listaProdotti.add(prodottoCorrente);
             }
-            
+
+            stmt.close();
+            rs.close();
+
         } catch (SQLException e) {
             System.out.println(e);
             throw new RuntimeException(e);

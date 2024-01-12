@@ -5,18 +5,17 @@ import java.sql.*;
 
 public class OperatoreDAO {
     public void ControllaLoginOperatore(int MatricolaInput, String PasswordInput, Connection conn) throws OperatoreNonTrovatoException {
-        
         int count = 0;
-        OperatoreDTO operatoreDTO = new OperatoreDTO();
         try {
-            PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(matricola) FROM operatore WHERE matricola = ? AND passwordop = ?");
+            PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(matricola) " +
+                    "FROM operatore " +
+                    "WHERE matricola = ? AND passwordop = ?");
             stmt.setInt(1, MatricolaInput);
             stmt.setString(2, PasswordInput);
             
             ResultSet rs = stmt.executeQuery();
-            if (rs.next()){
+            if (rs.next())
                 count = rs.getInt(1);
-            }
             
             stmt.close();
             rs.close();
@@ -34,12 +33,17 @@ public class OperatoreDAO {
     public OperatoreDTO getOperatoreByMatricola(int matricola, Connection conn){
         OperatoreDTO operatoreDTO = new OperatoreDTO();
         try{
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Operatore WHERE Matricola = ?");
+            PreparedStatement stmt = conn.prepareStatement("SELECT * " +
+                    "FROM Operatore " +
+                    "WHERE Matricola = ?");
             stmt.setInt(1, matricola);
             ResultSet rs = stmt.executeQuery();
-            if (rs.next()){
+
+            if (rs.next())
                 AggiungiOperatoreDTO(operatoreDTO, rs);
-            }
+
+            stmt.close();
+            rs.close();
         } catch(SQLException e) {
             System.out.println(e);
         }
