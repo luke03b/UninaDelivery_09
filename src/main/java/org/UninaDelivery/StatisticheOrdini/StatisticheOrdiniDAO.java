@@ -22,10 +22,10 @@ public class StatisticheOrdiniDAO {
 
     private void getNumeroMedioOrdiniMensili(int mese, StatisticheOrdineDTO statisticheOrdineDTO, Connection conn) throws SQLException{
         PreparedStatement stmt = conn.prepareStatement("SELECT AVG(NumOrdiniMese.NumeroOrdini) " +
-                "FROM (SELECT COUNT(O.NumeroOrdine) AS NumeroOrdini, date_part('MONTH', O.DataOrdine) AS Mese " +
-                "FROM Ordine AS O " +
-                "GROUP BY (date_part('MONTH', O.DataOrdine))) AS NumOrdiniMese " +
-                "WHERE Mese = ? " +
+                "  FROM (SELECT COUNT(O.NumeroOrdine) AS NumeroOrdini, date_part('MONTH', O.DataOrdine) AS Mese " +
+                "          FROM Ordine AS O " +
+                "      GROUP BY (date_part('YEAR', O.DataOrdine), date_part('MONTH', O.DataOrdine))) AS NumOrdiniMese " +
+                "   WHERE Mese = ? " +
                 "GROUP BY Mese");
         stmt.setInt(1, mese);
         ResultSet rs = stmt.executeQuery();
