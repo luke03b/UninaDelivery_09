@@ -38,6 +38,7 @@ public class HomePage extends JFrame{
     private JButton aggiornaButton;
     private JButton dettagliOrdineButton;
     private JLabel dataInizioLabel;
+    private JButton resetButton;
     private Controller controller;
     private OperatoreDTO operatoreLoggato;
 
@@ -165,7 +166,8 @@ public class HomePage extends JFrame{
     }
 
     public void setImpostazioniToolBar() {
-
+        
+        resetButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/delete.png"));
         aggiornaButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/refresh.png"));
 
         toolBar.add(pickerDataInizio);
@@ -208,7 +210,7 @@ public class HomePage extends JFrame{
         statisticaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.apriStatistica(operatoreLoggato);
+                controller.apriStatistica();
             }
         });
 
@@ -251,8 +253,24 @@ public class HomePage extends JFrame{
                 }
             }
         });
+        
+        resetButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resettaFiltri();
+            }
+        });
+        
     }
-
+    
+    private void resettaFiltri() {
+        filtroUtenti.setSelectedIndex(0);
+        pickerDataInizio.getJFormattedTextField().setText("");
+        datePanelDataInizio.getModel().setSelected(false);
+        pickerDataFine.getJFormattedTextField().setText("");
+        datePanelDataFine.getModel().setSelected(false);
+    }
+    
     private void isSelezioneValida() throws NoCampiSelezionatiException, TroppiCampiSelezionatiException {
         switch (controllaQuanteFlagTabella()) {
             case 0:

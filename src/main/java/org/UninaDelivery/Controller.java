@@ -105,7 +105,7 @@ public class Controller {
         loginForm.setVisible(true);
     }
     
-    public void apriStatistica(OperatoreDTO operatoreLoggato){
+    public void apriStatistica(){
         StatisticaPage statisticaPage = new StatisticaPage(null, this);
         statisticaPage.setVisible(true);
     }

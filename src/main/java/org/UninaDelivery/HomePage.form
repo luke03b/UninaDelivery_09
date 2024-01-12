@@ -244,6 +244,13 @@
             </properties>
             <border type="none"/>
             <children>
+              <component id="bf97c" class="javax.swing.JButton" binding="resetButton" default-binding="true">
+                <constraints/>
+                <properties>
+                  <text value="Reset"/>
+                  <toolTipText value="Svuota i filtri"/>
+                </properties>
+              </component>
               <component id="70e1b" class="javax.swing.JButton" binding="aggiornaButton">
                 <constraints/>
                 <properties>
@@ -255,6 +262,7 @@
                 <constraints/>
                 <properties>
                   <font name="JetBrains Mono Medium" size="14" style="2"/>
+                  <model/>
                   <toolTipText value="Filtra per utente"/>
                 </properties>
               </component>

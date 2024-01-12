@@ -15,8 +15,10 @@ public class CorriereDAO {
                     "FROM Corriere AS Cr) " +
                     "EXCEPT " +
                     "(SELECT Cr.* " +
-                    "FROM MezziInUso AS MIU NATURAL JOIN Corriere AS Cr " +
+                    "FROM MezziInUso AS MIU JOIN Corriere AS Cr " +
+                    "ON MIU.MatricolaCorriere = Cr.Matricola " +
                     "WHERE MIU.DataUtilizzo = CURRENT_DATE + 3))");
+            
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 CorriereDTO CorriereCorrente= new CorriereDTO();
