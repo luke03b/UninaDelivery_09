@@ -42,7 +42,7 @@ public class StatisticheOrdiniDAO {
                 "WHERE date_part('MONTH', O2.DataOrdine) = ? " +
                 "GROUP BY (date_part('MONTH', O2.DataOrdine), O2.NumeroOrdine) " +
                 "HAVING (SUM(PV2.Quantita) = (SELECT MAX(NumProdottiInOrdine.NumProdotti) " +
-                "FROM\t(SELECT SUM(PV.Quantita) AS NumProdotti, date_part('MONTH', O.DataOrdine) AS Mese " +
+                "FROM (SELECT SUM(PV.Quantita) AS NumProdotti, date_part('MONTH', O.DataOrdine) AS Mese " +
                 "FROM Ordine AS O NATURAL JOIN ProdottiVenduti AS PV " +
                 "GROUP BY (date_part('MONTH', O.DataOrdine), O.NumeroOrdine)) AS NumProdottiInOrdine " +
                 "WHERE Mese = ? " +

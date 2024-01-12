@@ -89,7 +89,7 @@ public class HomePage extends JFrame{
         ordiniTable.getTableHeader().setReorderingAllowed(false);
         ordiniTable.getTableHeader().setResizingAllowed(false);
         
-        aggiornaTabella(listaOrdini);
+        aggiungiElementiATabella(listaOrdini);
         
         DefaultTableCellRenderer modelloCelle = new DefaultTableCellRenderer();
         modelloCelle.setHorizontalAlignment(SwingConstants.CENTER);
@@ -222,16 +222,7 @@ public class HomePage extends JFrame{
         aggiornaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                java.util.Date dataInizio = (java.util.Date) pickerDataInizio.getModel().getValue();
-                java.util.Date dataFine = (java.util.Date) pickerDataFine.getModel().getValue();
-                String utenteSelezionato = filtroUtenti.getSelectedItem().toString();
-                utenteSelezionato = utenteSelezionato.replaceAll("[^0-9]", "");
-
-                try {
-                    applicaFiltro(utenteSelezionato, dataInizio, dataFine);
-                } catch (FiltroNonValidoException exception) {
-                    System.out.println("Filtro non valido: " + exception);
-                }
+                aggiornaTabella();
             }
         });
 
@@ -254,7 +245,7 @@ public class HomePage extends JFrame{
                 try{
                     if(controllaQuanteFlagTabella() == 0)
                         throw new NoCampiSelezionatiException(HomePage.this, controller);
-                    controller.apriWizardCreazioneSpedizione(getOrdiniSelezionatiDaTabella());
+                    controller.apriWizardCreazioneSpedizione(HomePage.this, getOrdiniSelezionatiDaTabella(), operatoreLoggato.getMatricola());
                 } catch (NoCampiSelezionatiException exception){
                     System.out.println("Nessuna checkBox selezionata: " + exception);
                 }
@@ -273,11 +264,24 @@ public class HomePage extends JFrame{
                 throw new TroppiCampiSelezionatiException(this, controller);
         }
     }
+    
+    public void aggiornaTabella(){
+        java.util.Date dataInizio = (java.util.Date) pickerDataInizio.getModel().getValue();
+        java.util.Date dataFine = (java.util.Date) pickerDataFine.getModel().getValue();
+        String utenteSelezionato = filtroUtenti.getSelectedItem().toString();
+        utenteSelezionato = utenteSelezionato.replaceAll("[^0-9]", "");
+        
+        try {
+            applicaFiltro(utenteSelezionato, dataInizio, dataFine);
+        } catch (FiltroNonValidoException exception) {
+            System.out.println("Filtro non valido: " + exception);
+        }
+    }
 
     private void applicaFiltro(String utenteSelezionato, java.util.Date dataInizio, java.util.Date dataFine) throws FiltroNonValidoException {
         if (!utenteSelezionato.isEmpty() && dataInizio != null && dataFine != null) {
             ArrayList<DettagliOrdineDTO> listaOrdini = controller.getOrdiniByUtenteAndData(utenteSelezionato, new java.sql.Date(dataInizio.getTime()), new java.sql.Date(dataFine.getTime()));
-            aggiornaTabella(listaOrdini);
+            aggiungiElementiATabella(listaOrdini);
             return;
         }
         if (dataInizio == null ^ dataFine == null) {
@@ -285,19 +289,19 @@ public class HomePage extends JFrame{
         }
         if (!utenteSelezionato.isEmpty()) {
             ArrayList<DettagliOrdineDTO> listaOrdini = controller.getOrdiniByUtente(utenteSelezionato);
-            aggiornaTabella(listaOrdini);
+            aggiungiElementiATabella(listaOrdini);
             return;
         }
         if(dataInizio != null && dataFine != null) {
             ArrayList<DettagliOrdineDTO> listaOrdini = controller.getOrdiniByData(new java.sql.Date(dataInizio.getTime()), new java.sql.Date(dataFine.getTime()));
-            aggiornaTabella(listaOrdini);
+            aggiungiElementiATabella(listaOrdini);
             return;
         }
         ArrayList<DettagliOrdineDTO> listaOrdini = controller.getOrdiniNonSpediti();
-        aggiornaTabella(listaOrdini);
+        aggiungiElementiATabella(listaOrdini);
     }
 
-    private void aggiornaTabella(ArrayList<DettagliOrdineDTO> listaAggiornata){
+    private void aggiungiElementiATabella(ArrayList<DettagliOrdineDTO> listaAggiornata){
         DefaultTableModel model = (DefaultTableModel) ordiniTable.getModel();
         model.setRowCount(0);
         

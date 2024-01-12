@@ -4,6 +4,7 @@ import org.UninaDelivery.Cliente.ClienteDTO;
 import org.UninaDelivery.Corriere.CorriereDAO;
 import org.UninaDelivery.Corriere.CorriereDTO;
 import org.UninaDelivery.Exception.OperatoreNonTrovatoException;
+import org.UninaDelivery.Exception.SpedizioniNonEffettuateException;
 import org.UninaDelivery.MezzoTrasporto.MezzoTrasportoDAO;
 import org.UninaDelivery.MezzoTrasporto.MezzoTrasportoDTO;
 import org.UninaDelivery.Operatore.OperatoreDAO;
@@ -12,6 +13,7 @@ import org.UninaDelivery.Ordine.DettagliOrdineDTO;
 import org.UninaDelivery.Ordine.DettagliOrdineDAO;
 import org.UninaDelivery.Prodotto.ProdottoDAO;
 import org.UninaDelivery.Prodotto.ProdottoDTO;
+import org.UninaDelivery.Spedizione.SpedizioneDAO;
 import org.UninaDelivery.StatisticheOrdini.StatisticheOrdineDTO;
 import org.UninaDelivery.StatisticheOrdini.StatisticheOrdiniDAO;
 
@@ -117,9 +119,8 @@ public class Controller {
         infoOrdinePage.setVisible(true);
     }
     
-    public void apriWizardCreazioneSpedizione(ArrayList<DettagliOrdineDTO> listaOrdiniDaSpedire){
-        LocalDate dataSpedizione = LocalDate.now();
-        WizardCreazioneSpedizione wizardCreazioneSpedizione = new WizardCreazioneSpedizione(null, this, listaOrdiniDaSpedire);
+    public void apriWizardCreazioneSpedizione(HomePage parent, ArrayList<DettagliOrdineDTO> listaOrdiniDaSpedire, int matricolaOperatoreLoggato){
+        WizardCreazioneSpedizione wizardCreazioneSpedizione = new WizardCreazioneSpedizione(parent, this, listaOrdiniDaSpedire, matricolaOperatoreLoggato);
         wizardCreazioneSpedizione.setVisible(true);
     }
     
@@ -150,6 +151,21 @@ public class Controller {
     public ArrayList<CorriereDTO> recuperaCorrieriDisponibili(){
         CorriereDAO corriereDAO = new CorriereDAO();
         return corriereDAO.getCorrieriDisponibili(conn);
+    }
+    
+    public void creaSpedizioneDaOrdini(Component chiamante, ArrayList<Object> dettagliSpedizione){
+        SpedizioneDAO spedizioneDAO = new SpedizioneDAO();
+        try {
+            if (spedizioneDAO.creaSpedizione(dettagliSpedizione, conn, this))
+                JOptionPane.showMessageDialog(chiamante, "Tutte le spedizioni sono state effettuate con successo",
+                        "Avviso", JOptionPane.INFORMATION_MESSAGE);
+        } catch (SpedizioniNonEffettuateException e) {
+            System.out.println("Spedizioni non effettuate " + e);
+        }
+    }
+    
+    public void aggiornaTabellaHome(HomePage parent){
+        parent.aggiornaTabella();
     }
     
     public void resizeColumnWidth(JTable table) {

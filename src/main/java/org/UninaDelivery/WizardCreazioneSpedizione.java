@@ -52,9 +52,11 @@ public class WizardCreazioneSpedizione extends JDialog{
     private ArrayList<DettagliOrdineDTO> listaOrdiniSelezionati;
     ImageIcon imageIcon = new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScritte.png");
     CardLayout cardLayout = (CardLayout) cards.getLayout();
+    int matricolaOperatoreLoggato;
+    private HomePage parent;
     
-    public WizardCreazioneSpedizione(HomePage parent, Controller controller, ArrayList<DettagliOrdineDTO> listaOrdiniSelezionati){
-        setImpostazioniWizardPage(parent, controller, listaOrdiniSelezionati);
+    public WizardCreazioneSpedizione(HomePage parent, Controller controller, ArrayList<DettagliOrdineDTO> listaOrdiniSelezionati, int matricolaOperatoreLoggato){
+        setImpostazioniWizardPage(parent, controller, listaOrdiniSelezionati, matricolaOperatoreLoggato);
         setImpostazioniAnnullaButton();
         setImpostazioniAvantiButton();
         setImpostazioniIndietroButton();
@@ -66,14 +68,17 @@ public class WizardCreazioneSpedizione extends JDialog{
         setImpostazioniTabellaRiepilogoOrdini();
 
         listeners();
+        
     }
     
-    private void setImpostazioniWizardPage(JFrame parent, Controller controller, ArrayList<DettagliOrdineDTO> listaOrdiniSelezionati){
+    private void setImpostazioniWizardPage(HomePage parent, Controller controller, ArrayList<DettagliOrdineDTO> listaOrdiniSelezionati, int matricolaOperatoreLoggato){
         this.listaOrdiniSelezionati = listaOrdiniSelezionati;
+        this.matricolaOperatoreLoggato = matricolaOperatoreLoggato;
         setIconImage(imageIcon.getImage());
         setLayout(null);
         setResizable(true);
         this.controller = controller;
+        this.parent = parent;
         setTitle("Creazione Spedizione");
         setContentPane(cards);
         setMinimumSize(new Dimension(800, 400));
@@ -326,6 +331,15 @@ public class WizardCreazioneSpedizione extends JDialog{
             @Override
             public void actionPerformed(ActionEvent e) {cardLayout.previous(cards); }
         });
+        confermaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ArrayList<Object> dettagliSpedizione = creaDettagliSpedizione();
+                controller.creaSpedizioneDaOrdini(WizardCreazioneSpedizione.this, dettagliSpedizione);
+                controller.aggiornaTabellaHome(parent);
+                dispose();
+            }
+        });
         
         addWindowListener(new WindowAdapter()
         {
@@ -334,6 +348,26 @@ public class WizardCreazioneSpedizione extends JDialog{
                 confermaChiusura();
             }
         });
+        
+    }
+    
+    private ArrayList<Object> creaDettagliSpedizione(){
+        ArrayList<Object> dettagliSpedizione = new ArrayList<>();
+        dettagliSpedizione.add(0, matricolaOperatoreLoggato);
+        dettagliSpedizione.add(1, Integer.parseInt(matricolaLabel.getText()));
+        dettagliSpedizione.add(2, targaLabel.getText());
+        dettagliSpedizione.add(3, creaListaOrdiniSelezionati());
+        return dettagliSpedizione;
+    }
+    
+    private int[] creaListaOrdiniSelezionati(){
+        int[] listaCodiciOrdini = new int[listaOrdiniSelezionati.size()];
+        int i = 0;
+        for (DettagliOrdineDTO dettagliOrdineDTO : listaOrdiniSelezionati){
+            listaCodiciOrdini[i] = dettagliOrdineDTO.getNumeroOrdine();
+            i++;
+        }
+        return listaCodiciOrdini;
     }
     
     private int controllaQuanteFlagTabella(JTable tabella){
