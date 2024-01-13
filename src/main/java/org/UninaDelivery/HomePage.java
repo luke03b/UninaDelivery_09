@@ -44,6 +44,7 @@ public class HomePage extends JFrame{
     private JButton dettagliOrdineButton;
     private JLabel dataInizioLabel;
     private JButton resetButton;
+    private JButton selezionaTuttoButton;
     private ControlloreFinestre controlloreFinestre;
     private ControlloreDAO controlloreDAO;
     private OperatoreDTO operatoreLoggato;
@@ -152,6 +153,8 @@ public class HomePage extends JFrame{
         creaSpedizioneButton.setFocusable(false);
         aggiornaButton.setFocusable(false);
         creaSpedizioneButton.setOpaque(true);
+        selezionaTuttoButton.setFocusable(false);
+        resetButton.setFocusable(false);
     }
     
     private void setImpostazioniUserInformationButton(){
@@ -176,6 +179,7 @@ public class HomePage extends JFrame{
         
         resetButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/delete.png"));
         aggiornaButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/refresh.png"));
+        selezionaTuttoButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/selezionaTutto.png"));
 
         toolBar.add(pickerDataInizio);
 
@@ -189,13 +193,19 @@ public class HomePage extends JFrame{
         toolBar.add(aggiornaButton);
 
         pickerDataInizio.setToolTipText("Data dalla quale si inizierà a cercare");
+        pickerDataInizio.setPreferredSize(new Dimension(100, 23));
+        pickerDataInizio.setMinimumSize(new Dimension(100, 23));
         pickerDataFine.setToolTipText("Data dalla quale si finirà di cercare");
+        pickerDataFine.setPreferredSize(new Dimension(100, 23));
+        pickerDataFine.setMinimumSize(new Dimension(100, 23));
 
         ArrayList<ClienteDTO> listaClienti = controlloreDAO.recuperaClienti();
         filtroUtenti.addItem("<Filtra Utente>");
         for (ClienteDTO clienteDTO : listaClienti) {
             filtroUtenti.addItem(clienteDTO.getNominativo() + " " + clienteDTO.getNumeroTelefono());
         }
+        filtroUtenti.setPreferredSize(new Dimension(400, 30));
+        filtroUtenti.setMinimumSize(new Dimension(400, 30));
         AutoCompleteDecorator.decorate(filtroUtenti);
         ((JLabel)filtroUtenti.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
         toolBar.setFloatable(false);
@@ -279,8 +289,21 @@ public class HomePage extends JFrame{
                 }
             }
         });
+
+        selezionaTuttoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                selezionaTutteCelleTabella();
+            }
+        });
     }
-    
+
+    public void selezionaTutteCelleTabella(){
+        for (int riga = 0; riga < ordiniTable.getRowCount(); riga++){
+            ordiniTable.setValueAt(true, riga, 0);
+        }
+    }
+
     private void resettaFiltri() {
         filtroUtenti.setSelectedIndex(0);
         pickerDataInizio.getJFormattedTextField().setText("");
@@ -351,8 +374,8 @@ public class HomePage extends JFrame{
     
     private int controllaQuanteFlagTabella(){
         int numeroFlag = 0;
-        for (int i = 0; i < ordiniTable.getRowCount(); i++){
-            if (isCellaSelezionata(i))
+        for (int riga = 0; riga < ordiniTable.getRowCount(); riga++){
+            if (isCellaSelezionata(riga))
                 numeroFlag++;
         }
         return numeroFlag;

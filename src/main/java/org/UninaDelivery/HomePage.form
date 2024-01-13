@@ -251,6 +251,13 @@
                   <toolTipText value="Svuota i filtri"/>
                 </properties>
               </component>
+              <component id="20f1" class="javax.swing.JButton" binding="selezionaTuttoButton">
+                <constraints/>
+                <properties>
+                  <text value="Seleziona Tutto"/>
+                  <toolTipText value="Seleziona tutte le celle della tabella"/>
+                </properties>
+              </component>
               <component id="70e1b" class="javax.swing.JButton" binding="aggiornaButton">
                 <constraints/>
                 <properties>
