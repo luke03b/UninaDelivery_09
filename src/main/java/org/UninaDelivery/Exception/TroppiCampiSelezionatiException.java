@@ -1,11 +1,12 @@
 package org.UninaDelivery.Exception;
 
-import org.UninaDelivery.Controller;
+import org.UninaDelivery.Controllori.ControlloreFinestre;
+import org.UninaDelivery.Starter;
 
 import java.awt.*;
 
 public class TroppiCampiSelezionatiException extends Exception{
-    public TroppiCampiSelezionatiException(Component chiamante, Controller controller){
-        controller.mostraMessageDialog(chiamante, "Puoi selezionare solo una casella", "Attenzione");
+    public TroppiCampiSelezionatiException(Component chiamante, ControlloreFinestre controlloreFinestre){
+        controlloreFinestre.mostraMessageDialog(chiamante, "Puoi selezionare solo una casella", "Attenzione");
     }
 }

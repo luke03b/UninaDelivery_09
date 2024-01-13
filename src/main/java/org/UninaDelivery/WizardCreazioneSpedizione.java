@@ -1,6 +1,10 @@
 package org.UninaDelivery;
 
+import org.UninaDelivery.Controllori.ControlloreDAO;
+import org.UninaDelivery.Controllori.ControlloreFinestre;
 import org.UninaDelivery.Corriere.CorriereDTO;
+import org.UninaDelivery.Exception.AlcuneSpedizioniNonEffettuateException;
+import org.UninaDelivery.Exception.NessunaSpedizioneEffettuataException;
 import org.UninaDelivery.Exception.NoCampiSelezionatiException;
 import org.UninaDelivery.Exception.TroppiCampiSelezionatiException;
 import org.UninaDelivery.MezzoTrasporto.MezzoTrasportoDTO;
@@ -49,15 +53,16 @@ public class WizardCreazioneSpedizione extends JDialog{
     private JLabel modelloLabel;
     private JScrollPane panelContenenteTableOrdini;
     private JProgressBar pesoMezzoProgressBar;
-    private Controller controller;
+    private ControlloreFinestre controlloreFinestre;
+    private ControlloreDAO controlloreDAO;
     private ArrayList<DettagliOrdineDTO> listaOrdiniSelezionati;
     ImageIcon imageIcon = new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScritte.png");
     CardLayout cardLayout = (CardLayout) cards.getLayout();
     int matricolaOperatoreLoggato;
     private HomePage parent;
     
-    public WizardCreazioneSpedizione(HomePage parent, Controller controller, ArrayList<DettagliOrdineDTO> listaOrdiniSelezionati, int matricolaOperatoreLoggato){
-        setImpostazioniWizardPage(parent, controller, listaOrdiniSelezionati, matricolaOperatoreLoggato);
+    public WizardCreazioneSpedizione(HomePage parent, ControlloreFinestre controlloreFinestre, ControlloreDAO controlloreDAO,  ArrayList<DettagliOrdineDTO> listaOrdiniSelezionati, int matricolaOperatoreLoggato){
+        setImpostazioniWizardPage(parent, controlloreFinestre, controlloreDAO, listaOrdiniSelezionati, matricolaOperatoreLoggato);
         setImpostazioniAnnullaButton();
         setImpostazioniAvantiButton();
         setImpostazioniIndietroButton();
@@ -72,13 +77,14 @@ public class WizardCreazioneSpedizione extends JDialog{
         
     }
     
-    private void setImpostazioniWizardPage(HomePage parent, Controller controller, ArrayList<DettagliOrdineDTO> listaOrdiniSelezionati, int matricolaOperatoreLoggato){
+    private void setImpostazioniWizardPage(HomePage parent, ControlloreFinestre controlloreFinestre, ControlloreDAO controlloreDAO, ArrayList<DettagliOrdineDTO> listaOrdiniSelezionati, int matricolaOperatoreLoggato){
         this.listaOrdiniSelezionati = listaOrdiniSelezionati;
         this.matricolaOperatoreLoggato = matricolaOperatoreLoggato;
         setIconImage(imageIcon.getImage());
         setLayout(null);
         setResizable(true);
-        this.controller = controller;
+        this.controlloreFinestre = controlloreFinestre;
+        this.controlloreDAO = controlloreDAO;
         this.parent = parent;
         setTitle("Creazione Spedizione");
         setContentPane(cards);
@@ -162,14 +168,14 @@ public class WizardCreazioneSpedizione extends JDialog{
     }
     
     private void setImpostazioniTabellaCorrieri(){
-        ArrayList<CorriereDTO> listaCorrieriDisponibili = controller.recuperaCorrieriDisponibili();
+        ArrayList<CorriereDTO> listaCorrieriDisponibili = controlloreDAO.recuperaCorrieriDisponibili();
         DefaultTableModel modelloTabella = getModelloTabellaCorrieri();
         setRigheTabellaCorrieri(modelloTabella, listaCorrieriDisponibili);
         
         tabellaCorrieri.setModel(modelloTabella);
         tabellaCorrieri.getTableHeader().setBackground(new Color(0, 18, 51));
         tabellaCorrieri.getTableHeader().setForeground(new Color (253, 253, 253));
-        controller.resizeColumnWidth(tabellaCorrieri);
+        controlloreFinestre.resizeColumnWidth(tabellaCorrieri);
         tabellaCorrieri.getTableHeader().setReorderingAllowed(false);
         tabellaCorrieri.getTableHeader().setResizingAllowed(false);
         
@@ -179,14 +185,14 @@ public class WizardCreazioneSpedizione extends JDialog{
     }
     
     private void setImpostazioniTabellaMezzi(){
-        ArrayList<MezzoTrasportoDTO> listaMezziDisponibili = controller.recuperaMezziDisponibili(controller.calcolaPesoOrdini(listaOrdiniSelezionati));
+        ArrayList<MezzoTrasportoDTO> listaMezziDisponibili = controlloreDAO.recuperaMezziDisponibili(controlloreFinestre.calcolaPesoOrdini(listaOrdiniSelezionati));
         DefaultTableModel modelloTabella = getModelloTabellaMezzi();
         setRigheTabellaMezzi(modelloTabella, listaMezziDisponibili);
         
         tabellaMezzi.setModel(modelloTabella);
         tabellaMezzi.getTableHeader().setBackground(new Color(0, 18, 51));
         tabellaMezzi.getTableHeader().setForeground(new Color (253, 253, 253));
-        controller.resizeColumnWidth(tabellaMezzi);
+        controlloreFinestre.resizeColumnWidth(tabellaMezzi);
         tabellaMezzi.getTableHeader().setReorderingAllowed(false);
         tabellaMezzi.getTableHeader().setResizingAllowed(false);
         
@@ -202,7 +208,7 @@ public class WizardCreazioneSpedizione extends JDialog{
         riepilogoOrdiniTable.setModel(modelloTabella);
         riepilogoOrdiniTable.getTableHeader().setBackground(new Color(0, 18, 51));
         riepilogoOrdiniTable.getTableHeader().setForeground(new Color (253, 253, 253));
-        controller.resizeColumnWidth(riepilogoOrdiniTable);
+        controlloreFinestre.resizeColumnWidth(riepilogoOrdiniTable);
         riepilogoOrdiniTable.getTableHeader().setReorderingAllowed(false);
         riepilogoOrdiniTable.getTableHeader().setResizingAllowed(false);
 
@@ -339,9 +345,18 @@ public class WizardCreazioneSpedizione extends JDialog{
             @Override
             public void actionPerformed(ActionEvent e) {
                 ArrayList<Object> dettagliSpedizione = creaDettagliSpedizione();
-                controller.creaSpedizioneDaOrdini(WizardCreazioneSpedizione.this, dettagliSpedizione);
-                controller.aggiornaTabellaHome(parent);
-                dispose();
+                try{
+                    controlloreDAO.creaSpedizioneDaOrdini(WizardCreazioneSpedizione.this, dettagliSpedizione);
+                    controlloreFinestre.aggiornaTabellaHome(parent);
+                    dispose();
+                } catch (AlcuneSpedizioniNonEffettuateException ex) {
+                    controlloreFinestre.mostraMessageDialog(WizardCreazioneSpedizione.this, "Alcune spedizioni non sono state effettuate.\nMotivo: merce insufficiente nel magazzino", "Attenzione");
+                    controlloreFinestre.aggiornaTabellaHome(parent);
+                    dispose();
+                } catch (NessunaSpedizioneEffettuataException ex){
+                    controlloreFinestre.aggiornaTabellaHome(parent);
+                    controlloreFinestre.mostraMessageDialog(WizardCreazioneSpedizione.this, "Nessuna spedizione effettuata.\nMotivo: merce insufficiente nel magazzino", "Attenzione");
+                }
             }
         });
         
@@ -386,12 +401,12 @@ public class WizardCreazioneSpedizione extends JDialog{
     private void isSelezioneValida(JTable tabella) throws NoCampiSelezionatiException, TroppiCampiSelezionatiException {
         switch (controllaQuanteFlagTabella(tabella)) {
             case 0:
-                throw new NoCampiSelezionatiException(this, controller);
+                throw new NoCampiSelezionatiException(this, controlloreFinestre);
             case 1:
                 cardLayout.next(cards);
                 break;
             default:
-                throw new TroppiCampiSelezionatiException(this, controller);
+                throw new TroppiCampiSelezionatiException(this, controlloreFinestre);
         }
     }
     
@@ -454,7 +469,7 @@ public class WizardCreazioneSpedizione extends JDialog{
     private int calcolaPercentualeProgressBar(float pesoTrasportabileMezzo) {
         float pesoKgTotOrdini;
         int percentuale;
-        pesoKgTotOrdini = controller.calcolaPesoOrdini(listaOrdiniSelezionati);
+        pesoKgTotOrdini = controlloreFinestre.calcolaPesoOrdini(listaOrdiniSelezionati);
         percentuale = (int) ((int) (100 * pesoKgTotOrdini)/pesoTrasportabileMezzo);
         return percentuale;
     }

@@ -1,13 +1,17 @@
 package org.UninaDelivery;
 
+import org.UninaDelivery.Controllori.ControlloreDAO;
+import org.UninaDelivery.Controllori.ControlloreFinestre;
 import org.UninaDelivery.Exception.CampiVuotiException;
+import org.UninaDelivery.Exception.OperatoreNonTrovatoException;
+import org.UninaDelivery.Operatore.OperatoreDTO;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;
 
-public class LoginForm extends JFrame {
+public class LoginPage extends JFrame {
 
     private JTextField textLoginMatricola;
     private JPasswordField textLoginPassword;
@@ -18,12 +22,12 @@ public class LoginForm extends JFrame {
     private JButton mostraPasswordButton;
     private JLabel imageLogo;
     private Boolean isPasswordVisibile = false;
-    private Controller controller;
+    private ControlloreFinestre controlloreFinestre;
+    private ControlloreDAO controlloreDAO;
     ImageIcon imageIcon = new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScritte.png");
     
-    public LoginForm(JFrame parent, Controller controller) {
-        
-        setImpostazioniLoginForm(parent, controller);
+    public LoginPage(JFrame parent, ControlloreFinestre controlloreFinestre, ControlloreDAO controlloreDAO) {
+        setImpostazioniLoginForm(parent, controlloreFinestre, controlloreDAO);
         setImpostazioniButtonMostraPassword();
         setImpostazioniLoginButton();
         setImpostazioniResetButton();
@@ -33,11 +37,12 @@ public class LoginForm extends JFrame {
         listeners();
     }
 
-    private void setImpostazioniLoginForm(JFrame parent, Controller controller){
+    private void setImpostazioniLoginForm(JFrame parent, ControlloreFinestre controlloreFinestre, ControlloreDAO controlloreDAO){
         setIconImage(imageIcon.getImage());
         setLayout(null);
         setResizable(false);
-        this.controller = controller;
+        this.controlloreFinestre = controlloreFinestre;
+        this.controlloreDAO = controlloreDAO;
         setTitle("Login");
         setContentPane(loginPanel);
         setMinimumSize(new Dimension(540, 320));
@@ -201,7 +206,7 @@ public class LoginForm extends JFrame {
             @Override
             public void windowClosing(WindowEvent e) {
                 try {
-                    controller.chiudiConnessioneDB();
+                    controlloreDAO.chiudiConnessioneDB();
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -212,12 +217,17 @@ public class LoginForm extends JFrame {
     public void ControllaLogin() throws CampiVuotiException {
         String Matricola = textLoginMatricola.getText();
         String Password = new String(textLoginPassword.getPassword());
-        
-        
+        OperatoreDTO operatoreEntrante;
+
         if (Matricola.isEmpty() || Password.isEmpty())
-            throw new CampiVuotiException(this, controller);
+            throw new CampiVuotiException(this, controlloreFinestre);
         
-        controller.effettuaLogin(Matricola, Password, LoginForm.this);
-        
+        try{
+            operatoreEntrante = controlloreDAO.effettuaLogin(Matricola, Password, LoginPage.this);
+            controlloreFinestre.apriHome(operatoreEntrante, this);
+        } catch (OperatoreNonTrovatoException e){
+            System.out.println("Operatore non trovato nel db: " + e);
+            controlloreFinestre.mostraMessageDialog(this, "Matricola o Password errati", "Attenzione");
+        }
     }
 }

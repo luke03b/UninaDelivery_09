@@ -1,7 +1,8 @@
 package org.UninaDelivery;
 
-import org.UninaDelivery.Exception.meseNonValidoException;
-import org.UninaDelivery.Operatore.OperatoreDTO;
+import org.UninaDelivery.Controllori.ControlloreDAO;
+import org.UninaDelivery.Controllori.ControlloreFinestre;
+import org.UninaDelivery.Exception.MeseNonValidoException;
 import org.UninaDelivery.StatisticheOrdini.StatisticheOrdineDTO;
 
 import javax.swing.*;
@@ -20,12 +21,18 @@ public class StatisticaPage extends JDialog{
     private JLabel logoLabel;
     private JLabel logoUnina;
     private JScrollPane panelContenenteJTable;
-    private Controller controller;
+    private ControlloreFinestre controlloreFinestre;
+    private ControlloreDAO controlloreDAO;
     
-    public StatisticaPage(JFrame parent, Controller controller){
-        setImpostazioniStatisticaPage(parent, controller);
+    public StatisticaPage(JFrame parent, ControlloreFinestre controlloreFinestre, ControlloreDAO controlloreDAO){
+        setImpostazioniStatisticaPage(parent, controlloreFinestre, controlloreDAO);
         setImpostazioniVarie();
         setImpostazioniIndietroButton();
+
+        listeners();
+    }
+
+    private void listeners(){
         indietroButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -39,30 +46,30 @@ public class StatisticaPage extends JDialog{
                 meseSelezionato = comboBox1.getSelectedItem().toString();
                 try{
                     recuperaStatisticaMese(meseSelezionato);
-                } catch (meseNonValidoException exception){
+                } catch (MeseNonValidoException exception){
                     System.out.println("nessun mese selezionato: " + exception);
                 }
             }
         });
     }
 
-    private void recuperaStatisticaMese(String meseSelezionato) throws meseNonValidoException{
+    private void recuperaStatisticaMese(String meseSelezionato) throws MeseNonValidoException {
         StatisticheOrdineDTO statisticheOrdineDTO = new StatisticheOrdineDTO();
         switch (meseSelezionato){
             case "<Mese>" -> {AVGordineLabel.setText(""); maxProdotti.setText(""); minProdotti.setText(""); return;}
-            case "Gennaio" -> statisticheOrdineDTO = controller.eseguiStatistica(1);
-            case "Febbraio" -> statisticheOrdineDTO = controller.eseguiStatistica(2);
-            case "Marzo" -> statisticheOrdineDTO = controller.eseguiStatistica(3);
-            case "Aprile" -> statisticheOrdineDTO = controller.eseguiStatistica(4);
-            case "Maggio" -> statisticheOrdineDTO = controller.eseguiStatistica(5);
-            case "Giugno" -> statisticheOrdineDTO = controller.eseguiStatistica(6);
-            case "Luglio" -> statisticheOrdineDTO = controller.eseguiStatistica(7);
-            case "Agosto" -> statisticheOrdineDTO = controller.eseguiStatistica(8);
-            case "Settembre" -> statisticheOrdineDTO = controller.eseguiStatistica(9);
-            case "Ottobre" -> statisticheOrdineDTO = controller.eseguiStatistica(10);
-            case "Novembre" -> statisticheOrdineDTO = controller.eseguiStatistica(11);
-            case "Dicembre" -> statisticheOrdineDTO = controller.eseguiStatistica(12);
-            default -> throw new meseNonValidoException();
+            case "Gennaio" -> statisticheOrdineDTO = controlloreDAO.eseguiStatistica(1);
+            case "Febbraio" -> statisticheOrdineDTO = controlloreDAO.eseguiStatistica(2);
+            case "Marzo" -> statisticheOrdineDTO = controlloreDAO.eseguiStatistica(3);
+            case "Aprile" -> statisticheOrdineDTO = controlloreDAO.eseguiStatistica(4);
+            case "Maggio" -> statisticheOrdineDTO = controlloreDAO.eseguiStatistica(5);
+            case "Giugno" -> statisticheOrdineDTO = controlloreDAO.eseguiStatistica(6);
+            case "Luglio" -> statisticheOrdineDTO = controlloreDAO.eseguiStatistica(7);
+            case "Agosto" -> statisticheOrdineDTO = controlloreDAO.eseguiStatistica(8);
+            case "Settembre" -> statisticheOrdineDTO = controlloreDAO.eseguiStatistica(9);
+            case "Ottobre" -> statisticheOrdineDTO = controlloreDAO.eseguiStatistica(10);
+            case "Novembre" -> statisticheOrdineDTO = controlloreDAO.eseguiStatistica(11);
+            case "Dicembre" -> statisticheOrdineDTO = controlloreDAO.eseguiStatistica(12);
+            default -> throw new MeseNonValidoException();
         }
         aggiornaLabels(statisticheOrdineDTO);
     }
@@ -73,10 +80,11 @@ public class StatisticaPage extends JDialog{
         minProdotti.setText(String.valueOf(statisticheOrdineDTO.getMinNumProdottiInOrdine()));
     }
 
-    private void setImpostazioniStatisticaPage(JFrame parent, Controller controller){
+    private void setImpostazioniStatisticaPage(JFrame parent, ControlloreFinestre controlloreFinestre, ControlloreDAO controlloreDAO){
         setLayout(null);
         setResizable(true);
-        this.controller = controller;
+        this.controlloreFinestre = controlloreFinestre;
+        this.controlloreDAO = controlloreDAO;
         setTitle("Report Statistica");
         setContentPane(statisticaPanel);
         setMinimumSize(new Dimension(600, 270));

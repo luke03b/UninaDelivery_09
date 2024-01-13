@@ -1,9 +1,7 @@
 package org.UninaDelivery.Exception;
 
-import org.UninaDelivery.Controller;
+import org.UninaDelivery.Controllori.ControlloreFinestre;
+import org.UninaDelivery.Starter;
 
 public class NessunaSpedizioneEffettuataException extends Exception{
-    public NessunaSpedizioneEffettuataException(Controller controller){
-        controller.mostraMessageDialog(null, "Merce Insufficiente in magazzino.\nNessuna spedizione completata", "Attenzione");
-    }
 }

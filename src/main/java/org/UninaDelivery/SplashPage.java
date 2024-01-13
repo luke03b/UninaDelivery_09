@@ -1,22 +1,24 @@
 package org.UninaDelivery;
 
+import org.UninaDelivery.Controllori.ControlloreFinestre;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class SplashPage extends JWindow{
     private JPanel splashPanel;
     private JLabel logoLabel;
-    private Controller controller;
+    private ControlloreFinestre controlloreFinestre;
     
-    public SplashPage(Controller controller){
-        setImpostazioniSplashPage(controller);
+    public SplashPage(ControlloreFinestre controlloreFinestre){
+        setImpostazioniSplashPage(controlloreFinestre);
         chiusuraAutomatizzata(2500);
     }
     
-    private void setImpostazioniSplashPage(Controller controller){
+    private void setImpostazioniSplashPage(ControlloreFinestre controlloreFinestre){
         setLayout(null);
         setContentPane(splashPanel);
-        this.controller = controller;
+        this.controlloreFinestre = controlloreFinestre;
         logoLabel.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoUninaDeliveryGrande.jpg"));
         setMinimumSize(new Dimension(1024, 682));
         setLocationRelativeTo(null);
@@ -29,6 +31,6 @@ public class SplashPage extends JWindow{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        controller.chiudiSplashPage(this);
+        controlloreFinestre.chiudiSplashPage(this);
     }
 }

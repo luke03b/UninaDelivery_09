@@ -4,6 +4,8 @@ import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
 import org.UninaDelivery.Cliente.ClienteDTO;
+import org.UninaDelivery.Controllori.ControlloreDAO;
+import org.UninaDelivery.Controllori.ControlloreFinestre;
 import org.UninaDelivery.Exception.FiltroNonValidoException;
 import org.UninaDelivery.Exception.NoCampiSelezionatiException;
 import org.UninaDelivery.Exception.TroppiCampiSelezionatiException;
@@ -16,6 +18,9 @@ import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -39,7 +44,8 @@ public class HomePage extends JFrame{
     private JButton dettagliOrdineButton;
     private JLabel dataInizioLabel;
     private JButton resetButton;
-    private Controller controller;
+    private ControlloreFinestre controlloreFinestre;
+    private ControlloreDAO controlloreDAO;
     private OperatoreDTO operatoreLoggato;
 
     ImageIcon imageIcon = new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScritte.png");
@@ -52,8 +58,8 @@ public class HomePage extends JFrame{
     JDatePickerImpl pickerDataFine = new JDatePickerImpl(datePanelDataFine);
 
 
-    public HomePage(JFrame parent, Controller controller, OperatoreDTO operatoreLoggato){
-        setImpostazioniHomePage(parent, controller, operatoreLoggato);
+    public HomePage(JFrame parent, ControlloreFinestre controlloreFinestre, ControlloreDAO controlloreDAO, OperatoreDTO operatoreLoggato){
+        setImpostazioniHomePage(parent, controlloreFinestre, controlloreDAO, operatoreLoggato);
         setImpostazioniTabella();
         setImpostazioniToolBar();
         setImpostazioniUserInformationButton();
@@ -65,12 +71,13 @@ public class HomePage extends JFrame{
         listeners();
     }
     
-    private void setImpostazioniHomePage(JFrame parent, Controller controller, OperatoreDTO operatoreLoggato){
+    private void setImpostazioniHomePage(JFrame parent, ControlloreFinestre controlloreFinestre, ControlloreDAO controlloreDAO, OperatoreDTO operatoreLoggato){
         setIconImage(imageIcon.getImage());
         setLayout(null);
         setResizable(true);
         setExtendedState(MAXIMIZED_BOTH);
-        this.controller = controller;
+        this.controlloreDAO = controlloreDAO;
+        this.controlloreFinestre = controlloreFinestre;
         this.operatoreLoggato = operatoreLoggato;
         setTitle("Home");
         setContentPane(homePanel);
@@ -81,7 +88,7 @@ public class HomePage extends JFrame{
     }
     
     private void setImpostazioniTabella(){
-        ArrayList<DettagliOrdineDTO> listaOrdini = controller.getOrdiniNonSpediti();
+        ArrayList<DettagliOrdineDTO> listaOrdini = controlloreDAO.getOrdiniNonSpediti();
         DefaultTableModel modelloTabella = getModelloTabella();
         
         ordiniTable.setModel(modelloTabella);
@@ -184,7 +191,7 @@ public class HomePage extends JFrame{
         pickerDataInizio.setToolTipText("Data dalla quale si inizierà a cercare");
         pickerDataFine.setToolTipText("Data dalla quale si finirà di cercare");
 
-        ArrayList<ClienteDTO> listaClienti = controller.recuperaClienti();
+        ArrayList<ClienteDTO> listaClienti = controlloreDAO.recuperaClienti();
         filtroUtenti.addItem("<Filtra Utente>");
         for (ClienteDTO clienteDTO : listaClienti) {
             filtroUtenti.addItem(clienteDTO.getNominativo() + " " + clienteDTO.getNumeroTelefono());
@@ -202,7 +209,7 @@ public class HomePage extends JFrame{
                 if (JOptionPane.showOptionDialog(HomePage.this, "Vuoi eseguire il LogOut?",
                         "LogOut", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, Opzioni,
                         Opzioni[0]) == JOptionPane.OK_OPTION){
-                    controller.tornaLogin(HomePage.this);
+                    controlloreFinestre.tornaLogin(HomePage.this);
                 }
             }
         });
@@ -210,14 +217,14 @@ public class HomePage extends JFrame{
         statisticaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.apriStatistica();
+                controlloreFinestre.apriStatistica();
             }
         });
 
         userInformationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.apriInfoOperatore(operatoreLoggato);
+                controlloreFinestre.apriInfoOperatore(operatoreLoggato);
             }
         });
 
@@ -246,8 +253,8 @@ public class HomePage extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 try{
                     if(controllaQuanteFlagTabella() == 0)
-                        throw new NoCampiSelezionatiException(HomePage.this, controller);
-                    controller.apriWizardCreazioneSpedizione(HomePage.this, getOrdiniSelezionatiDaTabella(), operatoreLoggato.getMatricola());
+                        throw new NoCampiSelezionatiException(HomePage.this, controlloreFinestre);
+                    controlloreFinestre.apriWizardCreazioneSpedizione(HomePage.this, getOrdiniSelezionatiDaTabella(), operatoreLoggato.getMatricola());
                 } catch (NoCampiSelezionatiException exception){
                     System.out.println("Nessuna checkBox selezionata: " + exception);
                 }
@@ -260,7 +267,17 @@ public class HomePage extends JFrame{
                 resettaFiltri();
             }
         });
-        
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                try {
+                    controlloreDAO.chiudiConnessioneDB();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
     }
     
     private void resettaFiltri() {
@@ -274,12 +291,12 @@ public class HomePage extends JFrame{
     private void isSelezioneValida() throws NoCampiSelezionatiException, TroppiCampiSelezionatiException {
         switch (controllaQuanteFlagTabella()) {
             case 0:
-                throw new NoCampiSelezionatiException(this, controller);
+                throw new NoCampiSelezionatiException(this, controlloreFinestre);
             case 1:
                 mostraDettagliOrdine();
                 break;
             default:
-                throw new TroppiCampiSelezionatiException(this, controller);
+                throw new TroppiCampiSelezionatiException(this, controlloreFinestre);
         }
     }
     
@@ -298,24 +315,24 @@ public class HomePage extends JFrame{
 
     private void applicaFiltro(String utenteSelezionato, java.util.Date dataInizio, java.util.Date dataFine) throws FiltroNonValidoException {
         if (!utenteSelezionato.isEmpty() && dataInizio != null && dataFine != null) {
-            ArrayList<DettagliOrdineDTO> listaOrdini = controller.getOrdiniByUtenteAndData(utenteSelezionato, new java.sql.Date(dataInizio.getTime()), new java.sql.Date(dataFine.getTime()));
+            ArrayList<DettagliOrdineDTO> listaOrdini = controlloreDAO.getOrdiniByUtenteAndData(utenteSelezionato, new java.sql.Date(dataInizio.getTime()), new java.sql.Date(dataFine.getTime()));
             aggiungiElementiATabella(listaOrdini);
             return;
         }
         if (dataInizio == null ^ dataFine == null) {
-            throw new FiltroNonValidoException(this, controller);
+            throw new FiltroNonValidoException(this, controlloreFinestre);
         }
         if (!utenteSelezionato.isEmpty()) {
-            ArrayList<DettagliOrdineDTO> listaOrdini = controller.getOrdiniByUtente(utenteSelezionato);
+            ArrayList<DettagliOrdineDTO> listaOrdini = controlloreDAO.getOrdiniByUtente(utenteSelezionato);
             aggiungiElementiATabella(listaOrdini);
             return;
         }
         if(dataInizio != null && dataFine != null) {
-            ArrayList<DettagliOrdineDTO> listaOrdini = controller.getOrdiniByData(new java.sql.Date(dataInizio.getTime()), new java.sql.Date(dataFine.getTime()));
+            ArrayList<DettagliOrdineDTO> listaOrdini = controlloreDAO.getOrdiniByData(new java.sql.Date(dataInizio.getTime()), new java.sql.Date(dataFine.getTime()));
             aggiungiElementiATabella(listaOrdini);
             return;
         }
-        ArrayList<DettagliOrdineDTO> listaOrdini = controller.getOrdiniNonSpediti();
+        ArrayList<DettagliOrdineDTO> listaOrdini = controlloreDAO.getOrdiniNonSpediti();
         aggiungiElementiATabella(listaOrdini);
     }
 
@@ -328,7 +345,7 @@ public class HomePage extends JFrame{
                     ordineDTO.getDestinatario(), ordineDTO.getIndirizzo(),
                     ordineDTO.getPeso(), ordineDTO.getGrandezza()});
         }
-        controller.resizeColumnWidth(ordiniTable);
+        controlloreFinestre.resizeColumnWidth(ordiniTable);
     }
     
     private int controllaQuanteFlagTabella(){
@@ -367,7 +384,7 @@ public class HomePage extends JFrame{
     private void mostraDettagliOrdine(){
         for (int i = 0; i < ordiniTable.getRowCount(); i++){
             if (isCellaSelezionata(i)){
-                controller.apriInfoOrdine((int) ordiniTable.getValueAt(i, 1));
+                controlloreFinestre.apriInfoOrdine((int) ordiniTable.getValueAt(i, 1));
             }
         }
     }

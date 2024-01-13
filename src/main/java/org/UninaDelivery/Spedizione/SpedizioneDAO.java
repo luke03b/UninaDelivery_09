@@ -1,6 +1,7 @@
 package org.UninaDelivery.Spedizione;
 
-import org.UninaDelivery.Controller;
+import org.UninaDelivery.Controllori.ControlloreFinestre;
+import org.UninaDelivery.Starter;
 import org.UninaDelivery.Exception.AlcuneSpedizioniNonEffettuateException;
 import org.UninaDelivery.Exception.NessunaSpedizioneEffettuataException;
 
@@ -10,7 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class SpedizioneDAO {
-    public boolean creaSpedizione(ArrayList<Object> dettagliSpedizione, Connection conn, Controller controller) throws AlcuneSpedizioniNonEffettuateException, NessunaSpedizioneEffettuataException {
+    public boolean creaSpedizione(ArrayList<Object> dettagliSpedizione, Connection conn) throws AlcuneSpedizioniNonEffettuateException, NessunaSpedizioneEffettuataException {
         try{
             Statement stmt = null;
             stmt = conn.createStatement();
@@ -25,9 +26,9 @@ public class SpedizioneDAO {
             comando = comando.substring(0, comando.length()-2);
             int numeroRigheInserite = stmt.executeUpdate(comando);
             if (numeroRigheInserite == 0)
-                throw new NessunaSpedizioneEffettuataException(controller);
+                throw new NessunaSpedizioneEffettuataException();
             if (numeroRigheInserite < ((int[]) dettagliSpedizione.get(3)).length)
-                throw new AlcuneSpedizioniNonEffettuateException(numeroRigheInserite, controller);
+                throw new AlcuneSpedizioniNonEffettuateException();
             System.out.println("Tutte le spedizioni effettuate con successo");
             stmt.close();
         } catch (SQLException e) {

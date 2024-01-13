@@ -1,5 +1,7 @@
 package org.UninaDelivery;
 
+import org.UninaDelivery.Controllori.ControlloreDAO;
+import org.UninaDelivery.Controllori.ControlloreFinestre;
 import org.UninaDelivery.Prodotto.ProdottoDTO;
 
 import javax.swing.*;
@@ -17,32 +19,34 @@ public class InfoOrdinePage extends JDialog{
     private JPanel infoOrdinePage;
     private JTable prodottiTable;
     private JScrollPane panelContenenteJTable;
-    private Controller controller;
+    private ControlloreFinestre controlloreFinestre;
+    private ControlloreDAO controlloreDAO;
     private int numOrdine;
     
-    public InfoOrdinePage(JFrame parent, Controller controller, int numOrdine){
-        setImpostazioniInfoOrdinePage(parent, controller, numOrdine);
+    public InfoOrdinePage(JFrame parent, ControlloreFinestre controlloreFinestre, ControlloreDAO controlloreDAO, int numOrdine){
+        setImpostazioniInfoOrdinePage(parent, controlloreFinestre, controlloreDAO, numOrdine);
         setContenutiVisivi();
         setImpostazioniTabella();
         setImpostazioniIndietroButton();
         listeners();
     }
     
-    private void setImpostazioniInfoOrdinePage(JFrame parent, Controller controller, int numOrd){
+    private void setImpostazioniInfoOrdinePage(JFrame parent, ControlloreFinestre controlloreFinestre, ControlloreDAO controlloreDAO, int numOrd){
         setLayout(null);
         setResizable(false);
         setTitle("Dettagli Ordine");
         setContentPane(infoOrdinePage);
         setMinimumSize(new Dimension(800, 400));
         setModal(true);
-        this.controller = controller;
+        this.controlloreFinestre = controlloreFinestre;
+        this.controlloreDAO = controlloreDAO;
         this.numOrdine = numOrd;
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     public void setImpostazioniTabella(){
-        ArrayList<ProdottoDTO> listaProdotti = controller.recuperaProdotti(numOrdine);
+        ArrayList<ProdottoDTO> listaProdotti = controlloreDAO.recuperaProdotti(numOrdine);
         Object[] nomiColonne = {"Codice Prodotto", "Nome", "Prezzo", "Peso", "Categoria", "Descrizione", "Quantità"};
         DefaultTableModel modelloTabella = new DefaultTableModel(new Object[][]{}, nomiColonne){
             //nessuna cella della tabella editabile
@@ -65,7 +69,7 @@ public class InfoOrdinePage extends JDialog{
         prodottiTable.setModel(modelloTabella);
         prodottiTable.getTableHeader().setBackground(new Color(0, 18, 51));
         prodottiTable.getTableHeader().setForeground(new Color (255, 255, 255));
-        controller.resizeColumnWidth(prodottiTable);
+        controlloreFinestre.resizeColumnWidth(prodottiTable);
         prodottiTable.getColumnModel().getColumn(5).setCellRenderer(new WordWrapCellRenderer());
         prodottiTable.setFocusable(false);
         prodottiTable.setRowSelectionAllowed(false);

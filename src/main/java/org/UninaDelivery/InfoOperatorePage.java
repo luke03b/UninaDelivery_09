@@ -1,5 +1,6 @@
 package org.UninaDelivery;
 
+import org.UninaDelivery.Controllori.ControlloreFinestre;
 import org.UninaDelivery.Operatore.OperatoreDTO;
 
 import javax.swing.*;
@@ -20,24 +21,24 @@ public class InfoOperatorePage extends JDialog{
     private JLabel dataAssunzioneLabel;
     private JLabel uninaDeliveryLogo;
     private JLabel fedIILogo;
-    private Controller controller;
+    private ControlloreFinestre controlloreFinestre;
     private OperatoreDTO operatoreLoggato;
 
-    public InfoOperatorePage(JFrame parent, Controller gf, OperatoreDTO operatoreLoggato){
-        setImpostazioniInfoOpPage(parent, gf, operatoreLoggato);
+    public InfoOperatorePage(JFrame parent, ControlloreFinestre controlloreFinestre, OperatoreDTO operatoreLoggato){
+        setImpostazioniInfoOpPage(parent, controlloreFinestre, operatoreLoggato);
         setContenutiVisivi();
         setImpostazioniIndietroButton();
         listeners();
     }
 
-    private void setImpostazioniInfoOpPage(JFrame parent, Controller controller, OperatoreDTO operatoreLoggato){
+    private void setImpostazioniInfoOpPage(JFrame parent, ControlloreFinestre controlloreFinestre, OperatoreDTO operatoreLoggato){
         setLayout(null);
         setResizable(false);
         setTitle("Informazioni Operatore");
         setContentPane(infoOpPane);
         setMinimumSize(new Dimension(380, 450));
         setModal(true);
-        this.controller = controller;
+        this.controlloreFinestre = controlloreFinestre;
         this.operatoreLoggato = operatoreLoggato;
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -57,8 +58,8 @@ public class InfoOperatorePage extends JDialog{
         nomeLabel.setText(operatoreLoggato.getNome());
         cognomeLabel.setText(operatoreLoggato.getCognome());
         codiceFiscaleLabel.setText(operatoreLoggato.getCodiceFiscale());
-        etaLabel.setText(String.valueOf(operatoreLoggato.getEta()) + " anni");
-        stipendioLabel.setText(String.valueOf(operatoreLoggato.getStipendio()) + "€");
+        etaLabel.setText(operatoreLoggato.getEta() + " anni");
+        stipendioLabel.setText(operatoreLoggato.getStipendio() + "€");
         dataNascitaLabel.setText(String.valueOf(operatoreLoggato.getDataNascita()));
         dataAssunzioneLabel.setText(String.valueOf(operatoreLoggato.getDataAssunzione()));
         uninaDeliveryLogo.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScrittePiccolo.png"));
