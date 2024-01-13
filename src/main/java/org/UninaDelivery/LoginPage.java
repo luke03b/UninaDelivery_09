@@ -223,7 +223,7 @@ public class LoginPage extends JFrame {
             throw new CampiVuotiException(this, controlloreFinestre);
         
         try{
-            operatoreEntrante = controlloreDAO.effettuaLogin(Matricola, Password, LoginPage.this);
+            operatoreEntrante = controlloreDAO.effettuaLogin(Matricola, Password);
             controlloreFinestre.apriHome(operatoreEntrante, this);
         } catch (OperatoreNonTrovatoException e){
             System.out.println("Operatore non trovato nel db: " + e);

@@ -265,6 +265,7 @@ public class HomePage extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 resettaFiltri();
+                aggiornaTabella();
             }
         });
 

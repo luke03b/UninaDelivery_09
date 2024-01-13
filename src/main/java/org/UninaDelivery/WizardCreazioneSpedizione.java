@@ -345,18 +345,9 @@ public class WizardCreazioneSpedizione extends JDialog{
             @Override
             public void actionPerformed(ActionEvent e) {
                 ArrayList<Object> dettagliSpedizione = creaDettagliSpedizione();
-                try{
-                    controlloreDAO.creaSpedizioneDaOrdini(WizardCreazioneSpedizione.this, dettagliSpedizione);
-                    controlloreFinestre.aggiornaTabellaHome(parent);
-                    dispose();
-                } catch (AlcuneSpedizioniNonEffettuateException ex) {
-                    controlloreFinestre.mostraMessageDialog(WizardCreazioneSpedizione.this, "Alcune spedizioni non sono state effettuate.\nMotivo: merce insufficiente nel magazzino", "Attenzione");
-                    controlloreFinestre.aggiornaTabellaHome(parent);
-                    dispose();
-                } catch (NessunaSpedizioneEffettuataException ex){
-                    controlloreFinestre.aggiornaTabellaHome(parent);
-                    controlloreFinestre.mostraMessageDialog(WizardCreazioneSpedizione.this, "Nessuna spedizione effettuata.\nMotivo: merce insufficiente nel magazzino", "Attenzione");
-                }
+                controlloreDAO.creaSpedizioneDaOrdini(WizardCreazioneSpedizione.this, dettagliSpedizione);
+                controlloreFinestre.aggiornaTabellaHome(parent);
+                dispose();
             }
         });
         

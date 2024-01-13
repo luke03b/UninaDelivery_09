@@ -12,8 +12,8 @@ import java.util.ArrayList;
 
 public class ControlloreFinestre {
     ControlloreDAO controlloreDAO;
-    public ControlloreFinestre(ControlloreDAO controlloreDAO){
-        this.controlloreDAO = controlloreDAO;
+    public ControlloreFinestre(){
+
     }
 
     public void mostraMessageDialog(Component parent, String testo, String titolo){
@@ -90,5 +90,9 @@ public class ControlloreFinestre {
                 width=300;
             columnModel.getColumn(column).setPreferredWidth(width);
         }
+    }
+
+    public void setControlloreDAO(ControlloreDAO controlloreDAO) {
+        this.controlloreDAO = controlloreDAO;
     }
 }

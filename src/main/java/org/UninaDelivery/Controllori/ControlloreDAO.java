@@ -8,7 +8,6 @@ import org.UninaDelivery.DBConnection;
 import org.UninaDelivery.Exception.AlcuneSpedizioniNonEffettuateException;
 import org.UninaDelivery.Exception.NessunaSpedizioneEffettuataException;
 import org.UninaDelivery.Exception.OperatoreNonTrovatoException;
-import org.UninaDelivery.LoginPage;
 import org.UninaDelivery.MezziInUso.MezziInUsoDAO;
 import org.UninaDelivery.MezzoTrasporto.MezzoTrasportoDAO;
 import org.UninaDelivery.MezzoTrasporto.MezzoTrasportoDTO;
@@ -32,18 +31,19 @@ import java.util.ArrayList;
 public class ControlloreDAO {
     static DBConnection dbConnection;
     static Connection conn;
+    private ControlloreFinestre controlloreFinestre;
 
-
-    public ControlloreDAO(){
+    public ControlloreDAO(ControlloreFinestre controlloreFinestre){
         // Esegue la connessione con il database
         dbConnection = DBConnection.getDBConnection();
         conn = dbConnection.getConnection();
+        this.controlloreFinestre = controlloreFinestre;
     }
 
-    public OperatoreDTO effettuaLogin(String Matricola, String Password, LoginPage parent) throws OperatoreNonTrovatoException{
+    public OperatoreDTO effettuaLogin(String Matricola, String Password) throws OperatoreNonTrovatoException{
         OperatoreDTO operatoreDTO;
         try{
-            operatoreDTO = verificaDatiInput(Matricola, Password, parent);
+            operatoreDTO = verificaDatiInput(Matricola, Password);
             return operatoreDTO;
         } catch(OperatoreNonTrovatoException e){
             System.out.println("operatore non valido: " + e);
@@ -76,7 +76,7 @@ public class ControlloreDAO {
         return dettagliOrdineDAO.getOrdiniByUtenteAndData(utente, DataInizio, DataFine, conn);
     }
 
-    public OperatoreDTO verificaDatiInput(String Matricola, String Password, LoginPage parent) throws OperatoreNonTrovatoException {
+    public OperatoreDTO verificaDatiInput(String Matricola, String Password) throws OperatoreNonTrovatoException {
         try{
             OperatoreDAO operatoreDAO = new OperatoreDAO();
             int matricola = Integer.parseInt(Matricola);
@@ -117,20 +117,18 @@ public class ControlloreDAO {
         return corriereDAO.getCorrieriDisponibili(conn);
     }
 
-    public void creaSpedizioneDaOrdini(Component chiamante, ArrayList<Object> dettagliSpedizione) throws AlcuneSpedizioniNonEffettuateException, NessunaSpedizioneEffettuataException{
+    public void creaSpedizioneDaOrdini(Component chiamante, ArrayList<Object> dettagliSpedizione) {
         SpedizioneDAO spedizioneDAO = new SpedizioneDAO();
         try {
-            if (spedizioneDAO.creaSpedizione(dettagliSpedizione, conn))
+            if (spedizioneDAO.creaSpedizione(dettagliSpedizione, conn, chiamante, controlloreFinestre))
                 JOptionPane.showMessageDialog(chiamante, "Tutte le spedizioni sono state effettuate con successo",
                         "Avviso", JOptionPane.INFORMATION_MESSAGE);
             aggiungiMezziUtilizzati((Integer) dettagliSpedizione.get(1), (String) dettagliSpedizione.get(2), conn);
         } catch (AlcuneSpedizioniNonEffettuateException e) {
             aggiungiMezziUtilizzati((Integer) dettagliSpedizione.get(1), (String) dettagliSpedizione.get(2), conn);
             System.out.println("Spedizioni non effettuate " + e);
-            throw new AlcuneSpedizioniNonEffettuateException();
         } catch (NessunaSpedizioneEffettuataException e) {
             System.out.println("Nessuna spedizione effettuata: " + e);
-            throw new NessunaSpedizioneEffettuataException();
         }
     }
 }
