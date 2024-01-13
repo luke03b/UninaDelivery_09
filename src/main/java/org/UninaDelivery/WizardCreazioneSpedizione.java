@@ -48,6 +48,7 @@ public class WizardCreazioneSpedizione extends JDialog{
     private JLabel marcaLabel;
     private JLabel modelloLabel;
     private JScrollPane panelContenenteTableOrdini;
+    private JProgressBar pesoMezzoProgressBar;
     private Controller controller;
     private ArrayList<DettagliOrdineDTO> listaOrdiniSelezionati;
     ImageIcon imageIcon = new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScritte.png");
@@ -178,7 +179,7 @@ public class WizardCreazioneSpedizione extends JDialog{
     }
     
     private void setImpostazioniTabellaMezzi(){
-        ArrayList<MezzoTrasportoDTO> listaMezziDisponibili = controller.recuperaMezziDisponibili();
+        ArrayList<MezzoTrasportoDTO> listaMezziDisponibili = controller.recuperaMezziDisponibili(controller.calcolaPesoOrdini(listaOrdiniSelezionati));
         DefaultTableModel modelloTabella = getModelloTabellaMezzi();
         setRigheTabellaMezzi(modelloTabella, listaMezziDisponibili);
         
@@ -233,7 +234,7 @@ public class WizardCreazioneSpedizione extends JDialog{
     }
     
     private static DefaultTableModel getModelloTabellaMezzi() {
-        Object[] nomiColonne = {"Seleziona", "Targa", "Marca", "Modello"};
+        Object[] nomiColonne = {"Seleziona", "Targa", "Marca", "Modello", "Capacità Trasportabile (l)", "Peso Trasportabile" + "(Kg)"};
         DefaultTableModel modelloTabella = new DefaultTableModel(new Object[][]{}, nomiColonne){
             //rende solo la prima colonna della tabella editabile
             @Override
@@ -246,6 +247,7 @@ public class WizardCreazioneSpedizione extends JDialog{
                 return switch (column) {
                     case 0 -> Boolean.class;
                     case 1, 2, 3 -> String.class;
+                    case 4, 5 -> float.class;
                     default -> null;
                 };
             }
@@ -271,13 +273,15 @@ public class WizardCreazioneSpedizione extends JDialog{
 
     private void setRigheTabellaCorrieri(DefaultTableModel modelloTabella, ArrayList<CorriereDTO> listaCorrieriDisponibili){
         for (CorriereDTO corriereDTO : listaCorrieriDisponibili){
-            modelloTabella.addRow(new Object[]{Boolean.FALSE, corriereDTO.getMatricola(), corriereDTO.getNome(), corriereDTO.getCognome()});
+            modelloTabella.addRow(new Object[]{Boolean.FALSE, corriereDTO.getMatricola(), corriereDTO.getNome(),
+                    corriereDTO.getCognome()});
         }
     }
     
     private void setRigheTabellaMezzi(DefaultTableModel modelloTabella, ArrayList<MezzoTrasportoDTO> listaMezziDisponibili){
         for (MezzoTrasportoDTO mezzoTrasportoDTO : listaMezziDisponibili){
-            modelloTabella.addRow(new Object[]{Boolean.FALSE, mezzoTrasportoDTO.getTarga(), mezzoTrasportoDTO.getMarca(), mezzoTrasportoDTO.getModello()});
+            modelloTabella.addRow(new Object[]{Boolean.FALSE, mezzoTrasportoDTO.getTarga(), mezzoTrasportoDTO.getMarca(),
+                    mezzoTrasportoDTO.getModello(), mezzoTrasportoDTO.getCapienzaLitri(), mezzoTrasportoDTO.getCapienzaPeso()});
         }
     }
 
@@ -313,7 +317,7 @@ public class WizardCreazioneSpedizione extends JDialog{
             public void actionPerformed(ActionEvent e) {
                 try {
                     isSelezioneValida(tabellaMezzi);
-                    setLabelRiepilogo();
+                    setContenutiVisiviRiepilogo();
                 } catch (NoCampiSelezionatiException ex) {
                     System.out.println("Nessuna checkBox selezionata: " + ex);
                 } catch (TroppiCampiSelezionatiException ex) {
@@ -391,26 +395,70 @@ public class WizardCreazioneSpedizione extends JDialog{
         }
     }
     
-    private void setLabelRiepilogo(){
-        for (int i = 0; i < tabellaCorrieri.getRowCount(); i++){
-            if ((Boolean) tabellaCorrieri.getValueAt(i, 0)){
-                matricolaLabel.setText(String.valueOf((int) tabellaCorrieri.getValueAt(i, 1)));
-                nomeLabel.setText((String) tabellaCorrieri.getValueAt(i, 2));
-                cognomeLabel.setText((String) tabellaCorrieri.getValueAt(i, 3));
-                break;
-            }
-        }
-        
-        for (int i = 0; i < tabellaMezzi.getRowCount(); i++){
-            if ((Boolean) tabellaMezzi.getValueAt(i, 0)){
-                targaLabel.setText((String) tabellaMezzi.getValueAt(i, 1));
-                marcaLabel.setText((String) tabellaMezzi.getValueAt(i, 2));
-                modelloLabel.setText((String) tabellaMezzi.getValueAt(i, 3));
+    private void setContenutiVisiviRiepilogo(){
+        setCorriereSelezionatoLabel();
+        setMezzoSelezionatoLabel();
+    }
+
+    private void setCorriereSelezionatoLabel(){
+        for (int riga = 0; riga < tabellaCorrieri.getRowCount(); riga++){
+            if (isCellaCorriereSelezionata(riga)){
+                matricolaLabel.setText(String.valueOf((int) tabellaCorrieri.getValueAt(riga, 1)));
+                nomeLabel.setText((String) tabellaCorrieri.getValueAt(riga, 2));
+                cognomeLabel.setText((String) tabellaCorrieri.getValueAt(riga, 3));
                 break;
             }
         }
     }
-    
+
+    private Boolean isCellaCorriereSelezionata(int riga) {
+        return (Boolean) tabellaCorrieri.getValueAt(riga, 0);
+    }
+
+    private void setMezzoSelezionatoLabel(){
+        float pesoTrasportabile;
+        for (int riga = 0; riga < tabellaMezzi.getRowCount(); riga++){
+            if (isCellaMezzoSelezionata(riga)){
+                targaLabel.setText((String) tabellaMezzi.getValueAt(riga, 1));
+                marcaLabel.setText((String) tabellaMezzi.getValueAt(riga, 2));
+                modelloLabel.setText((String) tabellaMezzi.getValueAt(riga, 3));
+                pesoTrasportabile = getInfoCapienzaMezzo(riga);
+                setProgressBarRiepilogo(pesoTrasportabile);
+                break;
+            }
+        }
+    }
+
+    private Boolean isCellaMezzoSelezionata(int riga) {
+        return (Boolean) tabellaMezzi.getValueAt(riga, 0);
+    }
+
+    private float getInfoCapienzaMezzo(int riga){
+        float pesoTrasportabile;
+        pesoTrasportabile = ((float) tabellaMezzi.getValueAt(riga, 5));
+        return pesoTrasportabile;
+    }
+
+    private void setProgressBarRiepilogo(float pesoTrasportabileMezzo){
+        int percentuale = calcolaPercentualeProgressBar(pesoTrasportabileMezzo);
+        pesoMezzoProgressBar.setValue(percentuale);
+        pesoMezzoProgressBar.setStringPainted(true);
+        if(percentuale <= 25)
+            pesoMezzoProgressBar.setForeground(new Color(20, 161, 0));
+        if(percentuale > 25 && percentuale < 75)
+            pesoMezzoProgressBar.setForeground(new Color(206, 93, 0));
+        if(percentuale >= 75)
+            pesoMezzoProgressBar.setForeground(new Color(255, 89, 90));
+    }
+
+    private int calcolaPercentualeProgressBar(float pesoTrasportabileMezzo) {
+        float pesoKgTotOrdini;
+        int percentuale;
+        pesoKgTotOrdini = controller.calcolaPesoOrdini(listaOrdiniSelezionati);
+        percentuale = (int) ((int) (100 * pesoKgTotOrdini)/pesoTrasportabileMezzo);
+        return percentuale;
+    }
+
     private void confermaChiusura(){
         Object[] Opzioni = {"Si", "No"};
         if (JOptionPane.showOptionDialog(this, "Sei sicuro di voler uscire? Le scelte fatte non verranno salvate.",

@@ -144,9 +144,9 @@ public class Controller {
         return statisticheOrdiniDAO.getStatisticheOrdine(mese, conn);
     }
     
-    public ArrayList<MezzoTrasportoDTO> recuperaMezziDisponibili(){
+    public ArrayList<MezzoTrasportoDTO> recuperaMezziDisponibili(float pesoOrdiniSelezionati){
         MezzoTrasportoDAO mezzoTrasportoDAO = new MezzoTrasportoDAO();
-        return  mezzoTrasportoDAO.getMezziDisponibili(conn);
+        return  mezzoTrasportoDAO.getMezziDisponibili(pesoOrdiniSelezionati,conn);
     }
     
     public ArrayList<CorriereDTO> recuperaCorrieriDisponibili(){
@@ -177,6 +177,14 @@ public class Controller {
     public void aggiungiMezziUtilizzati(int matricola, String targa, Connection conn){
         MezziInUsoDAO mezziInUsoDAO = new MezziInUsoDAO();
         mezziInUsoDAO.aggiungiMezziInUso(matricola, targa, conn);
+    }
+
+    public float calcolaPesoOrdini(ArrayList<DettagliOrdineDTO> listaOrdiniSelezionati){
+        float pesoTot = 0;
+        for(DettagliOrdineDTO ordine : listaOrdiniSelezionati){
+            pesoTot += ordine.getPeso();
+        }
+        return pesoTot;
     }
     
     public void resizeColumnWidth(JTable table) {

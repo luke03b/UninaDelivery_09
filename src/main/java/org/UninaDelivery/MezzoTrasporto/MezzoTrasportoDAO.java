@@ -7,15 +7,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class MezzoTrasportoDAO {
-    public ArrayList<MezzoTrasportoDTO> getMezziDisponibili(Connection conn){
+    public ArrayList<MezzoTrasportoDTO> getMezziDisponibili(float totPeso, Connection conn){
         ArrayList<MezzoTrasportoDTO> listaMezziDisponibili = new ArrayList<>();
         
         try{
             PreparedStatement stmt = conn.prepareStatement(
                     "SELECT * " +
                     "FROM MezzoTrasporto " +
-                    "WHERE Targa NOT IN (SELECT Targa FROM MezziInUso WHERE DataUtilizzo = CURRENT_DATE + 3)");
-            
+                    "WHERE Targa NOT IN (SELECT Targa " +
+                                          "FROM MezziInUso " +
+                                         "WHERE DataUtilizzo = CURRENT_DATE + 3) " +
+                           "AND MezzoTrasporto.CapienzaPeso >= ?");
+            stmt.setFloat(1, totPeso);
             ResultSet rs = stmt.executeQuery();
             while(rs.next()){
                 MezzoTrasportoDTO mezzoCorrente = new MezzoTrasportoDTO();
