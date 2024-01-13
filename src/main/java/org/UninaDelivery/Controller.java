@@ -39,7 +39,7 @@ public class Controller {
     }
 
     public Controller() {
-        apriLogin();
+        apriSplashPage();
     }
     
     public ArrayList<DettagliOrdineDTO> getOrdiniNonSpediti(){
@@ -103,6 +103,15 @@ public class Controller {
     public void apriLogin(){
         LoginForm loginForm = new LoginForm(null,this);
         loginForm.setVisible(true);
+    }
+    
+    public void apriSplashPage(){
+        SplashPage splashPage = new SplashPage(this);
+    }
+    
+    public void chiudiSplashPage(JWindow parent){
+        parent.dispose();
+        apriLogin();
     }
     
     public void apriStatistica(){
