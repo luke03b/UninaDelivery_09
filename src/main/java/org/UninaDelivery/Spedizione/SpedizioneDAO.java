@@ -28,7 +28,7 @@ public class SpedizioneDAO {
             comando = comando.substring(0, comando.length()-2);
             int numeroRigheInserite = stmt.executeUpdate(comando);
             if (numeroRigheInserite == 0)
-                throw new NessunaSpedizioneEffettuataException();
+                throw new NessunaSpedizioneEffettuataException(parent, controlloreFinestre);
             if (numeroRigheInserite < ((int[]) dettagliSpedizione.get(3)).length)
                 throw new AlcuneSpedizioniNonEffettuateException(parent, controlloreFinestre, numeroRigheInserite);
             System.out.println("Tutte le spedizioni effettuate con successo");
