@@ -2,18 +2,18 @@ package org.UninaDelivery;
 
 import org.UninaDelivery.Controllori.ControlloreDAO;
 import org.UninaDelivery.Controllori.ControlloreFinestre;
-import org.UninaDelivery.Exception.MeseNonValidoException;
 import org.UninaDelivery.StatisticheOrdini.StatisticheOrdineDTO;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 
 public class StatisticaPage extends JDialog{
     private JButton indietroButton;
     private JTable statisticaTable;
-    private JComboBox comboBox1;
+    private JComboBox comboBoxMese;
     private JPanel statisticaPanel;
     private JLabel AVGordineLabel;
     private JLabel maxProdotti;
@@ -39,21 +39,16 @@ public class StatisticaPage extends JDialog{
                 dispose();
             }
         });
-        comboBox1.addActionListener(new ActionListener() {
+        comboBoxMese.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String meseSelezionato;
-                meseSelezionato = comboBox1.getSelectedItem().toString();
-                try{
-                    recuperaStatisticaMese(meseSelezionato);
-                } catch (MeseNonValidoException exception){
-                    System.out.println("nessun mese selezionato: " + exception);
-                }
+                String meseSelezionato = comboBoxMese.getSelectedItem().toString();
+                recuperaStatisticaMese(meseSelezionato);
             }
         });
     }
 
-    private void recuperaStatisticaMese(String meseSelezionato) throws MeseNonValidoException {
+    private void recuperaStatisticaMese(String meseSelezionato) {
         StatisticheOrdineDTO statisticheOrdineDTO = new StatisticheOrdineDTO();
         switch (meseSelezionato){
             case "<Mese>" -> {AVGordineLabel.setText(""); maxProdotti.setText(""); minProdotti.setText(""); return;}
@@ -69,13 +64,13 @@ public class StatisticaPage extends JDialog{
             case "Ottobre" -> statisticheOrdineDTO = controlloreDAO.eseguiStatistica(10);
             case "Novembre" -> statisticheOrdineDTO = controlloreDAO.eseguiStatistica(11);
             case "Dicembre" -> statisticheOrdineDTO = controlloreDAO.eseguiStatistica(12);
-            default -> throw new MeseNonValidoException();
+            default -> System.out.println("il mese selezionato non è presente nella comboBox, evento strano.");
         }
         aggiornaLabels(statisticheOrdineDTO);
     }
 
     private void aggiornaLabels(StatisticheOrdineDTO statisticheOrdineDTO){
-        AVGordineLabel.setText(String.valueOf(statisticheOrdineDTO.getAVGNumOrdini()));
+        AVGordineLabel.setText(String.valueOf(new DecimalFormat("#.##").format(statisticheOrdineDTO.getAVGNumOrdini())));
         maxProdotti.setText(String.valueOf(statisticheOrdineDTO.getMaxNumProdottiInOrdine()));
         minProdotti.setText(String.valueOf(statisticheOrdineDTO.getMinNumProdottiInOrdine()));
     }
@@ -96,6 +91,7 @@ public class StatisticaPage extends JDialog{
     private void setImpostazioniVarie(){
         logoLabel.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScrittePiccolo.png"));
         logoUnina.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoFedericoII.png"));
+        comboBoxMese.setFocusable(false);
     }
 
     private void setImpostazioniIndietroButton(){

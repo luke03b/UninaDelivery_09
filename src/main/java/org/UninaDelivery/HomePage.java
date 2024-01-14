@@ -45,6 +45,7 @@ public class HomePage extends JFrame{
     private JLabel dataInizioLabel;
     private JButton resetButton;
     private JButton selezionaTuttoButton;
+    private JLabel ordiniNonSpeditiLabel;
     private ControlloreFinestre controlloreFinestre;
     private ControlloreDAO controlloreDAO;
     private OperatoreDTO operatoreLoggato;
@@ -144,6 +145,7 @@ public class HomePage extends JFrame{
         programmaButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/schedule.png"));
         creaSpedizioneButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/tracking.png"));
         dettagliOrdineButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/find.png"));
+        ordiniNonSpeditiLabel.setIcon((new ImageIcon("src/main/java/org/UninaDelivery/Icon/order.png")));
     }
     
     private void setImpostazioniBottoni(){
@@ -155,6 +157,7 @@ public class HomePage extends JFrame{
         creaSpedizioneButton.setOpaque(true);
         selezionaTuttoButton.setFocusable(false);
         resetButton.setFocusable(false);
+        logOutButton.setFocusable(false);
     }
     
     private void setImpostazioniUserInformationButton(){
@@ -164,6 +167,7 @@ public class HomePage extends JFrame{
         userInformationButton.setBorderPainted(false);
         userInformationButton.setBorder(null);
         userInformationButton.setContentAreaFilled(false);
+        userInformationButton.setFocusable(false);
     }
     
     private void setImpostazioniLogoutButton(){
@@ -193,21 +197,23 @@ public class HomePage extends JFrame{
         toolBar.add(aggiornaButton);
 
         pickerDataInizio.setToolTipText("Data dalla quale si inizierà a cercare");
-        pickerDataInizio.setPreferredSize(new Dimension(100, 23));
-        pickerDataInizio.setMinimumSize(new Dimension(100, 23));
+        pickerDataInizio.setPreferredSize(new Dimension(150, 23));
+        pickerDataInizio.setMinimumSize(new Dimension(150, 23));
+        pickerDataInizio.setMaximumSize(new Dimension(150, 23));
         pickerDataFine.setToolTipText("Data dalla quale si finirà di cercare");
-        pickerDataFine.setPreferredSize(new Dimension(100, 23));
-        pickerDataFine.setMinimumSize(new Dimension(100, 23));
+        pickerDataFine.setPreferredSize(new Dimension(150, 23));
+        pickerDataFine.setMinimumSize(new Dimension(150, 23));
+        pickerDataFine.setMaximumSize(new Dimension(150, 23));
 
         ArrayList<ClienteDTO> listaClienti = controlloreDAO.recuperaClienti();
         filtroUtenti.addItem("<Filtra Utente>");
         for (ClienteDTO clienteDTO : listaClienti) {
             filtroUtenti.addItem(clienteDTO.getNominativo() + " " + clienteDTO.getNumeroTelefono());
         }
-        filtroUtenti.setPreferredSize(new Dimension(400, 30));
-        filtroUtenti.setMinimumSize(new Dimension(400, 30));
+        filtroUtenti.setPreferredSize(new Dimension(300, 30));
+        filtroUtenti.setMinimumSize(new Dimension(300, 30));
+        filtroUtenti.setMaximumSize(new Dimension(300, 30));
         AutoCompleteDecorator.decorate(filtroUtenti);
-        ((JLabel)filtroUtenti.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
         toolBar.setFloatable(false);
     }
     
