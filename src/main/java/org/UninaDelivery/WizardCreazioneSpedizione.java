@@ -3,8 +3,6 @@ package org.UninaDelivery;
 import org.UninaDelivery.Controllori.ControlloreDAO;
 import org.UninaDelivery.Controllori.ControlloreFinestre;
 import org.UninaDelivery.Corriere.CorriereDTO;
-import org.UninaDelivery.Exception.AlcuneSpedizioniNonEffettuateException;
-import org.UninaDelivery.Exception.NessunaSpedizioneEffettuataException;
 import org.UninaDelivery.Exception.NoCampiSelezionatiException;
 import org.UninaDelivery.Exception.TroppiCampiSelezionatiException;
 import org.UninaDelivery.MezzoTrasporto.MezzoTrasportoDTO;
@@ -29,6 +27,7 @@ public class WizardCreazioneSpedizione extends JDialog{
     private JButton avantiButton2;
     private JButton annullaButton;
     private JButton indietroButton2;
+    private JButton indietroButton4;
     private JTable tabellaCorrieri;
     private JScrollPane panelContenenteTableCorrieri;
     private JLabel iconaSceltaCorriere;
@@ -37,9 +36,9 @@ public class WizardCreazioneSpedizione extends JDialog{
     private JLabel iconaSceltaCorriere2;
     private JLabel iconaMezzo2;
     private JLabel iconaRiepilogo2;
-    private JLabel iconaSceltaCorriere3;
-    private JLabel iconaRiepilogo3;
-    private JLabel iconaMezzo3;
+    private JLabel iconaSceltaCorriere4;
+    private JLabel iconaRiepilogo4;
+    private JLabel iconaMezzo4;
     private JButton indietroButton3;
     private JScrollPane panelContenenteTableMezzi;
     private JButton confermaButton;
@@ -53,6 +52,19 @@ public class WizardCreazioneSpedizione extends JDialog{
     private JLabel modelloLabel;
     private JScrollPane panelContenenteTableOrdini;
     private JProgressBar pesoMezzoProgressBar;
+    private JLabel iconaTipoSpedizione4;
+    private JLabel iconaTipoSpedizione1;
+    private JLabel iconaTipoSpedizione2;
+    private JPanel paginaTipoSpedizione;
+    private JLabel iconaSceltaCorriere3;
+    private JLabel iconaMezzo3;
+    private JLabel iconaRiepilogo3;
+    private JLabel iconaTipoSpedizione3;
+    private JButton avantiButton3;
+    private JRadioButton radioButtonMensile;
+    private JRadioButton radioButtonAnnuale;
+    private JRadioButton radioButtonSettimanale;
+    private JRadioButton radioButtonSingola;
     private ControlloreFinestre controlloreFinestre;
     private ControlloreDAO controlloreDAO;
     private ArrayList<DettagliOrdineDTO> listaOrdiniSelezionati;
@@ -74,7 +86,8 @@ public class WizardCreazioneSpedizione extends JDialog{
         setImpostazioniTabellaRiepilogoOrdini();
 
         listeners();
-        
+
+
     }
     
     private void setImpostazioniWizardPage(HomePage parent, ControlloreFinestre controlloreFinestre, ControlloreDAO controlloreDAO, ArrayList<DettagliOrdineDTO> listaOrdiniSelezionati, int matricolaOperatoreLoggato){
@@ -88,13 +101,21 @@ public class WizardCreazioneSpedizione extends JDialog{
         this.parent = parent;
         setTitle("Creazione Spedizione");
         setContentPane(cards);
-        setMinimumSize(new Dimension(800, 400));
+        setMinimumSize(new Dimension(1000, 400));
+        setResizable(false);
         setModal(true);
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         cards.add(paginaSceltaCorriere, "Scelta Corriere");
         cards.add(paginaSceltaMezzo, "Scelta Mezzo Trasporto");
+        cards.add(paginaTipoSpedizione, "Scelta Tipo Spedizione");
         cards.add(paginaRiepilogo, "Riepilogo");
+
+        ButtonGroup group = new ButtonGroup();
+        group.add(radioButtonSingola);
+        group.add(radioButtonSettimanale);
+        group.add(radioButtonMensile);
+        group.add(radioButtonAnnuale);
     }
 
     public void setImpostazioniVarie() {
@@ -107,14 +128,22 @@ public class WizardCreazioneSpedizione extends JDialog{
         iconaSceltaCorriere.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/sceltaCorriereNero.png"));
         iconaSceltaCorriere2.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/sceltaCorriereRosso.png"));
         iconaSceltaCorriere3.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/sceltaCorriereRosso.png"));
+        iconaSceltaCorriere4.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/sceltaCorriereRosso.png"));
 
         iconaMezzo.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/sceltaMezzoRosso.png"));
         iconaMezzo2.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/sceltaMezzoNero.png"));
         iconaMezzo3.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/sceltaMezzoRosso.png"));
+        iconaMezzo4.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/sceltaMezzoRosso.png"));
 
         iconaRiepilogo.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/RiepilogoRosso.png"));
         iconaRiepilogo2.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/RiepilogoRosso.png"));
-        iconaRiepilogo3.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/RiepilogoNero.png"));
+        iconaRiepilogo3.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/RiepilogoRosso.png"));
+        iconaRiepilogo4.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/RiepilogoNero.png"));
+
+        iconaTipoSpedizione1.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/clockRosso.png"));
+        iconaTipoSpedizione2.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/clockRosso.png"));
+        iconaTipoSpedizione3.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/clockNero.png"));
+        iconaTipoSpedizione4.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/clockRosso.png"));
     }
 
     public void setImpostazioniIndietroButton() {
@@ -131,6 +160,13 @@ public class WizardCreazioneSpedizione extends JDialog{
         indietroButton3.setBorderPainted(false);
         indietroButton3.setContentAreaFilled(false);
         indietroButton3.setFocusable(false);
+
+        indietroButton4.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/Indietro.png"));
+        indietroButton4.setMargin(new Insets(0, 0, 0, 0));
+        indietroButton4.setOpaque(false);
+        indietroButton4.setBorderPainted(false);
+        indietroButton4.setContentAreaFilled(false);
+        indietroButton4.setFocusable(false);
     }
 
     private void setImpostazioniAnnullaButton() {
@@ -156,6 +192,13 @@ public class WizardCreazioneSpedizione extends JDialog{
         avantiButton2.setBorderPainted(false);
         avantiButton2.setContentAreaFilled(false);
         avantiButton2.setFocusable(false);
+
+        avantiButton3.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/avanti.png"));
+        avantiButton3.setMargin(new Insets(0, 0, 0, 0));
+        avantiButton3.setOpaque(false);
+        avantiButton3.setBorderPainted(false);
+        avantiButton3.setContentAreaFilled(false);
+        avantiButton3.setFocusable(false);
     }
 
     private void setImpostazioniConfermaButton(){
@@ -311,7 +354,12 @@ public class WizardCreazioneSpedizione extends JDialog{
                 }
             }
         });
-        
+
+        indietroButton4.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { cardLayout.previous(cards);
+            }
+        });
         annullaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -331,15 +379,19 @@ public class WizardCreazioneSpedizione extends JDialog{
                 }
             }
         });
+        avantiButton3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { cardLayout.next(cards);
+            }
+        });
         indietroButton2.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                cardLayout.previous(cards);
+            public void actionPerformed(ActionEvent e) { cardLayout.previous(cards);
             }
         });
         indietroButton3.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {cardLayout.previous(cards); }
+            public void actionPerformed(ActionEvent e) { cardLayout.previous(cards); }
         });
         confermaButton.addActionListener(new ActionListener() {
             @Override
