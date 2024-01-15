@@ -94,7 +94,7 @@ public class ControlloreDAO {
 
     public ArrayList<ClienteDTO> recuperaClienti(){
         ClienteDAO clienteDAO = new ClienteDAO();
-        return clienteDAO.recuperaClientiDTO(conn);
+        return clienteDAO.getClientiDTO(conn);
     }
 
     public ArrayList<ProdottoDTO> recuperaProdotti(int numOrdine){
@@ -130,5 +130,13 @@ public class ControlloreDAO {
         } catch (NessunaSpedizioneEffettuataException e) {
             System.out.println("Nessuna spedizione effettuata: " + e);
         }
+    }
+
+    public float calcolaPesoOrdini(ArrayList<DettagliOrdineDTO> listaOrdiniSelezionati){
+        float pesoTot = 0;
+        for(DettagliOrdineDTO ordine : listaOrdiniSelezionati){
+            pesoTot += ordine.getPeso();
+        }
+        return pesoTot;
     }
 }

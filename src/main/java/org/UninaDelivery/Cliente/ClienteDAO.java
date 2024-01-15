@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class ClienteDAO {
 
-    public ArrayList<ClienteDTO> recuperaClientiDTO(Connection conn){
+    public ArrayList<ClienteDTO> getClientiDTO(Connection conn){
         ArrayList<ClienteDTO> listaClienti = new ArrayList<>();
 
         try {
