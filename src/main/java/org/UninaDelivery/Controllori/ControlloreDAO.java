@@ -146,4 +146,9 @@ public class ControlloreDAO {
         }
         return pesoTot;
     }
+    
+    public void aggiornaSpedizioniProgrammate(ArrayList<DettagliSpedizioneDTO> listaSpedizioni, String tipoSpedizione){
+        DettagliSpedizioneDAO spedizioneDAO = new DettagliSpedizioneDAO();
+        spedizioneDAO.aggiornaSpedizioniProgrammate(listaSpedizioni, tipoSpedizione, conn);
+    }
 }

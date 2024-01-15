@@ -202,6 +202,27 @@ public class SpedizioniProgrammatePage extends JFrame {
                 controlloreFinestre.apriHome(operatoreLoggato, SpedizioniProgrammatePage.this);
             }
         });
+        
+        annullaProgrammazioneButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    if(controllaQuanteFlagTabella() == 0)
+                        throw new NoCampiSelezionatiException(SpedizioniProgrammatePage.this, controlloreFinestre);
+                    Object[] Opzioni = {"Si", "No"};
+                    if (JOptionPane.showOptionDialog(SpedizioniProgrammatePage.this, "Vuoi annullare tutte le programmazioni selezionate?",
+                            "Attenzione", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, Opzioni,
+                            Opzioni[0]) == JOptionPane.OK_OPTION){
+                        controlloreDAO.aggiornaSpedizioniProgrammate(getSpedizioniSelezionateDaTabella(), "Singola");
+                        controlloreFinestre.mostraMessageDialog(SpedizioniProgrammatePage.this, "Tutte le spedizioni annullate con successo!", "Avviso");
+                        ArrayList<DettagliSpedizioneDTO> listaSpedizioniProgrammate = controlloreDAO.getSpedizioniProgrammate();
+                        aggiungiElementiATabella(listaSpedizioniProgrammate);
+                    }
+                } catch (NoCampiSelezionatiException exception){
+                    System.out.println("Nessuna checkBox selezionata: " + exception);
+                }
+            }
+        });
     }
 
     private int controllaQuanteFlagTabella(){
@@ -217,8 +238,8 @@ public class SpedizioniProgrammatePage extends JFrame {
         return (Boolean) spedizioniTable.getValueAt(riga, 0);
     }
 
-    public ArrayList<DettagliOrdineDTO> getSpedizioniSelezionateDaTabella(){
-        ArrayList<DettagliOrdineDTO> listaOrdiniSelezionati = new ArrayList<>();
+    public ArrayList<DettagliSpedizioneDTO> getSpedizioniSelezionateDaTabella(){
+        ArrayList<DettagliSpedizioneDTO> listaOrdiniSelezionati = new ArrayList<>();
         for (int riga = 0; riga < spedizioniTable.getRowCount(); riga++){
             if(isCellaSelezionata(riga))
                 listaOrdiniSelezionati.add(recuperaContenutoRiga(riga));
@@ -226,15 +247,15 @@ public class SpedizioniProgrammatePage extends JFrame {
         return listaOrdiniSelezionati;
     }
 
-    private DettagliOrdineDTO recuperaContenutoRiga(int riga){
-        DettagliOrdineDTO ordineCorrente = new DettagliOrdineDTO();
-        ordineCorrente.setNumeroOrdine((int) spedizioniTable.getValueAt(riga, 1));
-        ordineCorrente.setMittente((String) spedizioniTable.getValueAt(riga, 3));
-        ordineCorrente.setDestinatario((String) spedizioniTable.getValueAt(riga, 4));
-        ordineCorrente.setIndirizzo((String) spedizioniTable.getValueAt(riga, 5));
-        ordineCorrente.setPeso((float) spedizioniTable.getValueAt(riga, 6));
-        ordineCorrente.setGrandezza((String) spedizioniTable.getValueAt(riga, 7));
-        return ordineCorrente;
+    private DettagliSpedizioneDTO recuperaContenutoRiga(int riga){
+        DettagliSpedizioneDTO dettagliSpedizioneDTO = new DettagliSpedizioneDTO();
+        dettagliSpedizioneDTO.setNumeroTracciamento((int) spedizioniTable.getValueAt(riga, 1));
+        dettagliSpedizioneDTO.setDataPrevista((LocalDate) spedizioniTable.getValueAt(riga, 2));
+        dettagliSpedizioneDTO.setMittente((String) spedizioniTable.getValueAt(riga, 3));
+        dettagliSpedizioneDTO.setDestinatario((String) spedizioniTable.getValueAt(riga, 4));
+        dettagliSpedizioneDTO.setIndirizzo((String) spedizioniTable.getValueAt(riga, 5));
+        dettagliSpedizioneDTO.setTipoSpedizione((String) spedizioniTable.getValueAt(riga, 6));
+        return dettagliSpedizioneDTO;
     }
 
     private void isSelezioneValida() throws NoCampiSelezionatiException, TroppiCampiSelezionatiException {

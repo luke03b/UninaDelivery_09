@@ -775,6 +775,7 @@
                     </constraints>
                     <properties>
                       <background color="-3489613"/>
+                      <selected value="true"/>
                       <text value=""/>
                     </properties>
                   </component>

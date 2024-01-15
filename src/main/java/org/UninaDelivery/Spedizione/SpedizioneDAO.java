@@ -17,7 +17,7 @@ public class SpedizioneDAO {
                     "DataPrevista, DataConsegna, PrezzoSpedizione, Porto, Tipo, MatricolaOperatore, MatricolaCorriere, " +
                     "TargaTrasporto, NumeroOrdine) VALUES ";
             for (int numeroOrdine : (int[]) dettagliSpedizione.get(3)){
-                comando = comando.concat("(DEFAULT, NULL, DEFAULT, DEFAULT, CURRENT_DATE + 3, NULL, 3.5, 'Franco', 'Singola', "
+                comando = comando.concat("(DEFAULT, NULL, DEFAULT, DEFAULT, CURRENT_DATE + 3, NULL, 3.5, 'Franco', '" + dettagliSpedizione.get(4) + "', "
                         + dettagliSpedizione.get(0) + ", " + dettagliSpedizione.get(1) + ", '" + dettagliSpedizione.get(2) +
                         "', " + numeroOrdine + "), ");
             }
@@ -29,11 +29,12 @@ public class SpedizioneDAO {
                 throw new AlcuneSpedizioniNonEffettuateException(parent, controlloreFinestre, numeroRigheInserite);
             System.out.println("Tutte le spedizioni effettuate con successo");
             stmt.close();
+            return true;
         } catch (SQLException e) {
             System.out.println("SQL Exception: " + e);
         } catch (Exception e) {
             System.out.println("errore generico: " + e);
         }
-        return true;
+        return false;
     }
 }

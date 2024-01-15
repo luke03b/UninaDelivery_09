@@ -1,9 +1,6 @@
 package org.UninaDelivery.DettagliSpedizione;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class DettagliSpedizioneDAO {
@@ -56,5 +53,23 @@ public class DettagliSpedizioneDAO {
                 rs.getString("cap") + " " + rs.getString("citta") + " " + rs.getString("provincia"));
 
         return dettagliSpedizioneDTO;
+    }
+    
+    public void aggiornaSpedizioniProgrammate(ArrayList<DettagliSpedizioneDTO> listaSpedizioni, String tipoSpedizione, Connection conn){
+        try {
+            Statement stmt;
+            stmt = conn.createStatement();
+            String comando = "UPDATE Spedizione SET tipo = '" + tipoSpedizione + "' WHERE numeroTracciamento IN (";
+            for (DettagliSpedizioneDTO dettagliSpedizioneDTO : listaSpedizioni){
+                comando = comando.concat(dettagliSpedizioneDTO.getNumeroTracciamento() + ", ");
+            }
+            comando = comando.substring(0, comando.length()-2);
+            comando = comando.concat(")");
+            stmt.executeUpdate(comando);
+        } catch (SQLException e) {
+            System.out.println("SQL Exception: " + e);
+        } catch (Exception e) {
+            System.out.println("errore generico: " + e);
+        }
     }
 }

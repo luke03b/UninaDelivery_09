@@ -283,7 +283,7 @@ public class WizardCreazioneSpedizione extends JDialog{
     }
     
     private static DefaultTableModel getModelloTabellaMezzi() {
-        Object[] nomiColonne = {"Seleziona", "Targa", "Marca", "Modello", "Capacità Trasportabile (l)", "Peso Trasportabile" + "(Kg)"};
+        Object[] nomiColonne = {"Seleziona", "Targa", "Marca", "Modello", "Capacità Trasportabile (L)", "Peso Trasportabile" + "(Kg)"};
         DefaultTableModel modelloTabella = new DefaultTableModel(new Object[][]{}, nomiColonne){
             //rende solo la prima colonna della tabella editabile
             @Override
@@ -419,7 +419,19 @@ public class WizardCreazioneSpedizione extends JDialog{
         dettagliSpedizione.add(1, Integer.parseInt(matricolaLabel.getText()));
         dettagliSpedizione.add(2, targaLabel.getText());
         dettagliSpedizione.add(3, creaListaOrdiniSelezionati());
+        dettagliSpedizione.add(4, tipoSpedizioneSelezionato());
         return dettagliSpedizione;
+    }
+    
+    private String tipoSpedizioneSelezionato(){
+        if (radioButtonSingola.isSelected())
+            return "Singola";
+        if (radioButtonSettimanale.isSelected())
+            return "Settimanale";
+        if (radioButtonMensile.isSelected())
+            return "Mensile";
+        
+        return "Annuale";
     }
     
     private int[] creaListaOrdiniSelezionati(){
