@@ -1,10 +1,8 @@
 package org.UninaDelivery.Spedizione;
 
 import org.UninaDelivery.Controllori.ControlloreFinestre;
-import org.UninaDelivery.Starter;
 import org.UninaDelivery.Exception.AlcuneSpedizioniNonEffettuateException;
 import org.UninaDelivery.Exception.NessunaSpedizioneEffettuataException;
-import org.UninaDelivery.WizardCreazioneSpedizione;
 
 import java.awt.*;
 import java.sql.Connection;
@@ -13,9 +11,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class SpedizioneDAO {
-    public boolean creaSpedizione(ArrayList<Object> dettagliSpedizione, Connection conn, Component parent, ControlloreFinestre controlloreFinestre) throws AlcuneSpedizioniNonEffettuateException, NessunaSpedizioneEffettuataException {
+    public boolean inserisciSpedizione(ArrayList<Object> dettagliSpedizione, Connection conn, Component parent, ControlloreFinestre controlloreFinestre) throws AlcuneSpedizioniNonEffettuateException, NessunaSpedizioneEffettuataException {
         try{
-            Statement stmt = null;
+            Statement stmt;
             stmt = conn.createStatement();
             String comando = "INSERT INTO Spedizione (NumeroTracciamento, Descrizione, Stato, DataAffidamento, " +
                     "DataPrevista, DataConsegna, PrezzoSpedizione, Porto, Tipo, MatricolaOperatore, MatricolaCorriere, " +
@@ -35,6 +33,8 @@ public class SpedizioneDAO {
             stmt.close();
         } catch (SQLException e) {
             System.out.println("SQL Exception: " + e);
+        } catch (Exception e) {
+            System.out.println("errore generico: " + e);
         }
         return true;
     }

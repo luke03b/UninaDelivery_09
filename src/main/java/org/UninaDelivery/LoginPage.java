@@ -24,10 +24,10 @@ public class LoginPage extends JFrame {
     private Boolean isPasswordVisibile = false;
     private ControlloreFinestre controlloreFinestre;
     private ControlloreDAO controlloreDAO;
-    ImageIcon imageIcon = new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScritte.png");
+    private ImageIcon imageIcon = new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScritte.png");
     
     public LoginPage(JFrame parent, ControlloreFinestre controlloreFinestre, ControlloreDAO controlloreDAO) {
-        setImpostazioniLoginForm(parent, controlloreFinestre, controlloreDAO);
+        setImpostazioniLoginPage(parent, controlloreFinestre, controlloreDAO);
         setImpostazioniButtonMostraPassword();
         setImpostazioniLoginButton();
         setImpostazioniResetButton();
@@ -37,7 +37,7 @@ public class LoginPage extends JFrame {
         listeners();
     }
 
-    private void setImpostazioniLoginForm(JFrame parent, ControlloreFinestre controlloreFinestre, ControlloreDAO controlloreDAO){
+    private void setImpostazioniLoginPage(JFrame parent, ControlloreFinestre controlloreFinestre, ControlloreDAO controlloreDAO){
         setIconImage(imageIcon.getImage());
         setLayout(null);
         setResizable(false);
@@ -154,7 +154,7 @@ public class LoginPage extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    ControllaLogin();
+                    controllaLogin();
                 } catch (CampiVuotiException ex) {
                     System.out.println("campi vuoti: " + ex);
                 }
@@ -175,7 +175,7 @@ public class LoginPage extends JFrame {
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER) {
                     try {
-                        ControllaLogin();
+                        controllaLogin();
                     } catch (CampiVuotiException ex) {
                         System.out.println("campi vuoti: " + ex);
                     }
@@ -191,7 +191,7 @@ public class LoginPage extends JFrame {
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER) {
                     try {
-                        ControllaLogin();
+                        controllaLogin();
                     } catch (CampiVuotiException ex) {
                         System.out.println("campi vuoti: " + ex);
                     }
@@ -214,7 +214,7 @@ public class LoginPage extends JFrame {
         });
     }
     
-    public void ControllaLogin() throws CampiVuotiException {
+    public void controllaLogin() throws CampiVuotiException {
         String Matricola = textLoginMatricola.getText();
         String Password = new String(textLoginPassword.getPassword());
         OperatoreDTO operatoreEntrante;

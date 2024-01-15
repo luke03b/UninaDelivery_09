@@ -34,7 +34,7 @@ public class HomePage extends JFrame{
     private JButton programmaButton;
     private JButton statisticaButton;
     private JTable ordiniTable;
-    private JButton userInformationButton;
+    private JButton infoUtenteButton;
     private JLabel nomeLabel;
     private JLabel cognomeLabel;
     private JScrollPane panelContenenteJTable;
@@ -42,7 +42,6 @@ public class HomePage extends JFrame{
     private JComboBox filtroUtenti;
     private JButton aggiornaButton;
     private JButton dettagliOrdineButton;
-    private JLabel dataInizioLabel;
     private JButton resetButton;
     private JButton selezionaTuttoButton;
     private JLabel ordiniNonSpeditiLabel;
@@ -161,13 +160,13 @@ public class HomePage extends JFrame{
     }
     
     private void setImpostazioniUserInformationButton(){
-        userInformationButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/user.png"));
-        userInformationButton.setMargin(new Insets(0, 0, 0, 0));
-        userInformationButton.setOpaque(false);
-        userInformationButton.setBorderPainted(false);
-        userInformationButton.setBorder(null);
-        userInformationButton.setContentAreaFilled(false);
-        userInformationButton.setFocusable(false);
+        infoUtenteButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/user.png"));
+        infoUtenteButton.setMargin(new Insets(0, 0, 0, 0));
+        infoUtenteButton.setOpaque(false);
+        infoUtenteButton.setBorderPainted(false);
+        infoUtenteButton.setBorder(null);
+        infoUtenteButton.setContentAreaFilled(false);
+        infoUtenteButton.setFocusable(false);
     }
     
     private void setImpostazioniLogoutButton(){
@@ -237,7 +236,7 @@ public class HomePage extends JFrame{
             }
         });
 
-        userInformationButton.addActionListener(new ActionListener() {
+        infoUtenteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 controlloreFinestre.apriInfoOperatore(operatoreLoggato);

@@ -3,85 +3,85 @@ package org.UninaDelivery.Cliente;
 import java.time.LocalDate;
 
 public class ClienteDTO {
-    private String NumeroTelefono;
-    private String Mail;
-    private String CodiceFiscale;
-    private LocalDate DataNascita;
-    private String Nominativo;
-    private String PartitaIVA;
-    private String Tipo;
-    private String Ruolo;
-    private int IdIndirizzo;
+    private String numeroTelefono;
+    private String mail;
+    private String codiceFiscale;
+    private LocalDate dataNascita;
+    private String nominativo;
+    private String partitaIVA;
+    private String string;
+    private String ruolo;
+    private int idIndirizzo;
 
     public String getNumeroTelefono() {
-        return NumeroTelefono;
+        return numeroTelefono;
     }
 
     public void setNumeroTelefono(String numeroTelefono) {
-        NumeroTelefono = numeroTelefono;
+        this.numeroTelefono = numeroTelefono;
     }
 
     public String getMail() {
-        return Mail;
+        return mail;
     }
 
     public void setMail(String mail) {
-        Mail = mail;
+        this.mail = mail;
     }
 
     public String getCodiceFiscale() {
-        return CodiceFiscale;
+        return codiceFiscale;
     }
 
     public void setCodiceFiscale(String codiceFiscale) {
-        CodiceFiscale = codiceFiscale;
+        this.codiceFiscale = codiceFiscale;
     }
 
     public LocalDate getDataNascita() {
-        return DataNascita;
+        return dataNascita;
     }
 
     public void setDataNascita(LocalDate dataNascita) {
-        DataNascita = dataNascita;
+        this.dataNascita = dataNascita;
     }
 
     public String getNominativo() {
-        return Nominativo;
+        return nominativo;
     }
 
     public void setNominativo(String nominativo) {
-        Nominativo = nominativo;
+        this.nominativo = nominativo;
     }
 
     public String getPartitaIVA() {
-        return PartitaIVA;
+        return partitaIVA;
     }
 
     public void setPartitaIVA(String partitaIVA) {
-        PartitaIVA = partitaIVA;
+        this.partitaIVA = partitaIVA;
     }
 
-    public String getTipo() {
-        return Tipo;
+    public String getString() {
+        return string;
     }
 
-    public void setTipo(String tipo) {
-        Tipo = tipo;
+    public void setString(String string) {
+        this.string = string;
     }
 
     public String getRuolo() {
-        return Ruolo;
+        return ruolo;
     }
 
     public void setRuolo(String ruolo) {
-        Ruolo = ruolo;
+        this.ruolo = ruolo;
     }
 
     public int getIdIndirizzo() {
-        return IdIndirizzo;
+        return idIndirizzo;
     }
 
     public void setIdIndirizzo(int idIndirizzo) {
-        IdIndirizzo = idIndirizzo;
+        this.idIndirizzo = idIndirizzo;
     }
 }

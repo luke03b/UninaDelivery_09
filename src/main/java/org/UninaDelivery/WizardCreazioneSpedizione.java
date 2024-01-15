@@ -228,7 +228,7 @@ public class WizardCreazioneSpedizione extends JDialog{
     }
     
     private void setImpostazioniTabellaMezzi(){
-        ArrayList<MezzoTrasportoDTO> listaMezziDisponibili = controlloreDAO.recuperaMezziDisponibili(controlloreFinestre.calcolaPesoOrdini(listaOrdiniSelezionati));
+        ArrayList<MezzoTrasportoDTO> listaMezziDisponibili = controlloreDAO.recuperaMezziDisponibili(controlloreDAO.calcolaPesoOrdini(listaOrdiniSelezionati));
         DefaultTableModel modelloTabella = getModelloTabellaMezzi();
         setRigheTabellaMezzi(modelloTabella, listaMezziDisponibili);
         
@@ -512,7 +512,7 @@ public class WizardCreazioneSpedizione extends JDialog{
     private int calcolaPercentualeProgressBar(float pesoTrasportabileMezzo) {
         float pesoKgTotOrdini;
         int percentuale;
-        pesoKgTotOrdini = controlloreFinestre.calcolaPesoOrdini(listaOrdiniSelezionati);
+        pesoKgTotOrdini = controlloreDAO.calcolaPesoOrdini(listaOrdiniSelezionati);
         percentuale = (int) ((int) (100 * pesoKgTotOrdini)/pesoTrasportabileMezzo);
         return percentuale;
     }

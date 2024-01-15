@@ -11,10 +11,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class ControlloreFinestre {
-    ControlloreDAO controlloreDAO;
-    public ControlloreFinestre(){
-
-    }
+    private ControlloreDAO controlloreDAO;
 
     public void mostraMessageDialog(Component parent, String testo, String titolo){
         JOptionPane.showMessageDialog(parent, testo, titolo, JOptionPane.ERROR_MESSAGE);
@@ -67,14 +64,6 @@ public class ControlloreFinestre {
 
     public void aggiornaTabellaHome(HomePage parent){
         parent.aggiornaTabella();
-    }
-
-    public float calcolaPesoOrdini(ArrayList<DettagliOrdineDTO> listaOrdiniSelezionati){
-        float pesoTot = 0;
-        for(DettagliOrdineDTO ordine : listaOrdiniSelezionati){
-            pesoTot += ordine.getPeso();
-        }
-        return pesoTot;
     }
 
     public void resizeColumnWidth(JTable table) {

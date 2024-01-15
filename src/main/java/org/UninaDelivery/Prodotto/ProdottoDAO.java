@@ -1,7 +1,5 @@
 package org.UninaDelivery.Prodotto;
 
-import org.UninaDelivery.Ordine.DettagliOrdineDTO;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,8 +20,8 @@ public class ProdottoDAO {
             
             ResultSet rs = stmt.executeQuery();
             while(rs.next()){
-                ProdottoDTO prodottoCorrente = new ProdottoDTO();
-                creaProdottoDTO(prodottoCorrente, rs);
+                ProdottoDTO prodottoCorrente;
+                prodottoCorrente = creaProdottoDTO(rs);
                 listaProdotti.add(prodottoCorrente);
             }
 
@@ -31,16 +29,17 @@ public class ProdottoDAO {
             rs.close();
 
         } catch (SQLException e) {
-            System.out.println(e);
+            System.out.println("errore SQL: " + e);
             throw new RuntimeException(e);
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("errore generico: " + e);
         }
         
         return listaProdotti;
     }
     
-    private void creaProdottoDTO(ProdottoDTO prodottoDTO, ResultSet rs) throws SQLException {
+    private ProdottoDTO creaProdottoDTO(ResultSet rs) throws SQLException {
+        ProdottoDTO prodottoDTO = new ProdottoDTO();
         prodottoDTO.setCodiceProdotto(rs.getInt("codiceprodotto"));
         prodottoDTO.setNome(rs.getString("nome"));
         prodottoDTO.setPrezzo(rs.getFloat("prezzo"));
@@ -48,5 +47,6 @@ public class ProdottoDAO {
         prodottoDTO.setCategoria(rs.getString("categoria"));
         prodottoDTO.setDescrizione(rs.getString("descrizione"));
         prodottoDTO.setQuantitaOrdine(rs.getInt("quantita"));
+        return prodottoDTO;
     }
 }

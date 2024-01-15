@@ -3,17 +3,17 @@ package org.UninaDelivery.Spedizione;
 import java.time.LocalDate;
 
 public class SpedizioneDTO {
-    int numeroTracciamento;
-    String statoSpedizione;
-    LocalDate dataAffidamento;
-    LocalDate dataPrevista;
-    LocalDate dataConsegna;
-    Float prezzoSpedizione;
-    String tipo;
-    int matricolaOperatore;
-    int matricolaCorriere;
-    String targaTrasporto;
-    int numeroOrdine;
+    private int numeroTracciamento;
+    private String statoSpedizione;
+    private LocalDate dataAffidamento;
+    private LocalDate dataPrevista;
+    private LocalDate dataConsegna;
+    private Float prezzoSpedizione;
+    private String tipo;
+    private int matricolaOperatore;
+    private int matricolaCorriere;
+    private String targaTrasporto;
+    private int numeroOrdine;
     
     public int getNumeroTracciamento() {
         return numeroTracciamento;

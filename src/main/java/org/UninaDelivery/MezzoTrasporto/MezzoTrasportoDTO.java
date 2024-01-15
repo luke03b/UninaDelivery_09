@@ -1,58 +1,58 @@
 package org.UninaDelivery.MezzoTrasporto;
 
 public class MezzoTrasportoDTO {
-    private String Targa;
-    private String Modello;
-    private float CapienzaPeso;
-    private float CapienzaLitri;
-    private String Marca;
-    private String Tipo;
+    private String targa;
+    private String modello;
+    private float capienzaPeso;
+    private float capienzaLitri;
+    private String marca;
+    private String tipo;
     
     public String getTarga() {
-        return Targa;
+        return targa;
     }
     
     public void setTarga(String targa) {
-        Targa = targa;
+        this.targa = targa;
     }
     
     public String getModello() {
-        return Modello;
+        return modello;
     }
     
     public void setModello(String modello) {
-        Modello = modello;
+        this.modello = modello;
     }
     
     public float getCapienzaPeso() {
-        return CapienzaPeso;
+        return capienzaPeso;
     }
     
     public void setCapienzaPeso(float capienzaPeso) {
-        CapienzaPeso = capienzaPeso;
+        this.capienzaPeso = capienzaPeso;
     }
     
     public float getCapienzaLitri() {
-        return CapienzaLitri;
+        return capienzaLitri;
     }
     
     public void setCapienzaLitri(float capienzaLitri) {
-        CapienzaLitri = capienzaLitri;
+        this.capienzaLitri = capienzaLitri;
     }
     
     public String getMarca() {
-        return Marca;
+        return marca;
     }
     
     public void setMarca(String marca) {
-        Marca = marca;
+        this.marca = marca;
     }
     
     public String getTipo() {
-        return Tipo;
+        return tipo;
     }
     
     public void setTipo(String tipo) {
-        Tipo = tipo;
+        this.tipo = tipo;
     }
 }

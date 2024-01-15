@@ -94,7 +94,7 @@ public class ControlloreDAO {
 
     public ArrayList<ClienteDTO> recuperaClienti(){
         ClienteDAO clienteDAO = new ClienteDAO();
-        return clienteDAO.recuperaClientiDTO(conn);
+        return clienteDAO.getClientiDTO(conn);
     }
 
     public ArrayList<ProdottoDTO> recuperaProdotti(int numOrdine){
@@ -120,7 +120,7 @@ public class ControlloreDAO {
     public void creaSpedizioneDaOrdini(Component chiamante, ArrayList<Object> dettagliSpedizione) {
         SpedizioneDAO spedizioneDAO = new SpedizioneDAO();
         try {
-            if (spedizioneDAO.creaSpedizione(dettagliSpedizione, conn, chiamante, controlloreFinestre))
+            if (spedizioneDAO.inserisciSpedizione(dettagliSpedizione, conn, chiamante, controlloreFinestre))
                 JOptionPane.showMessageDialog(chiamante, "Tutte le spedizioni sono state effettuate con successo",
                         "Avviso", JOptionPane.INFORMATION_MESSAGE);
             aggiungiMezziUtilizzati((Integer) dettagliSpedizione.get(1), (String) dettagliSpedizione.get(2), conn);
@@ -130,5 +130,13 @@ public class ControlloreDAO {
         } catch (NessunaSpedizioneEffettuataException e) {
             System.out.println("Nessuna spedizione effettuata: " + e);
         }
+    }
+
+    public float calcolaPesoOrdini(ArrayList<DettagliOrdineDTO> listaOrdiniSelezionati){
+        float pesoTot = 0;
+        for(DettagliOrdineDTO ordine : listaOrdiniSelezionati){
+            pesoTot += ordine.getPeso();
+        }
+        return pesoTot;
     }
 }

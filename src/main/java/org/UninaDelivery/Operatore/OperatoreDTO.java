@@ -2,94 +2,94 @@ package org.UninaDelivery.Operatore;
 import java.time.LocalDate;
 
 public class OperatoreDTO {
-    private int Matricola;
-    private String Nome;
-    private String Cognome;
-    private String CodiceFiscale;
-    private int Eta;
-    private float Stipendio;
-    private String PasswordOp;
-    private LocalDate DataNascita;
-    private LocalDate DataAssunzione;
-    private String PivaAzienda;
+    private int matricola;
+    private String nome;
+    private String cognome;
+    private String codiceFiscale;
+    private int eta;
+    private float stipendio;
+    private String passwordOp;
+    private LocalDate dataNascita;
+    private LocalDate dataAssunzione;
+    private String pivaAzienda;
     
     public int getMatricola() {
-        return Matricola;
+        return matricola;
     }
     
     public void setMatricola(int matricola) {
-        Matricola = matricola;
+        this.matricola = matricola;
     }
     
     public String getNome() {
-        return Nome;
+        return nome;
     }
     
     public void setNome(String nome) {
-        Nome = nome;
+        this.nome = nome;
     }
     
     public String getCognome() {
-        return Cognome;
+        return cognome;
     }
     
     public void setCognome(String cognome) {
-        Cognome = cognome;
+        this.cognome = cognome;
     }
     
     public String getCodiceFiscale() {
-        return CodiceFiscale;
+        return codiceFiscale;
     }
     
     public void setCodiceFiscale(String codiceFiscale) {
-        CodiceFiscale = codiceFiscale;
+        this.codiceFiscale = codiceFiscale;
     }
     
     public int getEta() {
-        return Eta;
+        return eta;
     }
     
     public void setEta(int eta) {
-        Eta = eta;
+        this.eta = eta;
     }
     
     public float getStipendio() {
-        return Stipendio;
+        return stipendio;
     }
     
     public void setStipendio(float stipendio) {
-        Stipendio = stipendio;
+        this.stipendio = stipendio;
     }
     
     public String getPasswordOp() {
-        return PasswordOp;
+        return passwordOp;
     }
     
     public void setPasswordOp(String passwordOp) {
-        PasswordOp = passwordOp;
+        this.passwordOp = passwordOp;
     }
     
     public LocalDate getDataNascita() {
-        return DataNascita;
+        return dataNascita;
     }
     
     public void setDataNascita(LocalDate dataNascita) {
-        DataNascita = dataNascita;
+        this.dataNascita = dataNascita;
     }
     
     public LocalDate getDataAssunzione() {
-        return DataAssunzione;
+        return dataAssunzione;
     }
     
     public void setDataAssunzione(LocalDate dataAssunzione) {
-        DataAssunzione = dataAssunzione;
+        this.dataAssunzione = dataAssunzione;
     }
     
     public String getPivaAzienda() {
-        return PivaAzienda;
+        return pivaAzienda;
     }
     
     public void setPivaAzienda(String pivaAzienda) {
-        PivaAzienda = pivaAzienda;
+        this.pivaAzienda = pivaAzienda;
     }
 }

@@ -1,6 +1,6 @@
 package org.UninaDelivery.Operatore;
-import org.UninaDelivery.Exception.OperatoreNonTrovatoException;
 
+import org.UninaDelivery.Exception.OperatoreNonTrovatoException;
 import java.sql.*;
 
 public class OperatoreDAO {
@@ -14,17 +14,16 @@ public class OperatoreDAO {
             stmt.setString(2, PasswordInput);
             
             ResultSet rs = stmt.executeQuery();
+
             if (rs.next())
                 count = rs.getInt(1);
             
             stmt.close();
             rs.close();
         } catch (SQLException e) {
-            System.out.println("Errore SQL");
-            System.out.println(e);
+            System.out.println("Errore SQL: " + e);
         } catch (Exception e){
-            System.out.println("Errore generico");
-            System.out.println(e);
+            System.out.println("Errore generico: " + e);
         }
         if(count == 0)
             throw new OperatoreNonTrovatoException();
@@ -40,16 +39,19 @@ public class OperatoreDAO {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next())
-                AggiungiOperatoreDTO(operatoreDTO, rs);
+                operatoreDTO = creaOperatoreDTO(rs);
 
             stmt.close();
             rs.close();
         } catch(SQLException e) {
-            System.out.println(e);
+            System.out.println("errore SQL: " + e);
+        } catch(Exception e) {
+            System.out.println("errore generico: " + e);
         }
         return operatoreDTO;
     }
-    private void AggiungiOperatoreDTO(OperatoreDTO operatoreDTO, ResultSet rs) throws SQLException{
+    private OperatoreDTO creaOperatoreDTO(ResultSet rs) throws SQLException{
+        OperatoreDTO operatoreDTO = new OperatoreDTO();
         operatoreDTO.setMatricola(rs.getInt("matricola"));
         operatoreDTO.setNome(rs.getString("nome"));
         operatoreDTO.setCognome(rs.getString("cognome"));
@@ -60,5 +62,6 @@ public class OperatoreDAO {
         operatoreDTO.setDataNascita(rs.getDate("datanascita").toLocalDate());
         operatoreDTO.setDataAssunzione(rs.getDate("dataassunzione").toLocalDate());
         operatoreDTO.setPivaAzienda(rs.getString("pivaazienda"));
+        return operatoreDTO;
     }
 }

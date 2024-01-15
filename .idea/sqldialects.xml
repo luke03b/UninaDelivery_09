@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/src/main/java/org/UninaDelivery/Cliente/ClienteDAO.java" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/main/java/org/UninaDelivery/Corriere/CorriereDAO.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/org/UninaDelivery/MezziInUso/MezziInUsoDAO.java" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/main/java/org/UninaDelivery/MezzoTrasporto/MezzoTrasportoDAO.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/org/UninaDelivery/Operatore/OperatoreDAO.java" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/main/java/org/UninaDelivery/Ordine/DettagliOrdineDAO.java" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/main/java/org/UninaDelivery/Prodotto/ProdottoDAO.java" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/main/java/org/UninaDelivery/Spedizione/SpedizioneDAO.java" dialect="GenericSQL" />
