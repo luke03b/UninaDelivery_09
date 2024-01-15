@@ -62,6 +62,12 @@ public class ControlloreFinestre {
         wizardCreazioneSpedizione.setVisible(true);
     }
 
+    public void apriSpedizioniProgrammatePage(HomePage parent, OperatoreDTO operatoreLoggato){
+        SpedizioniProgrammatePage spedizioniProgrammatePage = new SpedizioniProgrammatePage(parent, this, controlloreDAO, operatoreLoggato);
+        spedizioniProgrammatePage.setVisible(true);
+        parent.dispose();
+    }
+
     public void aggiornaTabellaHome(HomePage parent){
         parent.aggiornaTabella();
     }

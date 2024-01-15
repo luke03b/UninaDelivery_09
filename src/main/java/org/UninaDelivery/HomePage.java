@@ -28,6 +28,7 @@ public class HomePage extends JFrame{
     private JPanel homePanel;
     private JLabel logoLabel;
     private JLabel matricolaLabel;
+    private JLabel dataInizioLabel;
     private JLabel dataFineLabel;
     private JButton logOutButton;
     private JButton creaSpedizioneButton;
@@ -299,6 +300,13 @@ public class HomePage extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 selezionaTutteCelleTabella();
+            }
+        });
+
+        programmaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controlloreFinestre.apriSpedizioniProgrammatePage(HomePage.this, operatoreLoggato);
             }
         });
     }

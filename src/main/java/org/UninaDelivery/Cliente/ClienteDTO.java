@@ -9,7 +9,7 @@ public class ClienteDTO {
     private LocalDate dataNascita;
     private String nominativo;
     private String partitaIVA;
-    private String string;
+    private String tipo;
     private String ruolo;
     private int idIndirizzo;
 
@@ -61,12 +61,12 @@ public class ClienteDTO {
         this.partitaIVA = partitaIVA;
     }
 
-    public String getString() {
-        return string;
+    public String getTipo() {
+        return tipo;
     }
 
-    public void setString(String string) {
-        this.string = string;
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     public String getRuolo() {

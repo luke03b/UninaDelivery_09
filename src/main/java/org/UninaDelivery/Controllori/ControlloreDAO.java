@@ -5,6 +5,8 @@ import org.UninaDelivery.Cliente.ClienteDTO;
 import org.UninaDelivery.Corriere.CorriereDAO;
 import org.UninaDelivery.Corriere.CorriereDTO;
 import org.UninaDelivery.DBConnection;
+import org.UninaDelivery.DettagliSpedizione.DettagliSpedizioneDAO;
+import org.UninaDelivery.DettagliSpedizione.DettagliSpedizioneDTO;
 import org.UninaDelivery.Exception.AlcuneSpedizioniNonEffettuateException;
 import org.UninaDelivery.Exception.NessunaSpedizioneEffettuataException;
 import org.UninaDelivery.Exception.OperatoreNonTrovatoException;
@@ -130,6 +132,11 @@ public class ControlloreDAO {
         } catch (NessunaSpedizioneEffettuataException e) {
             System.out.println("Nessuna spedizione effettuata: " + e);
         }
+    }
+
+    public ArrayList<DettagliSpedizioneDTO> getSpedizioniProgrammate(){
+        DettagliSpedizioneDAO spedizioneDAO = new DettagliSpedizioneDAO();
+        return spedizioneDAO.getSpedizioniProgrammate(conn);
     }
 
     public float calcolaPesoOrdini(ArrayList<DettagliOrdineDTO> listaOrdiniSelezionati){
