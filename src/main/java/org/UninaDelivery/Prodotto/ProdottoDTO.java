@@ -1,67 +1,67 @@
 package org.UninaDelivery.Prodotto;
 
 public class ProdottoDTO {
-    private int CodiceProdotto;
-    private String Nome;
-    private float Prezzo;
-    private float Peso;
-    private String Categoria;
-    private String Descrizione;
-    private int QuantitaOrdine;
+    private int codiceProdotto;
+    private String nome;
+    private float prezzo;
+    private float peso;
+    private String categoria;
+    private String descrizione;
+    private int quantitaOrdine;
     
     public int getQuantitaOrdine() {
-        return QuantitaOrdine;
+        return quantitaOrdine;
     }
     
     public void setQuantitaOrdine(int quantitaOrdine) {
-        QuantitaOrdine = quantitaOrdine;
+        this.quantitaOrdine = quantitaOrdine;
     }
     
     public int getCodiceProdotto() {
-        return CodiceProdotto;
+        return codiceProdotto;
     }
     
     public void setCodiceProdotto(int codiceProdotto) {
-        CodiceProdotto = codiceProdotto;
+        this.codiceProdotto = codiceProdotto;
     }
     
     public String getNome() {
-        return Nome;
+        return nome;
     }
     
     public void setNome(String nome) {
-        Nome = nome;
+        this.nome = nome;
     }
     
     public float getPrezzo() {
-        return Prezzo;
+        return prezzo;
     }
     
     public void setPrezzo(float prezzo) {
-        Prezzo = prezzo;
+        this.prezzo = prezzo;
     }
     
     public float getPeso() {
-        return Peso;
+        return peso;
     }
     
     public void setPeso(float peso) {
-        Peso = peso;
+        this.peso = peso;
     }
     
     public String getCategoria() {
-        return Categoria;
+        return categoria;
     }
     
     public void setCategoria(String categoria) {
-        Categoria = categoria;
+        this.categoria = categoria;
     }
     
     public String getDescrizione() {
-        return Descrizione;
+        return descrizione;
     }
     
     public void setDescrizione(String descrizione) {
-        Descrizione = descrizione;
+        this.descrizione = descrizione;
     }
 }

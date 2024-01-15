@@ -3,67 +3,67 @@ package org.UninaDelivery.Ordine;
 import java.time.LocalDate;
 
 public class DettagliOrdineDTO {
-    private int NumeroOrdine;
-    private LocalDate DataOrdine;
-    private String Mittente;
-    private String Destinatario;
-    private String Indirizzo;
-    private float Peso;
-    private String Grandezza;
+    private int numeroOrdine;
+    private LocalDate dataOrdine;
+    private String mittente;
+    private String destinatario;
+    private String indirizzo;
+    private float peso;
+    private String grandezza;
     
     public int getNumeroOrdine() {
-        return NumeroOrdine;
+        return numeroOrdine;
     }
     
     public void setNumeroOrdine(int numeroOrdine) {
-        NumeroOrdine = numeroOrdine;
+        this.numeroOrdine = numeroOrdine;
     }
     
     public LocalDate getDataOrdine() {
-        return DataOrdine;
+        return dataOrdine;
     }
     
     public void setDataOrdine(LocalDate dataOrdine) {
-        DataOrdine = dataOrdine;
+        this.dataOrdine = dataOrdine;
     }
     
     public String getMittente() {
-        return Mittente;
+        return mittente;
     }
     
     public void setMittente(String mittente) {
-        Mittente = mittente;
+        this.mittente = mittente;
     }
     
     public String getDestinatario() {
-        return Destinatario;
+        return destinatario;
     }
     
     public void setDestinatario(String destinatario) {
-        Destinatario = destinatario;
+        this.destinatario = destinatario;
     }
     
     public String getIndirizzo() {
-        return Indirizzo;
+        return indirizzo;
     }
     
     public void setIndirizzo(String indirizzo) {
-        Indirizzo = indirizzo;
+        this.indirizzo = indirizzo;
     }
     
     public float getPeso() {
-        return Peso;
+        return peso;
     }
     
     public void setPeso(float peso) {
-        Peso = peso;
+        this.peso = peso;
     }
     
     public String getGrandezza() {
-        return Grandezza;
+        return grandezza;
     }
     
     public void setGrandezza(String grandezza) {
-        Grandezza = grandezza;
+        this.grandezza = grandezza;
     }
 }

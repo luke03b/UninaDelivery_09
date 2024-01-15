@@ -18,25 +18,26 @@ public class ClienteDAO {
                         "JOIN ordine O ON C.numeroTelefono IN (O.numeroTelefonoDT, O.numeroTelefonoMT)");
             ResultSet rs = stmt.executeQuery();
             while (rs.next()){
-                ClienteDTO clienteCorrente = new ClienteDTO();
-                creaClienteDTO(clienteCorrente, rs);
+                ClienteDTO clienteCorrente;
+                clienteCorrente = creaClienteDTO(rs);
                 listaClienti.add(clienteCorrente);
             }
 
         } catch (SQLException e){
-            System.out.println(e);
+            System.out.println("errore SQL: " + e);
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("errore generico: " + e);
         }
         return listaClienti;
     }
 
-    private void creaClienteDTO(ClienteDTO clienteCorrente, ResultSet rs) throws SQLException {
-
+    private ClienteDTO creaClienteDTO(ResultSet rs) throws SQLException {
+        ClienteDTO clienteCorrente = new ClienteDTO();
         if (rs.getString("tipo").equals("Aziendale"))
             clienteCorrente.setNominativo(rs.getString("nomeazienda"));
         else
             clienteCorrente.setNominativo(rs.getString("nome") + " " + rs.getString("cognome"));
         clienteCorrente.setNumeroTelefono(rs.getString("numerotelefono"));
+        return clienteCorrente;
     }
 }

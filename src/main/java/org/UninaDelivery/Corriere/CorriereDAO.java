@@ -21,9 +21,9 @@ public class CorriereDAO {
             
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                CorriereDTO CorriereCorrente= new CorriereDTO();
-                creaCorriereDTO(CorriereCorrente, rs);
-                listaCorrieriDisp.add(CorriereCorrente);
+                CorriereDTO corriereCorrente;
+                corriereCorrente = creaCorriereDTO(rs);
+                listaCorrieriDisp.add(corriereCorrente);
             }
         } catch (SQLException exception) {
             System.out.println("Errore sql: " + exception);
@@ -33,7 +33,8 @@ public class CorriereDAO {
         return listaCorrieriDisp;
     }
 
-    private CorriereDTO creaCorriereDTO(CorriereDTO corriereDTO, ResultSet rs) throws SQLException {
+    private CorriereDTO creaCorriereDTO(ResultSet rs) throws SQLException {
+        CorriereDTO corriereDTO = new CorriereDTO();
         corriereDTO.setMatricola(rs.getInt("matricola"));
         corriereDTO.setNome(rs.getString("nome"));
         corriereDTO.setCognome(rs.getString("cognome"));

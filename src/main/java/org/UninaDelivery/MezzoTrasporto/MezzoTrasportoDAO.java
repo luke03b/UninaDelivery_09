@@ -21,26 +21,28 @@ public class MezzoTrasportoDAO {
             stmt.setFloat(1, totPeso);
             ResultSet rs = stmt.executeQuery();
             while(rs.next()){
-                MezzoTrasportoDTO mezzoCorrente = new MezzoTrasportoDTO();
-                creaMezzoDTO(mezzoCorrente, rs);
+                MezzoTrasportoDTO mezzoCorrente;
+                mezzoCorrente = creaMezzoDTO(rs);
                 listaMezziDisponibili.add(mezzoCorrente);
             }
         } catch (SQLException e){
-            System.out.println(e);
+            System.out.println("errore SQL: " + e);
             throw new RuntimeException();
         } catch (Exception e){
-            System.out.println(e);
+            System.out.println("errore generico: " + e);
         }
         
         return listaMezziDisponibili;
     }
     
-    private void creaMezzoDTO(MezzoTrasportoDTO mezzoCorrente, ResultSet rs) throws SQLException{
+    private MezzoTrasportoDTO creaMezzoDTO(ResultSet rs) throws SQLException{
+        MezzoTrasportoDTO mezzoCorrente = new MezzoTrasportoDTO();
         mezzoCorrente.setTarga(rs.getString("targa"));
         mezzoCorrente.setModello(rs.getString("modello"));
         mezzoCorrente.setCapienzaPeso(rs.getFloat("capienzapeso"));
         mezzoCorrente.setCapienzaLitri(rs.getFloat("capienzalitri"));
         mezzoCorrente.setMarca(rs.getString("marca"));
         mezzoCorrente.setTipo(rs.getString("tipo"));
+        return mezzoCorrente;
     }
 }

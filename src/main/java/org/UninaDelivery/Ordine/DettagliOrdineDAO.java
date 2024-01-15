@@ -4,7 +4,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class DettagliOrdineDAO {
-    ArrayList<DettagliOrdineDTO> listaOrdini = new ArrayList<>();
+    private ArrayList<DettagliOrdineDTO> listaOrdini = new ArrayList<>();
     public ArrayList<DettagliOrdineDTO> getOrdiniNonSpediti(Connection conn){
         try{
             PreparedStatement stmt = conn.prepareStatement(
@@ -23,8 +23,8 @@ public class DettagliOrdineDAO {
             
             ResultSet rs = stmt.executeQuery();
             while(rs.next()){
-                DettagliOrdineDTO ordineCorrente = new DettagliOrdineDTO();
-                creaOrdineDTO(ordineCorrente, rs);
+                DettagliOrdineDTO ordineCorrente;
+                ordineCorrente = creaOrdineDTO(rs);
                 listaOrdini.add(ordineCorrente);
             }
 
@@ -32,12 +32,11 @@ public class DettagliOrdineDAO {
             rs.close();
             
         } catch (SQLException e) {
-            System.out.println(e);
-            throw new RuntimeException(e);
+            System.out.println("errore SQL: " + e);
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("errore generico: " + e);
         }
-        
+
         return listaOrdini;
     }
 
@@ -64,8 +63,8 @@ public class DettagliOrdineDAO {
 
             ResultSet rs = stmt.executeQuery();
             while(rs.next()){
-                DettagliOrdineDTO ordineCorrente = new DettagliOrdineDTO();
-                creaOrdineDTO(ordineCorrente, rs);
+                DettagliOrdineDTO ordineCorrente;
+                ordineCorrente = creaOrdineDTO(rs);
                 listaOrdini.add(ordineCorrente);
             }
 
@@ -73,10 +72,10 @@ public class DettagliOrdineDAO {
             rs.close();
 
         } catch (SQLException e) {
-            System.out.println(e);
+            System.out.println("errore SQL: " + e);
             throw new RuntimeException(e);
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("errore generico: " + e);
         }
 
         return listaOrdini;
@@ -103,8 +102,8 @@ public class DettagliOrdineDAO {
             
             ResultSet rs = stmt.executeQuery();
             while(rs.next()){
-                DettagliOrdineDTO ordineCorrente = new DettagliOrdineDTO();
-                creaOrdineDTO(ordineCorrente, rs);
+                DettagliOrdineDTO ordineCorrente;
+                ordineCorrente = creaOrdineDTO(rs);
                 listaOrdini.add(ordineCorrente);
             }
 
@@ -112,10 +111,10 @@ public class DettagliOrdineDAO {
             rs.close();
 
         } catch (SQLException e) {
-            System.out.println(e);
+            System.out.println("erroreSQL: " + e);
             throw new RuntimeException(e);
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("errore generico: " + e);
         }
         
         return listaOrdini;
@@ -142,8 +141,8 @@ public class DettagliOrdineDAO {
             
             ResultSet rs = stmt.executeQuery();
             while(rs.next()){
-                DettagliOrdineDTO ordineCorrente = new DettagliOrdineDTO();
-                creaOrdineDTO(ordineCorrente, rs);
+                DettagliOrdineDTO ordineCorrente;
+                ordineCorrente = creaOrdineDTO(rs);
                 listaOrdini.add(ordineCorrente);
             }
 
@@ -151,16 +150,17 @@ public class DettagliOrdineDAO {
             rs.close();
             
         } catch (SQLException e) {
-            System.out.println(e);
+            System.out.println("errore SQL: " + e);
             throw new RuntimeException(e);
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("errore generico: " + e);
         }
         
         return listaOrdini;
     }
 
-    private void creaOrdineDTO(DettagliOrdineDTO nuovoOrdine, ResultSet rs) throws SQLException {
+    private DettagliOrdineDTO creaOrdineDTO(ResultSet rs) throws SQLException {
+        DettagliOrdineDTO nuovoOrdine = new DettagliOrdineDTO();
         String IndirizzoCompleto; //variabile d'appoggio
         nuovoOrdine.setNumeroOrdine(rs.getInt("numeroordine"));
         nuovoOrdine.setDataOrdine(rs.getDate("dataordine").toLocalDate());
@@ -180,5 +180,6 @@ public class DettagliOrdineDAO {
         nuovoOrdine.setIndirizzo(IndirizzoCompleto);
         nuovoOrdine.setPeso(rs.getFloat("peso"));
         nuovoOrdine.setGrandezza(rs.getString("grandezza"));
+        return nuovoOrdine;
     }
 }

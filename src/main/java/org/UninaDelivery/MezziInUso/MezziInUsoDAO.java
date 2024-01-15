@@ -1,8 +1,5 @@
 package org.UninaDelivery.MezziInUso;
 
-import org.UninaDelivery.Corriere.CorriereDTO;
-import org.UninaDelivery.MezzoTrasporto.MezzoTrasportoDTO;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
