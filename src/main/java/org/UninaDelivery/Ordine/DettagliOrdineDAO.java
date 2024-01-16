@@ -54,7 +54,7 @@ public class DettagliOrdineDAO {
                             "WHERE S.Stato IS NULL " +
                             "AND (O.numeroTelefonoDT = ? OR O.numeroTelefonoMT = ?) " +
                             "AND O.dataOrdine BETWEEN ? AND ? " +
-                            " ORDER BY O.DataOrdine ASC");
+                            "ORDER BY O.DataOrdine ASC");
 
             stmt.setString(1, utente);
             stmt.setString(2, utente);

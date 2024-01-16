@@ -7,8 +7,10 @@ import org.UninaDelivery.Cliente.ClienteDTO;
 import org.UninaDelivery.Controllori.ControlloreDAO;
 import org.UninaDelivery.Controllori.ControlloreFinestre;
 import org.UninaDelivery.DettagliSpedizione.DettagliSpedizioneDTO;
+import org.UninaDelivery.Exception.FiltroNonValidoException;
 import org.UninaDelivery.Exception.NoCampiSelezionatiException;
 import org.UninaDelivery.Operatore.OperatoreDTO;
+import org.UninaDelivery.Ordine.DettagliOrdineDTO;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import javax.swing.*;
@@ -36,7 +38,7 @@ public class SpedizioniProgrammatePage extends JFrame {
     private JButton annullaProgrammazioneButton;
     private JButton inserisciDettagliOrdine;
     private JButton indietroButton;
-    private JButton modificaButton;
+    private JButton modificaDataButton;
     private JToolBar toolBar;
     private JButton resetButton;
     private JButton selezionaTuttoButton;
@@ -129,7 +131,6 @@ public class SpedizioniProgrammatePage extends JFrame {
     }
 
     public void setImpostazioniToolBar() {
-
         resetButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/delete.png"));
         aggiornaButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/refresh.png"));
         selezionaTuttoButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/selezionaTutto.png"));
@@ -260,6 +261,65 @@ public class SpedizioniProgrammatePage extends JFrame {
                 }
             }
         });
+
+        resetButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resettaFiltri();
+                aggiornaTabella();
+            }
+        });
+
+        aggiornaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                aggiornaTabella();
+            }
+        });
+    }
+
+    public void aggiornaTabella(){
+        java.util.Date dataInizio = (java.util.Date) pickerDataInizio.getModel().getValue();
+        java.util.Date dataFine = (java.util.Date) pickerDataFine.getModel().getValue();
+        String utenteSelezionato = filtroUtenti.getSelectedItem().toString();
+        utenteSelezionato = utenteSelezionato.replaceAll("[^0-9]", "");
+
+        try {
+            applicaFiltro(utenteSelezionato, dataInizio, dataFine);
+        } catch (FiltroNonValidoException exception) {
+            System.out.println("Filtro non valido: " + exception);
+        }
+    }
+
+    private void applicaFiltro(String utenteSelezionato, java.util.Date dataInizio, java.util.Date dataFine) throws FiltroNonValidoException {
+        if (!utenteSelezionato.isEmpty() && dataInizio != null && dataFine != null) {
+            ArrayList<DettagliSpedizioneDTO> listaSpedizioni = controlloreDAO.getSpedizioniByUtenteAndData(utenteSelezionato, new java.sql.Date(dataInizio.getTime()), new java.sql.Date(dataFine.getTime()));
+            aggiungiElementiATabella(listaSpedizioni);
+            return;
+        }
+        if (dataInizio == null ^ dataFine == null) {
+            throw new FiltroNonValidoException(this, controlloreFinestre);
+        }
+        if (!utenteSelezionato.isEmpty()) {
+            ArrayList<DettagliSpedizioneDTO> listaSpedizioni = controlloreDAO.getSpedizioniByUtente(utenteSelezionato);
+            aggiungiElementiATabella(listaSpedizioni);
+            return;
+        }
+        if(dataInizio != null && dataFine != null) {
+            ArrayList<DettagliSpedizioneDTO> listaSpedizioni = controlloreDAO.getSpedizioniByData(new java.sql.Date(dataInizio.getTime()), new java.sql.Date(dataFine.getTime()));
+            aggiungiElementiATabella(listaSpedizioni);
+            return;
+        }
+        ArrayList<DettagliSpedizioneDTO> listaSpedizioni = controlloreDAO.getSpedizioniProgrammate();
+        aggiungiElementiATabella(listaSpedizioni);
+    }
+
+    private void resettaFiltri() {
+        filtroUtenti.setSelectedIndex(0);
+        pickerDataInizio.getJFormattedTextField().setText("");
+        datePanelDataInizio.getModel().setSelected(false);
+        pickerDataFine.getJFormattedTextField().setText("");
+        datePanelDataFine.getModel().setSelected(false);
     }
 
     private boolean mostraMessageDialogDiAvvertimento(){
