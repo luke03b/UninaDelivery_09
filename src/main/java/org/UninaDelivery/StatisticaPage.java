@@ -23,6 +23,7 @@ public class StatisticaPage extends JDialog{
     private JScrollPane panelContenenteJTable;
     private ControlloreFinestre controlloreFinestre;
     private ControlloreDAO controlloreDAO;
+    ImageIcon imageIcon = new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScritte.png");
     
     public StatisticaPage(JFrame parent, ControlloreFinestre controlloreFinestre, ControlloreDAO controlloreDAO){
         setImpostazioniStatisticaPage(parent, controlloreFinestre, controlloreDAO);
@@ -86,6 +87,7 @@ public class StatisticaPage extends JDialog{
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setModal(true);
+        setIconImage(imageIcon.getImage());
     }
 
     private void setImpostazioniVarie(){

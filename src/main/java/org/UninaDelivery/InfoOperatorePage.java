@@ -23,6 +23,7 @@ public class InfoOperatorePage extends JDialog{
     private JLabel fedIILogo;
     private ControlloreFinestre controlloreFinestre;
     private OperatoreDTO operatoreLoggato;
+    ImageIcon imageIcon = new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScritte.png");
 
     public InfoOperatorePage(JFrame parent, ControlloreFinestre controlloreFinestre, OperatoreDTO operatoreLoggato){
         setImpostazioniInfoOpPage(parent, controlloreFinestre, operatoreLoggato);
@@ -42,6 +43,7 @@ public class InfoOperatorePage extends JDialog{
         this.operatoreLoggato = operatoreLoggato;
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setIconImage(imageIcon.getImage());
     }
 
     private void setImpostazioniIndietroButton() {

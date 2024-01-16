@@ -22,6 +22,7 @@ public class InfoOrdinePage extends JDialog{
     private ControlloreFinestre controlloreFinestre;
     private ControlloreDAO controlloreDAO;
     private int numOrdine;
+    ImageIcon imageIcon = new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScritte.png");
     
     public InfoOrdinePage(JFrame parent, ControlloreFinestre controlloreFinestre, ControlloreDAO controlloreDAO, int numOrdine){
         setImpostazioniInfoOrdinePage(parent, controlloreFinestre, controlloreDAO, numOrdine);
@@ -43,6 +44,7 @@ public class InfoOrdinePage extends JDialog{
         this.numOrdine = numOrd;
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setIconImage(imageIcon.getImage());
     }
 
     public void setImpostazioniTabella(){
