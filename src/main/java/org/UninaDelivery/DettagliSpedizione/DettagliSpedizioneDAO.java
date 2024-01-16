@@ -71,7 +71,26 @@ public class DettagliSpedizioneDAO {
         } catch (SQLException e) {
             System.out.println("SQL Exception: " + e);
         } catch (Exception e) {
-            System.out.println("errore generico: " + e);
+            System.out.println("Errore generico: " + e);
+        }
+    }
+    
+    public void aggiornaDataSpedizioni(ArrayList<DettagliSpedizioneDTO> listaSpedizioni, Date dataPrevista, Connection conn){
+        try{
+            Statement stmt;
+            stmt = conn.createStatement();
+            String comando = "UPDATE Spedizione SET dataprevista = '" + dataPrevista + "' WHERE numeroTracciamento IN (";
+            for (DettagliSpedizioneDTO dettagliSpedizioneDTO : listaSpedizioni){
+                comando = comando.concat(dettagliSpedizioneDTO.getNumeroTracciamento() + ", ");
+            }
+            comando = comando.substring(0, comando.length() - 2);
+            comando = comando.concat(")");
+            stmt.executeUpdate(comando);
+            stmt.close();
+        } catch (SQLException e){
+            System.out.println("SQL Exception: " + e);
+        } catch (Exception e){
+            System.out.println("Errore generico: " + e);
         }
     }
 }
