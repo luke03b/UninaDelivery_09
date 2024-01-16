@@ -1,6 +1,7 @@
 package org.UninaDelivery.Controllori;
 
 import org.UninaDelivery.*;
+import org.UninaDelivery.DettagliSpedizione.DettagliSpedizioneDTO;
 import org.UninaDelivery.Operatore.OperatoreDTO;
 import org.UninaDelivery.Ordine.DettagliOrdineDTO;
 
@@ -69,6 +70,19 @@ public class ControlloreFinestre {
     }
 
     public void aggiornaTabellaHome(HomePage parent){
+        parent.aggiornaTabella();
+    }
+    
+    public void apriModificaSpedizioniPage(SpedizioniProgrammatePage parent, ArrayList<DettagliSpedizioneDTO> listaSpedizioniSelezionate){
+        ModificaSpedizioniPage modificaSpedizioniPage = new ModificaSpedizioniPage(parent, this, controlloreDAO, listaSpedizioniSelezionate);
+        modificaSpedizioniPage.setVisible(true);
+    }
+    
+    public void apriModificaDataPage(SpedizioniProgrammatePage parent, ArrayList<DettagliSpedizioneDTO> listaSpedizioniSelezionate){
+        CambiaDataPage cambiaDataPage = new CambiaDataPage(parent, this, controlloreDAO, listaSpedizioniSelezionate);
+        cambiaDataPage.setVisible(true);
+    }
+    public void aggiornaTabellaSpedizioni(SpedizioniProgrammatePage parent){
         parent.aggiornaTabella();
     }
 

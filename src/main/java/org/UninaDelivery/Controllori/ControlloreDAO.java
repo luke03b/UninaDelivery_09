@@ -166,4 +166,9 @@ public class ControlloreDAO {
         DettagliSpedizioneDAO spedizioneDAO = new DettagliSpedizioneDAO();
         spedizioneDAO.aggiornaSpedizioniProgrammate(listaSpedizioni, tipoSpedizione, conn);
     }
+    
+    public void aggiornaDataSpedizioni(ArrayList<DettagliSpedizioneDTO> listaSpedizioni, Date dataPrevista){
+        DettagliSpedizioneDAO spedizioneDAO = new DettagliSpedizioneDAO();
+        spedizioneDAO.aggiornaDataSpedizioni(listaSpedizioni, dataPrevista, conn);
+    }
 }
