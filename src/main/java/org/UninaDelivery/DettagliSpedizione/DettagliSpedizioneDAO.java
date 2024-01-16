@@ -171,7 +171,7 @@ public class DettagliSpedizioneDAO {
         return dettagliSpedizioneDTO;
     }
     
-    public void aggiornaDataSpedizioni(ArrayList<DettagliSpedizioneDTO> listaSpedizioni, Date dataPrevista, Connection conn){
+    public void aggiornaDataSpedizioni(ArrayList<DettagliSpedizioneDTO> listaSpedizioni, java.sql.Date dataPrevista, Connection conn){
         try{
             Statement stmt;
             stmt = conn.createStatement();

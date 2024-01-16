@@ -18,6 +18,7 @@ public class CambiaDataPage extends JDialog{
     private JButton confermaButton;
     private JButton annullaButton;
     private JPanel calendarioPanel;
+    private JToolBar toolBar;
     private ControlloreDAO controlloreDAO;
     private ControlloreFinestre controlloreFinestre;
     private SpedizioniProgrammatePage parent;
@@ -48,13 +49,28 @@ public class CambiaDataPage extends JDialog{
     }
     
     private void setImpostazioniCalendario(){
-//        calendarioPanel.add(pickerData);
+        toolBar.setFloatable(false);
+        toolBar.add(pickerData);
+        pickerData.setPreferredSize(new Dimension(150, 23));
+        pickerData.setMinimumSize(new Dimension(150, 23));
+        pickerData.setMaximumSize(new Dimension(150, 23));
     }
     
     private void listeners(){
         annullaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
+        
+        confermaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                java.util.Date data = (java.util.Date) pickerData.getModel().getValue();
+                controlloreDAO.aggiornaDataSpedizioni(listaSpedizioniSelezionate, new java.sql.Date(data.getTime()));
+                controlloreFinestre.mostraMessageDialog(CambiaDataPage.this, "Spedizioni aggiornate con successo", "Avviso");
+                controlloreFinestre.aggiornaTabellaSpedizioni(parent);
                 dispose();
             }
         });
