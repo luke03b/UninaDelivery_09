@@ -69,7 +69,7 @@ public class CambiaDataPage extends JDialog{
             public void actionPerformed(ActionEvent e) {
                 java.util.Date data = (java.util.Date) pickerData.getModel().getValue();
                 controlloreDAO.aggiornaDataSpedizioni(listaSpedizioniSelezionate, new java.sql.Date(data.getTime()));
-                controlloreFinestre.mostraMessageDialog(CambiaDataPage.this, "Spedizioni aggiornate con successo", "Avviso");
+                controlloreFinestre.mostraMessageDialogInfo(CambiaDataPage.this, "Spedizioni aggiornate con successo", "Avviso");
                 controlloreFinestre.aggiornaTabellaSpedizioni(parent);
                 dispose();
             }

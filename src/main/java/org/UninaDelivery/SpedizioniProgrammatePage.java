@@ -319,7 +319,7 @@ public class SpedizioniProgrammatePage extends JFrame {
 
     private void annullaSpedizioniProgrammate(){
         controlloreDAO.aggiornaSpedizioniProgrammate(getSpedizioniSelezionateDaTabella(), "Singola");
-        controlloreFinestre.mostraMessageDialog(SpedizioniProgrammatePage.this, "Tutte le spedizioni annullate con successo!", "Avviso");
+        controlloreFinestre.mostraMessageDialogInfo(SpedizioniProgrammatePage.this, "Tutte le spedizioni annullate con successo!", "Avviso");
         ArrayList<DettagliSpedizioneDTO> listaSpedizioniProgrammate = controlloreDAO.getSpedizioniProgrammate();
         aggiungiElementiATabella(listaSpedizioniProgrammate);
     }

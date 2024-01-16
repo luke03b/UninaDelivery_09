@@ -14,8 +14,12 @@ import java.util.ArrayList;
 public class ControlloreFinestre {
     private ControlloreDAO controlloreDAO;
 
-    public void mostraMessageDialog(Component parent, String testo, String titolo){
+    public void mostraMessageDialogErrore(Component parent, String testo, String titolo){
         JOptionPane.showMessageDialog(parent, testo, titolo, JOptionPane.ERROR_MESSAGE);
+    }
+
+    public void mostraMessageDialogInfo(Component parent, String testo, String titolo){
+        JOptionPane.showMessageDialog(parent, testo, titolo, JOptionPane.INFORMATION_MESSAGE);
     }
 
     public SplashPage apriSplashPage(){

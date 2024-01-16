@@ -85,7 +85,7 @@ public class ModificaSpedizioniPage extends JDialog{
             @Override
             public void actionPerformed(ActionEvent e) {
                 aggiornaSpedizioniSelezionate();
-                controlloreFinestre.mostraMessageDialog(ModificaSpedizioniPage.this, "Spedizioni aggiornate con successo", "Avviso");
+                controlloreFinestre.mostraMessageDialogInfo(ModificaSpedizioniPage.this, "Spedizioni aggiornate con successo", "Avviso");
                 controlloreFinestre.aggiornaTabellaSpedizioni(parent);
                 dispose();
             }

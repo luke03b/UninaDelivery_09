@@ -227,7 +227,7 @@ public class LoginPage extends JFrame {
             controlloreFinestre.apriHome(operatoreEntrante, this);
         } catch (OperatoreNonTrovatoException e){
             System.out.println("Operatore non trovato nel db: " + e);
-            controlloreFinestre.mostraMessageDialog(this, "Matricola o Password errati", "Attenzione");
+            controlloreFinestre.mostraMessageDialogErrore(this, "Matricola o Password errati", "Attenzione");
         }
     }
 }
