@@ -61,10 +61,10 @@ public class DettagliSpedizioneDAO {
             Statement stmt;
             stmt = conn.createStatement();
             String comando = "UPDATE Spedizione SET tipo = '" + tipoSpedizione + "' WHERE numeroTracciamento IN (";
-            for (DettagliSpedizioneDTO dettagliSpedizioneDTO : listaSpedizioni){
+            for (DettagliSpedizioneDTO dettagliSpedizioneDTO : listaSpedizioni) {
                 comando = comando.concat(dettagliSpedizioneDTO.getNumeroTracciamento() + ", ");
             }
-            comando = comando.substring(0, comando.length()-2);
+            comando = comando.substring(0, comando.length() - 2);
             comando = comando.concat(")");
             stmt.executeUpdate(comando);
             stmt.close();

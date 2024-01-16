@@ -3,13 +3,13 @@ package org.UninaDelivery;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
+import org.UninaDelivery.Cliente.ClienteDTO;
 import org.UninaDelivery.Controllori.ControlloreDAO;
 import org.UninaDelivery.Controllori.ControlloreFinestre;
 import org.UninaDelivery.DettagliSpedizione.DettagliSpedizioneDTO;
 import org.UninaDelivery.Exception.NoCampiSelezionatiException;
-import org.UninaDelivery.Exception.TroppiCampiSelezionatiException;
 import org.UninaDelivery.Operatore.OperatoreDTO;
-import org.UninaDelivery.Ordine.DettagliOrdineDTO;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -26,7 +26,6 @@ public class SpedizioniProgrammatePage extends JFrame {
     private JPanel spedizioniProgrammatePanel;
     private JLabel logoLabel;
     private JLabel matricolaLabel;
-    private JLabel dataFineLabel;
     private JButton logOutButton;
     private JTable spedizioniTable;
     private JButton infoUtenteButton;
@@ -38,9 +37,16 @@ public class SpedizioniProgrammatePage extends JFrame {
     private JButton inserisciDettagliOrdine;
     private JButton indietroButton;
     private JButton modificaButton;
+    private JToolBar toolBar;
+    private JButton resetButton;
+    private JButton selezionaTuttoButton;
+    private JButton aggiornaButton;
+    private JComboBox filtroUtenti;
+    private JLabel dataInizioLabel;
     private ControlloreFinestre controlloreFinestre;
     private ControlloreDAO controlloreDAO;
     private OperatoreDTO operatoreLoggato;
+    private JLabel dataFineLabel;
 
     ImageIcon imageIcon = new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScritte.png");
 
@@ -55,6 +61,7 @@ public class SpedizioniProgrammatePage extends JFrame {
     public SpedizioniProgrammatePage(JFrame parent, ControlloreFinestre controlloreFinestre, ControlloreDAO controlloreDAO, OperatoreDTO operatoreLoggato){
         setImpostazioniSpedizioniProgrammatePage(parent, controlloreFinestre, controlloreDAO, operatoreLoggato);
         setImpostazioniTabella();
+        setImpostazioniToolBar();
         setImpostazioniUserInformationButton();
         setImpostazioniLogoutButton();
         setImpostazioniVisive();
@@ -121,6 +128,44 @@ public class SpedizioniProgrammatePage extends JFrame {
         return modelloTabella;
     }
 
+    public void setImpostazioniToolBar() {
+
+        resetButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/delete.png"));
+        aggiornaButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/refresh.png"));
+        selezionaTuttoButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/selezionaTutto.png"));
+
+        toolBar.add(pickerDataInizio);
+
+        dataFineLabel = new JLabel();
+        dataFineLabel.setText("  Data Fine: ");
+        dataFineLabel.setForeground(Color.WHITE);
+        dataFineLabel.setFont(new Font("JetBrains Mono Medium",Font.BOLD,14));
+
+        toolBar.add(dataFineLabel);
+        toolBar.add(pickerDataFine);
+        toolBar.add(aggiornaButton);
+
+        pickerDataInizio.setToolTipText("Data dalla quale si inizierà a cercare");
+        pickerDataInizio.setPreferredSize(new Dimension(150, 23));
+        pickerDataInizio.setMinimumSize(new Dimension(150, 23));
+        pickerDataInizio.setMaximumSize(new Dimension(150, 23));
+        pickerDataFine.setToolTipText("Data dalla quale si finirà di cercare");
+        pickerDataFine.setPreferredSize(new Dimension(150, 23));
+        pickerDataFine.setMinimumSize(new Dimension(150, 23));
+        pickerDataFine.setMaximumSize(new Dimension(150, 23));
+
+        ArrayList<ClienteDTO> listaClienti = controlloreDAO.recuperaClienti();
+        filtroUtenti.addItem("<Filtra Utente>");
+        for (ClienteDTO clienteDTO : listaClienti) {
+            filtroUtenti.addItem(clienteDTO.getNominativo() + " " + clienteDTO.getNumeroTelefono());
+        }
+        filtroUtenti.setPreferredSize(new Dimension(300, 30));
+        filtroUtenti.setMinimumSize(new Dimension(300, 30));
+        filtroUtenti.setMaximumSize(new Dimension(300, 30));
+        AutoCompleteDecorator.decorate(filtroUtenti);
+        toolBar.setFloatable(false);
+    }
+
     private void setImpostazioniVarie(){
         nomeLabel.setText(operatoreLoggato.getNome());
         cognomeLabel.setText(operatoreLoggato.getCognome());
@@ -174,7 +219,7 @@ public class SpedizioniProgrammatePage extends JFrame {
                 Object[] Opzioni = {"Si", "No"};
                 if (JOptionPane.showOptionDialog(SpedizioniProgrammatePage.this, "Vuoi eseguire il LogOut?",
                         "LogOut", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, Opzioni,
-                        Opzioni[0]) == JOptionPane.OK_OPTION){
+                        Opzioni[0]) == JOptionPane.OK_OPTION) {
                     controlloreFinestre.tornaLogin(SpedizioniProgrammatePage.this);
                 }
             }
@@ -266,19 +311,9 @@ public class SpedizioniProgrammatePage extends JFrame {
     }
 
     private boolean isSelezioneValida() throws NoCampiSelezionatiException {
-        switch (controllaQuanteFlagTabella()) {
-            case 0:
-                throw new NoCampiSelezionatiException(this, controlloreFinestre);
-            default:
-                return true;
+        if (controllaQuanteFlagTabella() == 0) {
+            throw new NoCampiSelezionatiException(this, controlloreFinestre);
         }
-    }
-
-    private void mostraDettagliOrdine(){
-        for (int i = 0; i < spedizioniTable.getRowCount(); i++){
-            if (isCellaSelezionata(i)){
-                controlloreFinestre.apriInfoOrdine((int) spedizioniTable.getValueAt(i, 1));
-            }
-        }
+        return true;
     }
 }
