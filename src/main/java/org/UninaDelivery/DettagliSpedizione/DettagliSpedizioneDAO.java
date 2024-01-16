@@ -2,6 +2,7 @@ package org.UninaDelivery.DettagliSpedizione;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class DettagliSpedizioneDAO {
 
@@ -15,7 +16,7 @@ public class DettagliSpedizioneDAO {
                     "ON Cl.NumeroTelefono = O.NumeroTelefonoMT " +
                     "JOIN Cliente AS Cl2 ON Cl2.NumeroTelefono = O.NumeroTelefonoDT " +
                     "JOIN Indirizzo AS I ON I.IDIndirizzo = Cl2.IDIndirizzo " +
-                    " WHERE S.Tipo <> 'Singola'");
+                    "WHERE S.Tipo <> 'Singola'");
             ResultSet rs = stmt.executeQuery();
             while (rs.next()){
                 DettagliSpedizioneDTO spedizioneDTO;
@@ -30,6 +31,120 @@ public class DettagliSpedizioneDAO {
             System.out.println("errore generico: " + e);
         }
         return spedizioniProgrammate;
+    }
+
+    public void aggiornaSpedizioniProgrammate(ArrayList<DettagliSpedizioneDTO> listaSpedizioni, String tipoSpedizione, Connection conn){
+        try {
+            Statement stmt;
+            stmt = conn.createStatement();
+            String comando = "UPDATE Spedizione SET tipo = '" + tipoSpedizione + "' WHERE numeroTracciamento IN (";
+            for (DettagliSpedizioneDTO dettagliSpedizioneDTO : listaSpedizioni) {
+                comando = comando.concat(dettagliSpedizioneDTO.getNumeroTracciamento() + ", ");
+            }
+            comando = comando.substring(0, comando.length() - 2);
+            comando = comando.concat(")");
+            stmt.executeUpdate(comando);
+            stmt.close();
+        } catch (SQLException e) {
+            System.out.println("SQL Exception: " + e);
+        } catch (Exception e) {
+            System.out.println("errore generico: " + e);
+        }
+    }
+
+    public ArrayList<DettagliSpedizioneDTO> getSpedizioniByUtenteAndData(String utente, Date dataInizio, Date dataFine, Connection conn){
+        ArrayList<DettagliSpedizioneDTO> listaSpedizioni = new ArrayList<>();
+        try {
+            PreparedStatement stmt = conn.prepareStatement("SELECT S.Tipo AS TipoSpedizione, S.*, O.*, Cl.Nome AS NomeMT, Cl.Cognome AS CognomeMT," +
+                    "Cl.NomeAzienda AS NomeAziendaMT, Cl.Tipo AS TipoMT, Cl2.Nome AS NomeDT, Cl2.Cognome AS CognomeDT," +
+                    "Cl2.Tipo AS TipoDT, Cl2.NomeAzienda AS NomeAziendaDT, I.* " +
+                    "FROM Spedizione AS S NATURAL JOIN Ordine AS O JOIN Cliente AS Cl " +
+                    "ON Cl.NumeroTelefono = O.NumeroTelefonoMT " +
+                    "JOIN Cliente AS Cl2 ON Cl2.NumeroTelefono = O.NumeroTelefonoDT " +
+                    "JOIN Indirizzo AS I ON I.IDIndirizzo = Cl2.IDIndirizzo " +
+                    "WHERE S.Tipo <> 'Singola' " +
+                    "AND (O.NumeroTelefonoDT = ? OR O.NumeroTelefonoMT = ?) " +
+                    "AND S.DataPrevista BETWEEN ? AND ? " +
+                    "ORDER BY S.DataPrevista ASC");
+
+            stmt.setString(1, utente);
+            stmt.setString(2, utente);
+            stmt.setDate(3, (java.sql.Date) dataInizio);
+            stmt.setDate(4, (java.sql.Date) dataFine);
+
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                DettagliSpedizioneDTO spedizioneCorrente;
+                spedizioneCorrente = creaSpedizioneDTO(rs);
+                listaSpedizioni.add(spedizioneCorrente);
+            }
+            stmt.close();
+        } catch(SQLException e) {
+            System.out.println("errore SQL: " + e);
+        } catch(Exception e) {
+            System.out.println("errore generico: " + e);
+        }
+        return listaSpedizioni;
+    }
+
+    public ArrayList<DettagliSpedizioneDTO> getSpedizioniByUtente(String utente, Connection conn){
+        ArrayList<DettagliSpedizioneDTO> listaSpedizioni = new ArrayList<>();
+        try {
+            PreparedStatement stmt = conn.prepareStatement("SELECT S.Tipo AS TipoSpedizione, S.*, O.*, Cl.Nome AS NomeMT, Cl.Cognome AS CognomeMT," +
+                    "Cl.NomeAzienda AS NomeAziendaMT, Cl.Tipo AS TipoMT, Cl2.Nome AS NomeDT, Cl2.Cognome AS CognomeDT," +
+                    "Cl2.Tipo AS TipoDT, Cl2.NomeAzienda AS NomeAziendaDT, I.* " +
+                    "FROM Spedizione AS S NATURAL JOIN Ordine AS O JOIN Cliente AS Cl " +
+                    "ON Cl.NumeroTelefono = O.NumeroTelefonoMT " +
+                    "JOIN Cliente AS Cl2 ON Cl2.NumeroTelefono = O.NumeroTelefonoDT " +
+                    "JOIN Indirizzo AS I ON I.IDIndirizzo = Cl2.IDIndirizzo " +
+                    "WHERE S.Tipo <> 'Singola' " +
+                    "AND (O.NumeroTelefonoDT = ? OR O.NumeroTelefonoMT = ?) " +
+                    "ORDER BY S.DataPrevista ASC");
+            stmt.setString(1, utente);
+            stmt.setString(2, utente);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                DettagliSpedizioneDTO spedizioneCorrente;
+                spedizioneCorrente = creaSpedizioneDTO(rs);
+                listaSpedizioni.add(spedizioneCorrente);
+            }
+            stmt.close();
+        } catch(SQLException e) {
+            System.out.println("errore SQL: " + e);
+        } catch(Exception e) {
+            System.out.println("errore generico: " + e);
+        }
+        return listaSpedizioni;
+    }
+
+    public ArrayList<DettagliSpedizioneDTO> getSpedizioniByData(Date dataInizio, Date dataFine, Connection conn){
+        ArrayList<DettagliSpedizioneDTO> listaSpedizioni = new ArrayList<>();
+        try {
+            PreparedStatement stmt = conn.prepareStatement("SELECT S.Tipo AS TipoSpedizione, S.*, O.*, Cl.Nome AS NomeMT, Cl.Cognome AS CognomeMT," +
+                    "Cl.NomeAzienda AS NomeAziendaMT, Cl.Tipo AS TipoMT, Cl2.Nome AS NomeDT, Cl2.Cognome AS CognomeDT," +
+                    "Cl2.Tipo AS TipoDT, Cl2.NomeAzienda AS NomeAziendaDT, I.* " +
+                    "FROM Spedizione AS S NATURAL JOIN Ordine AS O JOIN Cliente AS Cl " +
+                    "ON Cl.NumeroTelefono = O.NumeroTelefonoMT " +
+                    "JOIN Cliente AS Cl2 ON Cl2.NumeroTelefono = O.NumeroTelefonoDT " +
+                    "JOIN Indirizzo AS I ON I.IDIndirizzo = Cl2.IDIndirizzo " +
+                    "WHERE S.Tipo <> 'Singola' " +
+                    "AND S.DataPrevista BETWEEN ? AND ?" +
+                    "ORDER BY S.DataPrevista ASC");
+            stmt.setDate(1, (java.sql.Date) dataInizio);
+            stmt.setDate(2, (java.sql.Date) dataFine);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                DettagliSpedizioneDTO spedizioneCorrente;
+                spedizioneCorrente = creaSpedizioneDTO(rs);
+                listaSpedizioni.add(spedizioneCorrente);
+            }
+            stmt.close();
+        } catch(SQLException e) {
+            System.out.println("errore SQL: " + e);
+        } catch(Exception e) {
+            System.out.println("errore generico: " + e);
+        }
+        return listaSpedizioni;
     }
 
     private DettagliSpedizioneDTO creaSpedizioneDTO(ResultSet rs) throws SQLException {
@@ -54,24 +169,5 @@ public class DettagliSpedizioneDAO {
                 rs.getString("cap") + " " + rs.getString("citta") + " " + rs.getString("provincia"));
 
         return dettagliSpedizioneDTO;
-    }
-    
-    public void aggiornaSpedizioniProgrammate(ArrayList<DettagliSpedizioneDTO> listaSpedizioni, String tipoSpedizione, Connection conn){
-        try {
-            Statement stmt;
-            stmt = conn.createStatement();
-            String comando = "UPDATE Spedizione SET tipo = '" + tipoSpedizione + "' WHERE numeroTracciamento IN (";
-            for (DettagliSpedizioneDTO dettagliSpedizioneDTO : listaSpedizioni) {
-                comando = comando.concat(dettagliSpedizioneDTO.getNumeroTracciamento() + ", ");
-            }
-            comando = comando.substring(0, comando.length() - 2);
-            comando = comando.concat(")");
-            stmt.executeUpdate(comando);
-            stmt.close();
-        } catch (SQLException e) {
-            System.out.println("SQL Exception: " + e);
-        } catch (Exception e) {
-            System.out.println("errore generico: " + e);
-        }
     }
 }
