@@ -175,7 +175,7 @@
                 <properties>
                   <background color="-42662"/>
                   <font name="JetBrains Mono Medium" size="18" style="1"/>
-                  <foreground color="-42662"/>
+                  <foreground color="-2104859"/>
                   <text value="Indietro"/>
                   <toolTipText value="Torna alla home"/>
                 </properties>

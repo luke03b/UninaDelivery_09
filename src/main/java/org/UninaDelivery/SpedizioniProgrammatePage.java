@@ -206,23 +206,30 @@ public class SpedizioniProgrammatePage extends JFrame {
         annullaProgrammazioneButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try{
-                    if(controllaQuanteFlagTabella() == 0)
-                        throw new NoCampiSelezionatiException(SpedizioniProgrammatePage.this, controlloreFinestre);
-                    Object[] Opzioni = {"Si", "No"};
-                    if (JOptionPane.showOptionDialog(SpedizioniProgrammatePage.this, "Vuoi annullare tutte le programmazioni selezionate?",
-                            "Attenzione", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, Opzioni,
-                            Opzioni[0]) == JOptionPane.OK_OPTION){
-                        controlloreDAO.aggiornaSpedizioniProgrammate(getSpedizioniSelezionateDaTabella(), "Singola");
-                        controlloreFinestre.mostraMessageDialog(SpedizioniProgrammatePage.this, "Tutte le spedizioni annullate con successo!", "Avviso");
-                        ArrayList<DettagliSpedizioneDTO> listaSpedizioniProgrammate = controlloreDAO.getSpedizioniProgrammate();
-                        aggiungiElementiATabella(listaSpedizioniProgrammate);
+                try {
+                    if(isSelezioneValida() && mostraMessageDialogDiAvvertimento()) {
+                        annullaSpedizioniProgrammate();
                     }
-                } catch (NoCampiSelezionatiException exception){
-                    System.out.println("Nessuna checkBox selezionata: " + exception);
+                } catch (NoCampiSelezionatiException ex) {
+                    System.out.println("nessuna checkBox selezionata: " + ex);
                 }
             }
         });
+    }
+
+    private boolean mostraMessageDialogDiAvvertimento(){
+        Object[] Opzioni = {"Si", "No"};
+
+        return JOptionPane.showOptionDialog(SpedizioniProgrammatePage.this, "Vuoi annullare tutte le programmazioni selezionate?",
+                "Attenzione", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, Opzioni,
+                Opzioni[0]) == JOptionPane.OK_OPTION;
+    }
+
+    private void annullaSpedizioniProgrammate(){
+        controlloreDAO.aggiornaSpedizioniProgrammate(getSpedizioniSelezionateDaTabella(), "Singola");
+        controlloreFinestre.mostraMessageDialog(SpedizioniProgrammatePage.this, "Tutte le spedizioni annullate con successo!", "Avviso");
+        ArrayList<DettagliSpedizioneDTO> listaSpedizioniProgrammate = controlloreDAO.getSpedizioniProgrammate();
+        aggiungiElementiATabella(listaSpedizioniProgrammate);
     }
 
     private int controllaQuanteFlagTabella(){
@@ -258,15 +265,12 @@ public class SpedizioniProgrammatePage extends JFrame {
         return dettagliSpedizioneDTO;
     }
 
-    private void isSelezioneValida() throws NoCampiSelezionatiException, TroppiCampiSelezionatiException {
+    private boolean isSelezioneValida() throws NoCampiSelezionatiException {
         switch (controllaQuanteFlagTabella()) {
             case 0:
                 throw new NoCampiSelezionatiException(this, controlloreFinestre);
-            case 1:
-                mostraDettagliOrdine();
-                break;
             default:
-                throw new TroppiCampiSelezionatiException(this, controlloreFinestre);
+                return true;
         }
     }
 

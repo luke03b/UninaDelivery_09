@@ -8,12 +8,13 @@ public class DettagliSpedizioneDAO {
     public ArrayList<DettagliSpedizioneDTO> getSpedizioniProgrammate(Connection conn){
         ArrayList<DettagliSpedizioneDTO> spedizioniProgrammate = new ArrayList<>();
         try {
-            PreparedStatement stmt = conn.prepareStatement("SELECT S.Tipo AS TipoSpedizione, S.*, O.*, Cl.Nome AS NomeMT, Cl.Cognome AS CognomeMT, Cl.NomeAzienda AS NomeAziendaMT, Cl.Tipo AS TipoMT, Cl2.Nome AS NomeDT, Cl2.Cognome AS CognomeDT,\n" +
-                    "\t\tCl2.Tipo AS TipoDT, Cl2.NomeAzienda AS NomeAziendaDT, I.*\n" +
-                    "  FROM Spedizione AS S NATURAL JOIN Ordine AS O JOIN Cliente AS Cl\n" +
-                    "    ON Cl.NumeroTelefono = O.NumeroTelefonoMT\n" +
-                    "\tJOIN Cliente AS Cl2 ON Cl2.NumeroTelefono = O.NumeroTelefonoDT\n" +
-                    "\tJOIN Indirizzo AS I ON I.IDIndirizzo = Cl2.IDIndirizzo\n" +
+            PreparedStatement stmt = conn.prepareStatement("SELECT S.Tipo AS TipoSpedizione, S.*, O.*, Cl.Nome AS NomeMT, Cl.Cognome AS CognomeMT," +
+                    "Cl.NomeAzienda AS NomeAziendaMT, Cl.Tipo AS TipoMT, Cl2.Nome AS NomeDT, Cl2.Cognome AS CognomeDT, " +
+                    "Cl2.Tipo AS TipoDT, Cl2.NomeAzienda AS NomeAziendaDT, I.* " +
+                    "FROM Spedizione AS S NATURAL JOIN Ordine AS O JOIN Cliente AS Cl " +
+                    "ON Cl.NumeroTelefono = O.NumeroTelefonoMT " +
+                    "JOIN Cliente AS Cl2 ON Cl2.NumeroTelefono = O.NumeroTelefonoDT " +
+                    "JOIN Indirizzo AS I ON I.IDIndirizzo = Cl2.IDIndirizzo " +
                     " WHERE S.Tipo <> 'Singola'");
             ResultSet rs = stmt.executeQuery();
             while (rs.next()){
@@ -66,6 +67,7 @@ public class DettagliSpedizioneDAO {
             comando = comando.substring(0, comando.length()-2);
             comando = comando.concat(")");
             stmt.executeUpdate(comando);
+            stmt.close();
         } catch (SQLException e) {
             System.out.println("SQL Exception: " + e);
         } catch (Exception e) {
