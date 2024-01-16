@@ -51,7 +51,7 @@ public class DettagliSpedizioneDAO {
             System.out.println("errore generico: " + e);
         }
     }
-
+    
     public ArrayList<DettagliSpedizioneDTO> getSpedizioniByUtenteAndData(String utente, Date dataInizio, Date dataFine, Connection conn){
         ArrayList<DettagliSpedizioneDTO> listaSpedizioni = new ArrayList<>();
         try {
@@ -86,7 +86,7 @@ public class DettagliSpedizioneDAO {
         }
         return listaSpedizioni;
     }
-
+    
     public ArrayList<DettagliSpedizioneDTO> getSpedizioniByUtente(String utente, Connection conn){
         ArrayList<DettagliSpedizioneDTO> listaSpedizioni = new ArrayList<>();
         try {
@@ -116,7 +116,7 @@ public class DettagliSpedizioneDAO {
         }
         return listaSpedizioni;
     }
-
+    
     public ArrayList<DettagliSpedizioneDTO> getSpedizioniByData(Date dataInizio, Date dataFine, Connection conn){
         ArrayList<DettagliSpedizioneDTO> listaSpedizioni = new ArrayList<>();
         try {
@@ -128,7 +128,7 @@ public class DettagliSpedizioneDAO {
                     "JOIN Cliente AS Cl2 ON Cl2.NumeroTelefono = O.NumeroTelefonoDT " +
                     "JOIN Indirizzo AS I ON I.IDIndirizzo = Cl2.IDIndirizzo " +
                     "WHERE S.Tipo <> 'Singola' " +
-                    "AND S.DataPrevista BETWEEN ? AND ?" +
+                    "AND S.DataPrevista BETWEEN ? AND ? " +
                     "ORDER BY S.DataPrevista ASC");
             stmt.setDate(1, (java.sql.Date) dataInizio);
             stmt.setDate(2, (java.sql.Date) dataFine);
@@ -146,7 +146,7 @@ public class DettagliSpedizioneDAO {
         }
         return listaSpedizioni;
     }
-
+    
     private DettagliSpedizioneDTO creaSpedizioneDTO(ResultSet rs) throws SQLException {
         DettagliSpedizioneDTO dettagliSpedizioneDTO = new DettagliSpedizioneDTO();
         dettagliSpedizioneDTO.setNumeroTracciamento(rs.getInt("numerotracciamento"));
@@ -169,5 +169,24 @@ public class DettagliSpedizioneDAO {
                 rs.getString("cap") + " " + rs.getString("citta") + " " + rs.getString("provincia"));
 
         return dettagliSpedizioneDTO;
+    }
+    
+    public void aggiornaDataSpedizioni(ArrayList<DettagliSpedizioneDTO> listaSpedizioni, Date dataPrevista, Connection conn){
+        try{
+            Statement stmt;
+            stmt = conn.createStatement();
+            String comando = "UPDATE Spedizione SET dataprevista = '" + dataPrevista + "' WHERE numeroTracciamento IN (";
+            for (DettagliSpedizioneDTO dettagliSpedizioneDTO : listaSpedizioni){
+                comando = comando.concat(dettagliSpedizioneDTO.getNumeroTracciamento() + ", ");
+            }
+            comando = comando.substring(0, comando.length() - 2);
+            comando = comando.concat(")");
+            stmt.executeUpdate(comando);
+            stmt.close();
+        } catch (SQLException e){
+            System.out.println("SQL Exception: " + e);
+        } catch (Exception e){
+            System.out.println("Errore generico: " + e);
+        }
     }
 }

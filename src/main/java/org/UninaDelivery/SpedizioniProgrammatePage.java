@@ -7,6 +7,7 @@ import org.UninaDelivery.Cliente.ClienteDTO;
 import org.UninaDelivery.Controllori.ControlloreDAO;
 import org.UninaDelivery.Controllori.ControlloreFinestre;
 import org.UninaDelivery.DettagliSpedizione.DettagliSpedizioneDTO;
+import org.UninaDelivery.Exception.FiltroNonValidoException;
 import org.UninaDelivery.Exception.NoCampiSelezionatiException;
 import org.UninaDelivery.Operatore.OperatoreDTO;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
@@ -34,9 +35,9 @@ public class SpedizioniProgrammatePage extends JFrame {
     private JScrollPane panelContenenteJTable;
     private JLabel ordiniNonSpeditiLabel;
     private JButton annullaProgrammazioneButton;
-    private JButton inserisciDettagliOrdine;
+    private JButton modificaOrdineButton;
     private JButton indietroButton;
-    private JButton modificaButton;
+    private JButton modificaDataButton;
     private JToolBar toolBar;
     private JButton resetButton;
     private JButton selezionaTuttoButton;
@@ -260,6 +261,52 @@ public class SpedizioniProgrammatePage extends JFrame {
                 }
             }
         });
+        
+        modificaOrdineButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    if(isSelezioneValida())
+                        controlloreFinestre.apriModificaSpedizioniPage(SpedizioniProgrammatePage.this, getSpedizioniSelezionateDaTabella());
+                } catch (NoCampiSelezionatiException ex) {
+                    System.out.println("nessuna checkBox selezionata: " + ex);
+                }
+            }
+        });
+        
+        modificaDataButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    if (isSelezioneValida())
+                        controlloreFinestre.apriModificaDataPage(SpedizioniProgrammatePage.this, getSpedizioniSelezionateDaTabella());
+                } catch (NoCampiSelezionatiException ex) {
+                    System.out.println("nessuna checkBox selezionata: " + ex);
+                }
+            }
+        });
+        
+        resetButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resettaFiltri();
+                aggiornaTabella();
+            }
+        });
+        
+        aggiornaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                aggiornaTabella();
+            }
+        });
+        
+        selezionaTuttoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                selezionaTutteCelleTabella();
+            }
+        });
     }
 
     private boolean mostraMessageDialogDiAvvertimento(){
@@ -315,5 +362,57 @@ public class SpedizioniProgrammatePage extends JFrame {
             throw new NoCampiSelezionatiException(this, controlloreFinestre);
         }
         return true;
+    }
+    
+    private void applicaFiltro(String utenteSelezionato, java.util.Date dataInizio, java.util.Date dataFine) throws FiltroNonValidoException {
+        if (!utenteSelezionato.isEmpty() && dataInizio != null && dataFine != null) {
+            System.out.println(utenteSelezionato);
+            ArrayList<DettagliSpedizioneDTO> listaSpedizioni = controlloreDAO.getSpedizioniByUtenteAndData(utenteSelezionato, new java.sql.Date(dataInizio.getTime()), new java.sql.Date(dataFine.getTime()));
+            aggiungiElementiATabella(listaSpedizioni);
+            return;
+        }
+        if (dataInizio == null ^ dataFine == null) {
+            throw new FiltroNonValidoException(this, controlloreFinestre);
+        }
+        if (!utenteSelezionato.isEmpty()) {
+            ArrayList<DettagliSpedizioneDTO> listaSpedizioni = controlloreDAO.getSpedizioniByUtente(utenteSelezionato);
+            aggiungiElementiATabella(listaSpedizioni);
+            return;
+        }
+        if(dataInizio != null && dataFine != null) {
+            ArrayList<DettagliSpedizioneDTO> listaSpedizioni = controlloreDAO.getSpedizioniByData(new java.sql.Date(dataInizio.getTime()), new java.sql.Date(dataFine.getTime()));
+            aggiungiElementiATabella(listaSpedizioni);
+            return;
+        }
+        ArrayList<DettagliSpedizioneDTO> listaSpedizioni = controlloreDAO.getSpedizioniProgrammate();
+        aggiungiElementiATabella(listaSpedizioni);
+    }
+    
+    
+    public void aggiornaTabella(){
+        java.util.Date dataInizio = (java.util.Date) pickerDataInizio.getModel().getValue();
+        java.util.Date dataFine = (java.util.Date) pickerDataFine.getModel().getValue();
+        String utenteSelezionato = filtroUtenti.getSelectedItem().toString();
+        utenteSelezionato = utenteSelezionato.replaceAll("[^0-9]", "");
+        
+        try {
+            applicaFiltro(utenteSelezionato, dataInizio, dataFine);
+        } catch (FiltroNonValidoException exception) {
+            System.out.println("Filtro non valido: " + exception);
+        }
+    }
+    
+    private void resettaFiltri() {
+        filtroUtenti.setSelectedIndex(0);
+        pickerDataInizio.getJFormattedTextField().setText("");
+        datePanelDataInizio.getModel().setSelected(false);
+        pickerDataFine.getJFormattedTextField().setText("");
+        datePanelDataFine.getModel().setSelected(false);
+    }
+    
+    public void selezionaTutteCelleTabella(){
+        for (int riga = 0; riga < spedizioniTable.getRowCount(); riga++){
+            spedizioniTable.setValueAt(true, riga, 0);
+        }
     }
 }
