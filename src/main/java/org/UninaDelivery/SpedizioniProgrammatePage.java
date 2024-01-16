@@ -34,9 +34,9 @@ public class SpedizioniProgrammatePage extends JFrame {
     private JScrollPane panelContenenteJTable;
     private JLabel ordiniNonSpeditiLabel;
     private JButton annullaProgrammazioneButton;
-    private JButton modificaOrdineButton;
+    private JButton inserisciDettagliOrdine;
     private JButton indietroButton;
-    private JButton modificaDataButton;
+    private JButton modificaButton;
     private JToolBar toolBar;
     private JButton resetButton;
     private JButton selezionaTuttoButton;
@@ -84,6 +84,7 @@ public class SpedizioniProgrammatePage extends JFrame {
         setMinimumSize(new Dimension(1550, 430));
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
     }
 
     private void setImpostazioniTabella(){
@@ -259,30 +260,6 @@ public class SpedizioniProgrammatePage extends JFrame {
                 }
             }
         });
-        
-        modificaOrdineButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    if(isSelezioneValida())
-                        controlloreFinestre.apriModificaSpedizioniPage(SpedizioniProgrammatePage.this, getSpedizioniSelezionateDaTabella());
-                } catch (NoCampiSelezionatiException ex) {
-                    System.out.println("nessuna checkBox selezionata: " + ex);
-                }
-            }
-        });
-        
-        modificaDataButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    if (isSelezioneValida())
-                        controlloreFinestre.apriModificaDataPage(SpedizioniProgrammatePage.this, getSpedizioniSelezionateDaTabella());
-                } catch (NoCampiSelezionatiException ex) {
-                    System.out.println("nessuna checkBox selezionata: " + ex);
-                }
-            }
-        });
     }
 
     private boolean mostraMessageDialogDiAvvertimento(){
@@ -296,10 +273,6 @@ public class SpedizioniProgrammatePage extends JFrame {
     private void annullaSpedizioniProgrammate(){
         controlloreDAO.aggiornaSpedizioniProgrammate(getSpedizioniSelezionateDaTabella(), "Singola");
         controlloreFinestre.mostraMessageDialog(SpedizioniProgrammatePage.this, "Tutte le spedizioni annullate con successo!", "Avviso");
-        aggiornaTabella();
-    }
-    
-    public void aggiornaTabella(){
         ArrayList<DettagliSpedizioneDTO> listaSpedizioniProgrammate = controlloreDAO.getSpedizioniProgrammate();
         aggiungiElementiATabella(listaSpedizioniProgrammate);
     }
