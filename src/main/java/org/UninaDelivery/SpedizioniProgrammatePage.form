@@ -156,6 +156,9 @@
                   <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
+                  <background color="-42662"/>
+                  <font name="JetBrains Mono Medium" size="18" style="1"/>
+                  <foreground color="-16772557"/>
                   <text value="Annulla Programmazione"/>
                   <toolTipText value="Elimina spedizione programmata"/>
                 </properties>
@@ -165,7 +168,11 @@
                   <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
+                  <background color="-42662"/>
+                  <font name="JetBrains Mono Medium" size="18" style="1"/>
+                  <foreground color="-16772557"/>
                   <text value="Modifica Ordine"/>
+                  <toolTipText value="Modifica il tipo della spedizione"/>
                 </properties>
               </component>
               <component id="7dd8b" class="javax.swing.JButton" binding="indietroButton" default-binding="true">
@@ -175,7 +182,7 @@
                 <properties>
                   <background color="-42662"/>
                   <font name="JetBrains Mono Medium" size="18" style="1"/>
-                  <foreground color="-2104859"/>
+                  <foreground color="-16772557"/>
                   <text value="Indietro"/>
                   <toolTipText value="Torna alla home"/>
                 </properties>
@@ -185,7 +192,11 @@
                   <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
+                  <background color="-42662"/>
+                  <font name="JetBrains Mono Medium" size="18" style="1"/>
+                  <foreground color="-16772557"/>
                   <text value="Modifica Data"/>
+                  <toolTipText value="Modifica la data della spedizione"/>
                 </properties>
               </component>
             </children>

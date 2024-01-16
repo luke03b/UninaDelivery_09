@@ -19,6 +19,8 @@ public class CambiaDataPage extends JDialog{
     private JButton annullaButton;
     private JPanel calendarioPanel;
     private JToolBar toolBar;
+    private JLabel iconaLogoDelivery;
+    private JLabel logoUnina;
     private ControlloreDAO controlloreDAO;
     private ControlloreFinestre controlloreFinestre;
     private SpedizioniProgrammatePage parent;
@@ -30,9 +32,17 @@ public class CambiaDataPage extends JDialog{
     public CambiaDataPage(SpedizioniProgrammatePage parent, ControlloreFinestre controlloreFinestre, ControlloreDAO controlloreDAO, ArrayList<DettagliSpedizioneDTO> listaSpedizioniSelezionate){
         setImpostazioniModificaDataPage(parent, controlloreFinestre, controlloreDAO, listaSpedizioniSelezionate);
         setImpostazioniCalendario();
+        setImpostazioniConfermaButton();
+        setImpostazioniAnnullaButton();
+        setImpostazioniIcone();
         listeners();
     }
-    
+
+    private void setImpostazioniIcone(){
+        iconaLogoDelivery.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScrittePiccolo.png"));
+        logoUnina.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoFedericoII.png"));
+    }
+
     private void setImpostazioniModificaDataPage(SpedizioniProgrammatePage parent, ControlloreFinestre controlloreFinestre, ControlloreDAO controlloreDAO, ArrayList<DettagliSpedizioneDTO> listaSpedizioniSelezionate){
         this.listaSpedizioniSelezionate = listaSpedizioniSelezionate;
         setIconImage(imageIcon.getImage());
@@ -43,9 +53,29 @@ public class CambiaDataPage extends JDialog{
         this.parent = parent;
         setTitle("Crea Spedizioni Programmate");
         setContentPane(cambiaDataPanel);
-        setMinimumSize(new Dimension(1000, 400));
+        setMinimumSize(new Dimension(580, 310));
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    }
+
+    public void setImpostazioniAnnullaButton() {
+        annullaButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/annulla32x32.png"));
+        annullaButton.setMargin(new Insets(0, 0, 0, 0));
+        annullaButton.setOpaque(false);
+        annullaButton.setBorderPainted(false);
+        annullaButton.setBorder(null);
+        annullaButton.setContentAreaFilled(false);
+        annullaButton.setFocusable(false);
+    }
+
+    public void setImpostazioniConfermaButton() {
+        confermaButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/ConfermaRosso32x32.png"));
+        confermaButton.setMargin(new Insets(0, 0, 0, 0));
+        confermaButton.setOpaque(false);
+        confermaButton.setBorderPainted(false);
+        confermaButton.setBorder(null);
+        confermaButton.setContentAreaFilled(false);
+        confermaButton.setFocusable(false);
     }
     
     private void setImpostazioniCalendario(){

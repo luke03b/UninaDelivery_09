@@ -66,8 +66,11 @@ public class SpedizioniProgrammatePage extends JFrame {
         setImpostazioniUserInformationButton();
         setImpostazioniLogoutButton();
         setImpostazioniVisive();
-        setImpostazioniBottoni();
+        setImpostazioniModificaData();
         setImpostazioniVarie();
+        setImpostazioniModificaOrdine();
+        setImpostazioniAnnullaProgrammazione();
+        setImpostazioniIndietroButton();
 
         listeners();
     }
@@ -179,8 +182,24 @@ public class SpedizioniProgrammatePage extends JFrame {
         ordiniNonSpeditiLabel.setIcon((new ImageIcon("src/main/java/org/UninaDelivery/Icon/order.png")));
     }
 
-    private void setImpostazioniBottoni(){
-        logOutButton.setFocusable(false);
+    private void setImpostazioniModificaData(){
+        modificaDataButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/modificaData.png"));
+        modificaDataButton.setFocusable(false);
+    }
+
+    private void setImpostazioniModificaOrdine() {
+        modificaOrdineButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/modificaOrdine.png"));
+        modificaOrdineButton.setFocusable(false);
+    }
+
+    private void setImpostazioniIndietroButton(){
+        indietroButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/IndietroNero.png"));
+        indietroButton.setFocusable(false);
+    }
+
+    private void setImpostazioniAnnullaProgrammazione(){
+        annullaProgrammazioneButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/annullaSpedizione.png"));
+        annullaProgrammazioneButton.setFocusable(false);
     }
 
     private void setImpostazioniUserInformationButton(){
@@ -200,6 +219,7 @@ public class SpedizioniProgrammatePage extends JFrame {
         logOutButton.setBorderPainted(false);
         logOutButton.setBorder(null);
         logOutButton.setContentAreaFilled(false);
+        logOutButton.setFocusable(false);
     }
 
     private void aggiungiElementiATabella(ArrayList<DettagliSpedizioneDTO> listaAggiornata){

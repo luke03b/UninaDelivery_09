@@ -19,7 +19,7 @@ public class ModificaSpedizioniPage extends JDialog{
     private JRadioButton radioButtonAnnuale;
     private JLabel iconaLogoDelivery;
     private JLabel logoUnina;
-    private JLabel iconaPeriodicita;
+
     private ControlloreDAO controlloreDAO;
     private ControlloreFinestre controlloreFinestre;
     private ImageIcon imageIcon = new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScritte.png");
@@ -28,6 +28,9 @@ public class ModificaSpedizioniPage extends JDialog{
     public ModificaSpedizioniPage(SpedizioniProgrammatePage parent, ControlloreFinestre controlloreFinestre, ControlloreDAO controlloreDAO, ArrayList<DettagliSpedizioneDTO> listaSpedizioniSelezionate){
         setImpostazioniModificaSpedizioniPage(parent, controlloreFinestre, controlloreDAO, listaSpedizioniSelezionate);
         setImpostazioniIcone();
+        setImpostazioniAnnullaButton();
+        setImpostazioniConfermaButton();
+        setImpostazioneBottoni();
         listeners();
     }
     
@@ -41,7 +44,7 @@ public class ModificaSpedizioniPage extends JDialog{
         this.parent = parent;
         setTitle("Crea Spedizioni Programmate");
         setContentPane(modificaSpedizioniPanel);
-        setMinimumSize(new Dimension(550, 280));
+        setMinimumSize(new Dimension(550, 310));
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
@@ -66,11 +69,28 @@ public class ModificaSpedizioniPage extends JDialog{
     }
 
     public void setImpostazioniIcone(){
-        annullaButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/annulla.png"));
-        confermaButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/ConfermaRosso.png"));
         iconaLogoDelivery.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScrittePiccolo.png"));
         logoUnina.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoFedericoII.png"));
-        iconaPeriodicita.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/clockNero.png"));
+    }
+
+    public void setImpostazioniAnnullaButton() {
+        annullaButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/annulla32x32.png"));
+        annullaButton.setMargin(new Insets(0, 0, 0, 0));
+        annullaButton.setOpaque(false);
+        annullaButton.setBorderPainted(false);
+        annullaButton.setBorder(null);
+        annullaButton.setContentAreaFilled(false);
+        annullaButton.setFocusable(false);
+    }
+
+    public void setImpostazioniConfermaButton() {
+        confermaButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/ConfermaRosso32x32.png"));
+        confermaButton.setMargin(new Insets(0, 0, 0, 0));
+        confermaButton.setOpaque(false);
+        confermaButton.setBorderPainted(false);
+        confermaButton.setBorder(null);
+        confermaButton.setContentAreaFilled(false);
+        confermaButton.setFocusable(false);
     }
 
     private void listeners(){
