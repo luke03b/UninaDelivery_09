@@ -16,7 +16,8 @@ public class DettagliSpedizioneDAO {
                     "ON Cl.NumeroTelefono = O.NumeroTelefonoMT " +
                     "JOIN Cliente AS Cl2 ON Cl2.NumeroTelefono = O.NumeroTelefonoDT " +
                     "JOIN Indirizzo AS I ON I.IDIndirizzo = Cl2.IDIndirizzo " +
-                    "WHERE S.Tipo <> 'Singola'");
+                    "WHERE S.Tipo <> 'Singola'" +
+                    "AND S.Stato = 'In preparazione'");
             ResultSet rs = stmt.executeQuery();
             while (rs.next()){
                 DettagliSpedizioneDTO spedizioneDTO;
@@ -65,6 +66,7 @@ public class DettagliSpedizioneDAO {
                     "WHERE S.Tipo <> 'Singola' " +
                     "AND (O.NumeroTelefonoDT = ? OR O.NumeroTelefonoMT = ?) " +
                     "AND S.DataPrevista BETWEEN ? AND ? " +
+                    "AND S.Stato = 'In preparazione' " +
                     "ORDER BY S.DataPrevista ASC");
 
             stmt.setString(1, utente);
@@ -99,6 +101,7 @@ public class DettagliSpedizioneDAO {
                     "JOIN Indirizzo AS I ON I.IDIndirizzo = Cl2.IDIndirizzo " +
                     "WHERE S.Tipo <> 'Singola' " +
                     "AND (O.NumeroTelefonoDT = ? OR O.NumeroTelefonoMT = ?) " +
+                    "AND S.Stato = 'In preparazione' " +
                     "ORDER BY S.DataPrevista ASC");
             stmt.setString(1, utente);
             stmt.setString(2, utente);
@@ -129,6 +132,7 @@ public class DettagliSpedizioneDAO {
                     "JOIN Indirizzo AS I ON I.IDIndirizzo = Cl2.IDIndirizzo " +
                     "WHERE S.Tipo <> 'Singola' " +
                     "AND S.DataPrevista BETWEEN ? AND ? " +
+                    "AND S.Stato = 'In preparazione' " +
                     "ORDER BY S.DataPrevista ASC");
             stmt.setDate(1, (java.sql.Date) dataInizio);
             stmt.setDate(2, (java.sql.Date) dataFine);
