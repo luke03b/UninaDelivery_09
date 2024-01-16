@@ -147,20 +147,20 @@ public class ControlloreDAO {
         return pesoTot;
     }
 
-    public ArrayList<DettagliSpedizioneDTO> getSpedizioniByUtenteAndData(String utente, Date dataInizio, Date dataFine){
-        DettagliSpedizioneDAO dettagliSpedizioneDAO = new DettagliSpedizioneDAO();
-        return dettagliSpedizioneDAO.getSpedizioniByUtenteAndData(utente, dataInizio, dataFine, conn);
-    }
-
-    public ArrayList<DettagliSpedizioneDTO> getSpedizioniByUtente(String utente){
-        DettagliSpedizioneDAO dettagliSpedizioneDAO = new DettagliSpedizioneDAO();
-        return dettagliSpedizioneDAO.getSpedizioniByUtente(utente, conn);
-    }
-
-    public ArrayList<DettagliSpedizioneDTO> getSpedizioniByData(Date dataInizio, Date dataFine){
-        DettagliSpedizioneDAO dettagliSpedizioneDAO = new DettagliSpedizioneDAO();
-        return dettagliSpedizioneDAO.getSpedizioniByData(dataInizio, dataFine, conn);
-    }
+//    public ArrayList<DettagliSpedizioneDTO> getSpedizioniByUtenteAndData(String utente, Date dataInizio, Date dataFine){
+//        DettagliSpedizioneDAO dettagliSpedizioneDAO = new DettagliSpedizioneDAO();
+//        return dettagliSpedizioneDAO.getSpedizioniByUtenteAndData(utente, dataInizio, dataFine, conn);
+//    }
+//
+//    public ArrayList<DettagliSpedizioneDTO> getSpedizioniByUtente(String utente){
+//        DettagliSpedizioneDAO dettagliSpedizioneDAO = new DettagliSpedizioneDAO();
+//        return dettagliSpedizioneDAO.getSpedizioniByUtente(utente, conn);
+//    }
+//
+//    public ArrayList<DettagliSpedizioneDTO> getSpedizioniByData(Date dataInizio, Date dataFine){
+//        DettagliSpedizioneDAO dettagliSpedizioneDAO = new DettagliSpedizioneDAO();
+//        return dettagliSpedizioneDAO.getSpedizioniByData(dataInizio, dataFine, conn);
+//    }
 
     public void aggiornaSpedizioniProgrammate(ArrayList<DettagliSpedizioneDTO> listaSpedizioni, String tipoSpedizione){
         DettagliSpedizioneDAO spedizioneDAO = new DettagliSpedizioneDAO();

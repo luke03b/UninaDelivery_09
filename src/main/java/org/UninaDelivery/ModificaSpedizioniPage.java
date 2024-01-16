@@ -94,7 +94,7 @@ public class ModificaSpedizioniPage extends JDialog{
     
     private void aggiornaSpedizioniSelezionate(){
         if (radioButtonSettimanale.isSelected())
-            controlloreDAO.aggiornaSpedizioniProgrammate(listaSpedizioniSelezionate, "Singola");
+            controlloreDAO.aggiornaSpedizioniProgrammate(listaSpedizioniSelezionate, "Settimanale");
         if (radioButtonMensile.isSelected())
             controlloreDAO.aggiornaSpedizioniProgrammate(listaSpedizioniSelezionate, "Mensile");
         if (radioButtonAnnuale.isSelected())
