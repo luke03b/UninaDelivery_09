@@ -447,7 +447,7 @@ public class WizardCreazioneSpedizione extends JDialog{
     private int getCelleSelezionate(JTable tabella){
         int numeroCelleSelezionate = 0;
         for (int riga = 0; riga < tabella.getRowCount(); riga++){
-            if (isCellaSelezionata(riga))
+            if (isCellaSelezionata(riga,tabella))
                 numeroCelleSelezionate++;
         }
         return numeroCelleSelezionate;
@@ -472,7 +472,7 @@ public class WizardCreazioneSpedizione extends JDialog{
 
     private void setCorriereSelezionatoLabel(){
         for (int riga = 0; riga < tabellaCorrieri.getRowCount(); riga++){
-            if (isCellaSelezionata(riga)){
+            if (isCellaSelezionata(riga, tabellaCorrieri)){
                 matricolaLabel.setText(String.valueOf((int) tabellaCorrieri.getValueAt(riga, 1)));
                 nomeLabel.setText((String) tabellaCorrieri.getValueAt(riga, 2));
                 cognomeLabel.setText((String) tabellaCorrieri.getValueAt(riga, 3));
@@ -481,14 +481,14 @@ public class WizardCreazioneSpedizione extends JDialog{
         }
     }
 
-    private Boolean isCellaSelezionata(int riga) {
-        return (Boolean) tabellaCorrieri.getValueAt(riga, 0);
+    private Boolean isCellaSelezionata(int riga, JTable tabella) {
+        return (Boolean) tabella.getValueAt(riga, 0);
     }
 
     private void setMezzoSelezionatoLabel(){
         float pesoTrasportabile;
         for (int riga = 0; riga < tabellaMezzi.getRowCount(); riga++){
-            if (isCellaSelezionata(riga)){
+            if (isCellaSelezionata(riga, tabellaMezzi)){
                 targaLabel.setText((String) tabellaMezzi.getValueAt(riga, 1));
                 marcaLabel.setText((String) tabellaMezzi.getValueAt(riga, 2));
                 modelloLabel.setText((String) tabellaMezzi.getValueAt(riga, 3));

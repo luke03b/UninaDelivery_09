@@ -27,7 +27,6 @@ public class SpedizioniProgrammatePage extends JFrame {
     private JPanel spedizioniProgrammatePanel;
     private JLabel logoLabel;
     private JLabel matricolaLabel;
-    private JButton logOutButton;
     private JTable spedizioniTable;
     private JButton infoUtenteButton;
     private JLabel nomeLabel;
@@ -64,7 +63,6 @@ public class SpedizioniProgrammatePage extends JFrame {
         setImpostazioniTabella();
         setImpostazioniToolBar();
         setImpostazioniInfoUtenteButton();
-        setImpostazioniLogoutButton();
         setImpostazioniVisive();
         setImpostazioniModificaData();
         setImpostazioniVarie();
@@ -211,15 +209,6 @@ public class SpedizioniProgrammatePage extends JFrame {
         infoUtenteButton.setFocusable(false);
     }
 
-    private void setImpostazioniLogoutButton() {
-        logOutButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logOut.png"));
-        logOutButton.setMargin(new Insets(0, 0, 0, 0));
-        logOutButton.setOpaque(false);
-        logOutButton.setBorderPainted(false);
-        logOutButton.setBorder(null);
-        logOutButton.setContentAreaFilled(false);
-        logOutButton.setFocusable(false);
-    }
 
     private void aggiungiElementiTabella(ArrayList<DettagliSpedizioneDTO> listaAggiornata) {
         DefaultTableModel model = (DefaultTableModel) spedizioniTable.getModel();
@@ -233,18 +222,6 @@ public class SpedizioniProgrammatePage extends JFrame {
     }
 
     private void listeners() {
-        logOutButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Object[] Opzioni = {"Si", "No"};
-                if (JOptionPane.showOptionDialog(SpedizioniProgrammatePage.this, "Vuoi eseguire il LogOut?",
-                        "LogOut", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, Opzioni,
-                        Opzioni[0]) == JOptionPane.OK_OPTION) {
-                    controlloreFinestre.chiudiPage(SpedizioniProgrammatePage.this);
-                    controlloreFinestre.apriHome(operatoreLoggato);
-                }
-            }
-        });
 
         infoUtenteButton.addActionListener(new ActionListener() {
             @Override

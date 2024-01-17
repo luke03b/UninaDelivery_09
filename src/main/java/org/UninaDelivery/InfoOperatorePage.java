@@ -39,7 +39,7 @@ public class InfoOperatorePage extends JDialog{
         setContentPane(infoOpPane);
         setMinimumSize(new Dimension(380, 450));
         setModal(true);
-        this.controlloreFinestre = this.controlloreFinestre;
+        this.controlloreFinestre = controlloreFinestre;
         this.operatoreLoggato = operatoreLoggato;
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
