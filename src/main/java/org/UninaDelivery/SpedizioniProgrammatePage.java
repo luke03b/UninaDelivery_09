@@ -59,11 +59,11 @@ public class SpedizioniProgrammatePage extends JFrame {
     JDatePickerImpl pickerDataFine = new JDatePickerImpl(datePanelDataFine);
 
 
-    public SpedizioniProgrammatePage(JFrame parent, ControlloreFinestre controlloreFinestre, ControlloreDAO controlloreDAO, OperatoreDTO operatoreLoggato){
+    public SpedizioniProgrammatePage(JFrame parent, ControlloreFinestre controlloreFinestre, ControlloreDAO controlloreDAO, OperatoreDTO operatoreLoggato) {
         setImpostazioniSpedizioniProgrammatePage(parent, controlloreFinestre, controlloreDAO, operatoreLoggato);
         setImpostazioniTabella();
         setImpostazioniToolBar();
-        setImpostazioniUserInformationButton();
+        setImpostazioniInfoUtenteButton();
         setImpostazioniLogoutButton();
         setImpostazioniVisive();
         setImpostazioniModificaData();
@@ -75,7 +75,7 @@ public class SpedizioniProgrammatePage extends JFrame {
         listeners();
     }
 
-    private void setImpostazioniSpedizioniProgrammatePage(JFrame parent, ControlloreFinestre controlloreFinestre, ControlloreDAO controlloreDAO, OperatoreDTO operatoreLoggato){
+    private void setImpostazioniSpedizioniProgrammatePage(JFrame parent, ControlloreFinestre controlloreFinestre, ControlloreDAO controlloreDAO, OperatoreDTO operatoreLoggato) {
         setIconImage(imageIcon.getImage());
         setLayout(null);
         setResizable(true);
@@ -83,25 +83,24 @@ public class SpedizioniProgrammatePage extends JFrame {
         this.controlloreDAO = controlloreDAO;
         this.controlloreFinestre = controlloreFinestre;
         this.operatoreLoggato = operatoreLoggato;
-        setTitle("Crea Spedizioni Programmate");
+        setTitle("Spedizioni Programmate");
         setContentPane(spedizioniProgrammatePanel);
-        setMinimumSize(new Dimension(1550, 430));
+        setMinimumSize(new Dimension(1950, 530));
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
     }
 
-    private void setImpostazioniTabella(){
+    private void setImpostazioniTabella() {
         ArrayList<DettagliSpedizioneDTO> listaSpedizioniProgrammate = controlloreDAO.getSpedizioniProgrammate();
         DefaultTableModel modelloTabella = getModelloTabella();
 
         spedizioniTable.setModel(modelloTabella);
         spedizioniTable.getTableHeader().setBackground(new Color(0, 18, 51));
-        spedizioniTable.getTableHeader().setForeground(new Color (253, 253, 253));
+        spedizioniTable.getTableHeader().setForeground(new Color(253, 253, 253));
         spedizioniTable.getTableHeader().setReorderingAllowed(false);
         spedizioniTable.getTableHeader().setResizingAllowed(false);
 
-        aggiungiElementiATabella(listaSpedizioniProgrammate);
+        aggiungiElementiTabella(listaSpedizioniProgrammate);
 
         DefaultTableCellRenderer modelloCelle = new DefaultTableCellRenderer();
         modelloCelle.setHorizontalAlignment(SwingConstants.CENTER);
@@ -112,15 +111,15 @@ public class SpedizioniProgrammatePage extends JFrame {
 
     private static DefaultTableModel getModelloTabella() {
         Object[] nomiColonne = {"Seleziona", "Numero Tracciamento", "Data Prevista", "Mittente", "Destinatario", "Indirizzo di Spedizione", "Tipo Spedizione"};
-        DefaultTableModel modelloTabella = new DefaultTableModel(new Object[][]{}, nomiColonne){
+        DefaultTableModel modelloTabella = new DefaultTableModel(new Object[][]{}, nomiColonne) {
             //rende solo la prima colonna della tabella editabile
             @Override
-            public boolean isCellEditable(int row, int column){
+            public boolean isCellEditable(int row, int column) {
                 return column == 0;
             }
 
             @Override
-            public Class getColumnClass(int column){
+            public Class getColumnClass(int column) {
                 return switch (column) {
                     case 0 -> Boolean.class;
                     case 2 -> LocalDate.class;
@@ -143,7 +142,7 @@ public class SpedizioniProgrammatePage extends JFrame {
         dataFineLabel = new JLabel();
         dataFineLabel.setText("  Data Fine: ");
         dataFineLabel.setForeground(Color.WHITE);
-        dataFineLabel.setFont(new Font("JetBrains Mono Medium",Font.BOLD,14));
+        dataFineLabel.setFont(new Font("JetBrains Mono Medium", Font.BOLD, 14));
 
         toolBar.add(dataFineLabel);
         toolBar.add(pickerDataFine);
@@ -170,19 +169,19 @@ public class SpedizioniProgrammatePage extends JFrame {
         toolBar.setFloatable(false);
     }
 
-    private void setImpostazioniVarie(){
+    private void setImpostazioniVarie() {
         nomeLabel.setText(operatoreLoggato.getNome());
         cognomeLabel.setText(operatoreLoggato.getCognome());
         matricolaLabel.setText(String.valueOf(operatoreLoggato.getMatricola()));
         panelContenenteJTable.getViewport().setBackground(new Color(202, 192, 179));
     }
 
-    private void setImpostazioniVisive(){
+    private void setImpostazioniVisive() {
         logoLabel.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScrittePiccolo.png"));
         ordiniNonSpeditiLabel.setIcon((new ImageIcon("src/main/java/org/UninaDelivery/Icon/order.png")));
     }
 
-    private void setImpostazioniModificaData(){
+    private void setImpostazioniModificaData() {
         modificaDataButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/modificaData.png"));
         modificaDataButton.setFocusable(false);
     }
@@ -192,17 +191,17 @@ public class SpedizioniProgrammatePage extends JFrame {
         modificaOrdineButton.setFocusable(false);
     }
 
-    private void setImpostazioniIndietroButton(){
+    private void setImpostazioniIndietroButton() {
         indietroButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/IndietroNero.png"));
         indietroButton.setFocusable(false);
     }
 
-    private void setImpostazioniAnnullaProgrammazione(){
+    private void setImpostazioniAnnullaProgrammazione() {
         annullaProgrammazioneButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/annullaSpedizione.png"));
         annullaProgrammazioneButton.setFocusable(false);
     }
 
-    private void setImpostazioniUserInformationButton(){
+    private void setImpostazioniInfoUtenteButton() {
         infoUtenteButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/user.png"));
         infoUtenteButton.setMargin(new Insets(0, 0, 0, 0));
         infoUtenteButton.setOpaque(false);
@@ -212,7 +211,7 @@ public class SpedizioniProgrammatePage extends JFrame {
         infoUtenteButton.setFocusable(false);
     }
 
-    private void setImpostazioniLogoutButton(){
+    private void setImpostazioniLogoutButton() {
         logOutButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logOut.png"));
         logOutButton.setMargin(new Insets(0, 0, 0, 0));
         logOutButton.setOpaque(false);
@@ -222,18 +221,18 @@ public class SpedizioniProgrammatePage extends JFrame {
         logOutButton.setFocusable(false);
     }
 
-    private void aggiungiElementiATabella(ArrayList<DettagliSpedizioneDTO> listaAggiornata){
+    private void aggiungiElementiTabella(ArrayList<DettagliSpedizioneDTO> listaAggiornata) {
         DefaultTableModel model = (DefaultTableModel) spedizioniTable.getModel();
         model.setRowCount(0);
 
-        for (DettagliSpedizioneDTO spedizioneDTO : listaAggiornata){
-            model.addRow(new Object[]{Boolean.FALSE, spedizioneDTO.getNumeroTracciamento(),spedizioneDTO.getDataPrevista(), spedizioneDTO.getMittente(),
+        for (DettagliSpedizioneDTO spedizioneDTO : listaAggiornata) {
+            model.addRow(new Object[]{Boolean.FALSE, spedizioneDTO.getNumeroTracciamento(), spedizioneDTO.getDataPrevista(), spedizioneDTO.getMittente(),
                     spedizioneDTO.getDestinatario(), spedizioneDTO.getIndirizzo(), spedizioneDTO.getTipoSpedizione()});
         }
         controlloreFinestre.resizeColumnWidth(spedizioniTable);
     }
 
-    private void listeners(){
+    private void listeners() {
         logOutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -268,12 +267,12 @@ public class SpedizioniProgrammatePage extends JFrame {
                 controlloreFinestre.apriHome(operatoreLoggato, SpedizioniProgrammatePage.this);
             }
         });
-        
+
         annullaProgrammazioneButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    if(isSelezioneValida() && mostraMessageDialogDiAvvertimento()) {
+                    if (isSelezioneValida() && mostraMessageDialogDiAvvertimento()) {
                         annullaSpedizioniProgrammate();
                     }
                 } catch (NoCampiSelezionatiException ex) {
@@ -281,19 +280,19 @@ public class SpedizioniProgrammatePage extends JFrame {
                 }
             }
         });
-        
+
         modificaOrdineButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    if(isSelezioneValida())
+                    if (isSelezioneValida())
                         controlloreFinestre.apriModificaSpedizioniPage(SpedizioniProgrammatePage.this, getSpedizioniSelezionateDaTabella());
                 } catch (NoCampiSelezionatiException ex) {
                     System.out.println("nessuna checkBox selezionata: " + ex);
                 }
             }
         });
-        
+
         modificaDataButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -305,7 +304,7 @@ public class SpedizioniProgrammatePage extends JFrame {
                 }
             }
         });
-        
+
         resetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -313,14 +312,14 @@ public class SpedizioniProgrammatePage extends JFrame {
                 aggiornaTabella();
             }
         });
-        
+
         aggiornaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 aggiornaTabella();
             }
         });
-        
+
         selezionaTuttoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -329,7 +328,7 @@ public class SpedizioniProgrammatePage extends JFrame {
         });
     }
 
-    private boolean mostraMessageDialogDiAvvertimento(){
+    private boolean mostraMessageDialogDiAvvertimento() {
         Object[] Opzioni = {"Si", "No"};
 
         return JOptionPane.showOptionDialog(SpedizioniProgrammatePage.this, "Vuoi annullare tutte le programmazioni selezionate?",
@@ -337,36 +336,36 @@ public class SpedizioniProgrammatePage extends JFrame {
                 Opzioni[0]) == JOptionPane.OK_OPTION;
     }
 
-    private void annullaSpedizioniProgrammate(){
+    private void annullaSpedizioniProgrammate() {
         controlloreDAO.aggiornaSpedizioniProgrammate(getSpedizioniSelezionateDaTabella(), "Singola");
         controlloreFinestre.mostraMessageDialogInfo(SpedizioniProgrammatePage.this, "Tutte le spedizioni annullate con successo!", "Avviso");
         ArrayList<DettagliSpedizioneDTO> listaSpedizioniProgrammate = controlloreDAO.getSpedizioniProgrammate();
-        aggiungiElementiATabella(listaSpedizioniProgrammate);
+        aggiungiElementiTabella(listaSpedizioniProgrammate);
     }
 
-    private int controllaQuanteFlagTabella(){
-        int numeroFlag = 0;
-        for (int riga = 0; riga < spedizioniTable.getRowCount(); riga++){
+    private int getNumeroCelleSelezionateTabella() {
+        int numeroCelleSelezionate = 0;
+        for (int riga = 0; riga < spedizioniTable.getRowCount(); riga++) {
             if (isCellaSelezionata(riga))
-                numeroFlag++;
+                numeroCelleSelezionate++;
         }
-        return numeroFlag;
+        return numeroCelleSelezionate;
     }
 
-    private boolean isCellaSelezionata(int riga){
+    private boolean isCellaSelezionata(int riga) {
         return (Boolean) spedizioniTable.getValueAt(riga, 0);
     }
 
-    public ArrayList<DettagliSpedizioneDTO> getSpedizioniSelezionateDaTabella(){
+    public ArrayList<DettagliSpedizioneDTO> getSpedizioniSelezionateDaTabella() {
         ArrayList<DettagliSpedizioneDTO> listaOrdiniSelezionati = new ArrayList<>();
-        for (int riga = 0; riga < spedizioniTable.getRowCount(); riga++){
-            if(isCellaSelezionata(riga))
-                listaOrdiniSelezionati.add(recuperaContenutoRiga(riga));
+        for (int riga = 0; riga < spedizioniTable.getRowCount(); riga++) {
+            if (isCellaSelezionata(riga))
+                listaOrdiniSelezionati.add(getContenutoRiga(riga));
         }
         return listaOrdiniSelezionati;
     }
 
-    private DettagliSpedizioneDTO recuperaContenutoRiga(int riga){
+    private DettagliSpedizioneDTO getContenutoRiga(int riga) {
         DettagliSpedizioneDTO dettagliSpedizioneDTO = new DettagliSpedizioneDTO();
         dettagliSpedizioneDTO.setNumeroTracciamento((int) spedizioniTable.getValueAt(riga, 1));
         dettagliSpedizioneDTO.setDataPrevista((LocalDate) spedizioniTable.getValueAt(riga, 2));
@@ -378,17 +377,17 @@ public class SpedizioniProgrammatePage extends JFrame {
     }
 
     private boolean isSelezioneValida() throws NoCampiSelezionatiException {
-        if (controllaQuanteFlagTabella() == 0) {
+        if (getNumeroCelleSelezionateTabella() == 0) {
             throw new NoCampiSelezionatiException(this, controlloreFinestre);
         }
         return true;
     }
-    
-    private void applicaFiltro(String utenteSelezionato, java.util.Date dataInizio, java.util.Date dataFine) throws FiltroNonValidoException {
+
+    private void setFiltro(String utenteSelezionato, java.util.Date dataInizio, java.util.Date dataFine) throws FiltroNonValidoException {
         if (!utenteSelezionato.isEmpty() && dataInizio != null && dataFine != null) {
             System.out.println(utenteSelezionato);
             ArrayList<DettagliSpedizioneDTO> listaSpedizioni = controlloreDAO.getSpedizioniByUtenteAndData(utenteSelezionato, new java.sql.Date(dataInizio.getTime()), new java.sql.Date(dataFine.getTime()));
-            aggiungiElementiATabella(listaSpedizioni);
+            aggiungiElementiTabella(listaSpedizioni);
             return;
         }
         if (dataInizio == null ^ dataFine == null) {
@@ -396,32 +395,32 @@ public class SpedizioniProgrammatePage extends JFrame {
         }
         if (!utenteSelezionato.isEmpty()) {
             ArrayList<DettagliSpedizioneDTO> listaSpedizioni = controlloreDAO.getSpedizioniByUtente(utenteSelezionato);
-            aggiungiElementiATabella(listaSpedizioni);
+            aggiungiElementiTabella(listaSpedizioni);
             return;
         }
-        if(dataInizio != null && dataFine != null) {
+        if (dataInizio != null && dataFine != null) {
             ArrayList<DettagliSpedizioneDTO> listaSpedizioni = controlloreDAO.getSpedizioniByData(new java.sql.Date(dataInizio.getTime()), new java.sql.Date(dataFine.getTime()));
-            aggiungiElementiATabella(listaSpedizioni);
+            aggiungiElementiTabella(listaSpedizioni);
             return;
         }
         ArrayList<DettagliSpedizioneDTO> listaSpedizioni = controlloreDAO.getSpedizioniProgrammate();
-        aggiungiElementiATabella(listaSpedizioni);
+        aggiungiElementiTabella(listaSpedizioni);
     }
-    
-    
-    public void aggiornaTabella(){
+
+
+    public void aggiornaTabella() {
         java.util.Date dataInizio = (java.util.Date) pickerDataInizio.getModel().getValue();
         java.util.Date dataFine = (java.util.Date) pickerDataFine.getModel().getValue();
         String utenteSelezionato = filtroUtenti.getSelectedItem().toString();
         utenteSelezionato = utenteSelezionato.replaceAll("[^0-9]", "");
-        
+
         try {
-            applicaFiltro(utenteSelezionato, dataInizio, dataFine);
+            setFiltro(utenteSelezionato, dataInizio, dataFine);
         } catch (FiltroNonValidoException exception) {
             System.out.println("Filtro non valido: " + exception);
         }
     }
-    
+
     private void resettaFiltri() {
         filtroUtenti.setSelectedIndex(0);
         pickerDataInizio.getJFormattedTextField().setText("");
@@ -429,9 +428,9 @@ public class SpedizioniProgrammatePage extends JFrame {
         pickerDataFine.getJFormattedTextField().setText("");
         datePanelDataFine.getModel().setSelected(false);
     }
-    
-    public void selezionaTutteCelleTabella(){
-        for (int riga = 0; riga < spedizioniTable.getRowCount(); riga++){
+
+    private void selezionaTutteCelleTabella() {
+        for (int riga = 0; riga < spedizioniTable.getRowCount(); riga++) {
             spedizioniTable.setValueAt(true, riga, 0);
         }
     }

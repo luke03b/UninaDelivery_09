@@ -42,13 +42,12 @@ public class ControlloreDAO {
         this.controlloreFinestre = controlloreFinestre;
     }
 
-    public OperatoreDTO effettuaLogin(String Matricola, String Password) throws OperatoreNonTrovatoException{
+    public OperatoreDTO getOperatore(String matricola, String password) throws OperatoreNonTrovatoException{
         OperatoreDTO operatoreDTO;
         try{
-            operatoreDTO = verificaDatiInput(Matricola, Password);
+            operatoreDTO = verificaDatiInput(matricola, password);
             return operatoreDTO;
         } catch(OperatoreNonTrovatoException e){
-            System.out.println("operatore non valido: " + e);
             throw new OperatoreNonTrovatoException();
         }
     }
@@ -78,12 +77,12 @@ public class ControlloreDAO {
         return dettagliOrdineDAO.getOrdiniByUtenteAndData(utente, DataInizio, DataFine, conn);
     }
 
-    public OperatoreDTO verificaDatiInput(String Matricola, String Password) throws OperatoreNonTrovatoException {
+    public OperatoreDTO verificaDatiInput(String Matricola, String password) throws OperatoreNonTrovatoException {
         try{
             OperatoreDAO operatoreDAO = new OperatoreDAO();
             int matricola = Integer.parseInt(Matricola);
 
-            operatoreDAO.ControllaLoginOperatore(matricola, Password, conn);
+            operatoreDAO.controllaLoginOperatore(matricola, password, conn);
             return operatoreDAO.getOperatoreByMatricola(matricola, conn);
         } catch (OperatoreNonTrovatoException e) {
             throw new OperatoreNonTrovatoException();

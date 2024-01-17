@@ -12,15 +12,13 @@ import java.text.DecimalFormat;
 
 public class StatisticaPage extends JDialog{
     private JButton indietroButton;
-    private JTable statisticaTable;
     private JComboBox comboBoxMese;
     private JPanel statisticaPanel;
     private JLabel AVGordineLabel;
-    private JLabel maxProdotti;
-    private JLabel minProdotti;
+    private JLabel maxProdottiLabel;
+    private JLabel minProdottiLabel ;
     private JLabel logoLabel;
     private JLabel logoUnina;
-    private JScrollPane panelContenenteJTable;
     private ControlloreFinestre controlloreFinestre;
     private ControlloreDAO controlloreDAO;
     ImageIcon imageIcon = new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScritte.png");
@@ -44,15 +42,15 @@ public class StatisticaPage extends JDialog{
             @Override
             public void actionPerformed(ActionEvent e) {
                 String meseSelezionato = comboBoxMese.getSelectedItem().toString();
-                recuperaStatisticaMese(meseSelezionato);
+                getStatisticaMese(meseSelezionato);
             }
         });
     }
 
-    private void recuperaStatisticaMese(String meseSelezionato) {
+    private void getStatisticaMese(String meseSelezionato) {
         StatisticheOrdineDTO statisticheOrdineDTO = new StatisticheOrdineDTO();
         switch (meseSelezionato){
-            case "<Mese>" -> {AVGordineLabel.setText(""); maxProdotti.setText(""); minProdotti.setText(""); return;}
+            case "<Mese>" -> {AVGordineLabel.setText(""); maxProdottiLabel.setText(""); minProdottiLabel.setText(""); return;}
             case "Gennaio" -> statisticheOrdineDTO = controlloreDAO.eseguiStatistica(1);
             case "Febbraio" -> statisticheOrdineDTO = controlloreDAO.eseguiStatistica(2);
             case "Marzo" -> statisticheOrdineDTO = controlloreDAO.eseguiStatistica(3);
@@ -72,8 +70,8 @@ public class StatisticaPage extends JDialog{
 
     private void aggiornaLabels(StatisticheOrdineDTO statisticheOrdineDTO){
         AVGordineLabel.setText(String.valueOf(new DecimalFormat("#.##").format(statisticheOrdineDTO.getAVGNumOrdini())));
-        maxProdotti.setText(String.valueOf(statisticheOrdineDTO.getMaxNumProdottiInOrdine()));
-        minProdotti.setText(String.valueOf(statisticheOrdineDTO.getMinNumProdottiInOrdine()));
+        maxProdottiLabel.setText(String.valueOf(statisticheOrdineDTO.getMaxNumProdottiInOrdine()));
+        minProdottiLabel.setText(String.valueOf(statisticheOrdineDTO.getMinNumProdottiInOrdine()));
     }
 
     private void setImpostazioniStatisticaPage(JFrame parent, ControlloreFinestre controlloreFinestre, ControlloreDAO controlloreDAO){

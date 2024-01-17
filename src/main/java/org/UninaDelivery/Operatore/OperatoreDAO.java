@@ -4,7 +4,7 @@ import org.UninaDelivery.Exception.OperatoreNonTrovatoException;
 import java.sql.*;
 
 public class OperatoreDAO {
-    public void ControllaLoginOperatore(int MatricolaInput, String PasswordInput, Connection conn) throws OperatoreNonTrovatoException {
+    public void controllaLoginOperatore(int MatricolaInput, String PasswordInput, Connection conn) throws OperatoreNonTrovatoException {
         int count = 0;
         try {
             PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(matricola) " +

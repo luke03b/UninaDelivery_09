@@ -14,7 +14,6 @@ public class DettagliSpedizioneDTO {
     private String mittente;
     private String destinatario;
     private String numeroTelefono;
-    private String nominativo;
     private String indirizzo;
 
     public int getNumeroTracciamento() {
@@ -103,14 +102,6 @@ public class DettagliSpedizioneDTO {
 
     public void setNumeroTelefono(String numeroTelefono) {
         this.numeroTelefono = numeroTelefono;
-    }
-
-    public String getNominativo() {
-        return nominativo;
-    }
-
-    public void setNominativo(String nominativo) {
-        this.nominativo = nominativo;
     }
 
     public String getIndirizzo() {

@@ -84,7 +84,7 @@ public class LoginPage extends JFrame {
     }
 
     
-    public void listeners(){
+    private void listeners(){
         loginButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -154,7 +154,7 @@ public class LoginPage extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    controllaLogin();
+                    eseguiLogin();
                 } catch (CampiVuotiException ex) {
                     System.out.println("campi vuoti: " + ex);
                 }
@@ -175,7 +175,7 @@ public class LoginPage extends JFrame {
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER) {
                     try {
-                        controllaLogin();
+                        eseguiLogin();
                     } catch (CampiVuotiException ex) {
                         System.out.println("campi vuoti: " + ex);
                     }
@@ -191,7 +191,7 @@ public class LoginPage extends JFrame {
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER) {
                     try {
-                        controllaLogin();
+                        eseguiLogin();
                     } catch (CampiVuotiException ex) {
                         System.out.println("campi vuoti: " + ex);
                     }
@@ -208,26 +208,25 @@ public class LoginPage extends JFrame {
                 try {
                     controlloreDAO.chiudiConnessioneDB();
                 } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                    System.out.println("errore SQL in chiusura del database: " + ex);
                 }
             }
         });
     }
     
-    public void controllaLogin() throws CampiVuotiException {
-        String Matricola = textLoginMatricola.getText();
-        String Password = new String(textLoginPassword.getPassword());
-        OperatoreDTO operatoreEntrante;
+    private void eseguiLogin() throws CampiVuotiException {
+        String matricola = textLoginMatricola.getText();
+        String password = new String(textLoginPassword.getPassword());
 
-        if (Matricola.isEmpty() || Password.isEmpty())
+        if (matricola.isEmpty() || password.isEmpty())
             throw new CampiVuotiException(this, controlloreFinestre);
         
         try{
-            operatoreEntrante = controlloreDAO.effettuaLogin(Matricola, Password);
+            OperatoreDTO operatoreEntrante = controlloreDAO.getOperatore(matricola, password);
             controlloreFinestre.apriHome(operatoreEntrante, this);
         } catch (OperatoreNonTrovatoException e){
-            System.out.println("Operatore non trovato nel db: " + e);
-            controlloreFinestre.mostraMessageDialogErrore(this, "Matricola o Password errati", "Attenzione");
+            System.out.println("Operatore non trovato nel database: " + e);
+            controlloreFinestre.mostraMessageDialogErrore(this, "Matricola o Password errati.", "Attenzione");
         }
     }
 }

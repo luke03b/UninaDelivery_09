@@ -16,7 +16,7 @@ public class InfoOrdinePage extends JDialog{
     private JLabel fedIILogo;
     private JLabel uninaDeliveryLogo;
     private JButton indietroButton;
-    private JPanel infoOrdinePage;
+    private JPanel infoOrdinePanel;
     private JTable prodottiTable;
     private JScrollPane panelContenenteJTable;
     private ControlloreFinestre controlloreFinestre;
@@ -36,7 +36,7 @@ public class InfoOrdinePage extends JDialog{
         setLayout(null);
         setResizable(false);
         setTitle("Dettagli Ordine");
-        setContentPane(infoOrdinePage);
+        setContentPane(infoOrdinePanel);
         setMinimumSize(new Dimension(800, 400));
         setModal(true);
         this.controlloreFinestre = controlloreFinestre;
@@ -47,7 +47,7 @@ public class InfoOrdinePage extends JDialog{
         setIconImage(imageIcon.getImage());
     }
 
-    public void setImpostazioniTabella(){
+    private void setImpostazioniTabella(){
         ArrayList<ProdottoDTO> listaProdotti = controlloreDAO.recuperaProdotti(numOrdine);
         Object[] nomiColonne = {"Codice Prodotto", "Nome", "Prezzo", "Peso", "Categoria", "Descrizione", "Quantità"};
         DefaultTableModel modelloTabella = new DefaultTableModel(new Object[][]{}, nomiColonne){
@@ -67,7 +67,7 @@ public class InfoOrdinePage extends JDialog{
             }
         };
         
-        setRigheTable(modelloTabella, listaProdotti);
+        setRigheTabella(modelloTabella, listaProdotti);
         prodottiTable.setModel(modelloTabella);
         prodottiTable.getTableHeader().setBackground(new Color(0, 18, 51));
         prodottiTable.getTableHeader().setForeground(new Color (255, 255, 255));
@@ -79,7 +79,7 @@ public class InfoOrdinePage extends JDialog{
         prodottiTable.getTableHeader().setResizingAllowed(false);
     }
 
-    public void setRigheTable(DefaultTableModel modelloTabella, ArrayList<ProdottoDTO> listaProdotti){
+    private void setRigheTabella(DefaultTableModel modelloTabella, ArrayList<ProdottoDTO> listaProdotti){
         for (ProdottoDTO prodottoDTO : listaProdotti){
             modelloTabella.addRow(new Object[]{prodottoDTO.getCodiceProdotto(), prodottoDTO.getNome(), prodottoDTO.getPrezzo(), prodottoDTO.getPeso(),
                     prodottoDTO.getCategoria(), prodottoDTO.getDescrizione(), prodottoDTO.getQuantitaOrdine()});

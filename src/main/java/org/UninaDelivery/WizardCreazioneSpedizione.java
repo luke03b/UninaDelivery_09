@@ -118,13 +118,13 @@ public class WizardCreazioneSpedizione extends JDialog{
         group.add(radioButtonAnnuale);
     }
 
-    public void setImpostazioniVarie() {
+    private void setImpostazioniVarie() {
         panelContenenteTableCorrieri.getViewport().setBackground(new Color(202, 192, 179));
         panelContenenteTableMezzi.getViewport().setBackground(new Color(202, 192, 179));
         panelContenenteTableOrdini.getViewport().setBackground(new Color(202, 192, 179));
     }
 
-    public void setImpostazioniIcone(){
+    private void setImpostazioniIcone(){
         iconaSceltaCorriere.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/sceltaCorriereNero.png"));
         iconaSceltaCorriere2.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/sceltaCorriereRosso.png"));
         iconaSceltaCorriere3.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/sceltaCorriereRosso.png"));
@@ -146,7 +146,7 @@ public class WizardCreazioneSpedizione extends JDialog{
         iconaTipoSpedizione4.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/clockRosso.png"));
     }
 
-    public void setImpostazioniIndietroButton() {
+    private void setImpostazioniIndietroButton() {
         indietroButton2.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/Indietro.png"));
         indietroButton2.setMargin(new Insets(0, 0, 0, 0));
         indietroButton2.setOpaque(false);
@@ -444,17 +444,17 @@ public class WizardCreazioneSpedizione extends JDialog{
         return listaCodiciOrdini;
     }
     
-    private int controllaQuanteFlagTabella(JTable tabella){
-        int numeroFlag = 0;
-        for (int i = 0; i < tabella.getRowCount(); i++){
-            if ((Boolean) tabella.getValueAt(i, 0))
-                numeroFlag++;
+    private int getCelleSelezionate(JTable tabella){
+        int numeroCelleSelezionate = 0;
+        for (int riga = 0; riga < tabella.getRowCount(); riga++){
+            if (isCellaSelezionata(riga))
+                numeroCelleSelezionate++;
         }
-        return numeroFlag;
+        return numeroCelleSelezionate;
     }
     
     private void isSelezioneValida(JTable tabella) throws NoCampiSelezionatiException, TroppiCampiSelezionatiException {
-        switch (controllaQuanteFlagTabella(tabella)) {
+        switch (getCelleSelezionate(tabella)) {
             case 0:
                 throw new NoCampiSelezionatiException(this, controlloreFinestre);
             case 1:
@@ -472,7 +472,7 @@ public class WizardCreazioneSpedizione extends JDialog{
 
     private void setCorriereSelezionatoLabel(){
         for (int riga = 0; riga < tabellaCorrieri.getRowCount(); riga++){
-            if (isCellaCorriereSelezionata(riga)){
+            if (isCellaSelezionata(riga)){
                 matricolaLabel.setText(String.valueOf((int) tabellaCorrieri.getValueAt(riga, 1)));
                 nomeLabel.setText((String) tabellaCorrieri.getValueAt(riga, 2));
                 cognomeLabel.setText((String) tabellaCorrieri.getValueAt(riga, 3));
@@ -481,14 +481,14 @@ public class WizardCreazioneSpedizione extends JDialog{
         }
     }
 
-    private Boolean isCellaCorriereSelezionata(int riga) {
+    private Boolean isCellaSelezionata(int riga) {
         return (Boolean) tabellaCorrieri.getValueAt(riga, 0);
     }
 
     private void setMezzoSelezionatoLabel(){
         float pesoTrasportabile;
         for (int riga = 0; riga < tabellaMezzi.getRowCount(); riga++){
-            if (isCellaMezzoSelezionata(riga)){
+            if (isCellaSelezionata(riga)){
                 targaLabel.setText((String) tabellaMezzi.getValueAt(riga, 1));
                 marcaLabel.setText((String) tabellaMezzi.getValueAt(riga, 2));
                 modelloLabel.setText((String) tabellaMezzi.getValueAt(riga, 3));
@@ -497,10 +497,6 @@ public class WizardCreazioneSpedizione extends JDialog{
                 break;
             }
         }
-    }
-
-    private Boolean isCellaMezzoSelezionata(int riga) {
-        return (Boolean) tabellaMezzi.getValueAt(riga, 0);
     }
 
     private float getInfoCapienzaMezzo(int riga){
