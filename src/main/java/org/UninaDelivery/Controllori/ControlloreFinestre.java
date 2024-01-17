@@ -26,31 +26,21 @@ public class ControlloreFinestre {
         return new SplashPage(this);
     }
 
-    public void chiudiSplashPage(JWindow parent){
-        parent.dispose();
-    }
 
     public void apriLogin(){
         LoginPage loginPage = new LoginPage(null,this, controlloreDAO);
         loginPage.setVisible(true);
     }
 
-    public void apriHome(OperatoreDTO operatoreDTO, JFrame parent){
+    public void apriHome(OperatoreDTO operatoreDTO){
         HomePage homePage = new HomePage(null, this, controlloreDAO, operatoreDTO);
-        parent.dispose();
         homePage.setVisible(true);
-    }
-
-    public void tornaLogin(JFrame parent){
-        parent.dispose();
-        apriLogin();
     }
 
     public void apriStatistica(){
         StatisticaPage statisticaPage = new StatisticaPage(null, this, controlloreDAO);
         statisticaPage.setVisible(true);
     }
-
 
     public void apriInfoOperatore(OperatoreDTO operatoreLoggato){
         InfoOperatorePage infoOpPage = new InfoOperatorePage(null, this, operatoreLoggato);
@@ -70,6 +60,15 @@ public class ControlloreFinestre {
     public void apriSpedizioniProgrammatePage(HomePage parent, OperatoreDTO operatoreLoggato){
         SpedizioniProgrammatePage spedizioniProgrammatePage = new SpedizioniProgrammatePage(parent, this, controlloreDAO, operatoreLoggato);
         spedizioniProgrammatePage.setVisible(true);
+    }
+
+    public void chiudiPage(JFrame parent){
+        parent.dispose();
+    }
+    public void chiudiPage(JWindow parent){
+        parent.dispose();
+    }
+    public void chiudiPage(JDialog parent){
         parent.dispose();
     }
 

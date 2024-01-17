@@ -19,8 +19,8 @@ public class StatisticaPage extends JDialog{
     private JLabel minProdottiLabel ;
     private JLabel logoLabel;
     private JLabel logoUnina;
-    private ControlloreFinestre controlloreFinestre;
     private ControlloreDAO controlloreDAO;
+    private ControlloreFinestre controlloreFinestre;
     ImageIcon imageIcon = new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScritte.png");
     
     public StatisticaPage(JFrame parent, ControlloreFinestre controlloreFinestre, ControlloreDAO controlloreDAO){
@@ -35,7 +35,7 @@ public class StatisticaPage extends JDialog{
         indietroButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
+                controlloreFinestre.chiudiPage(StatisticaPage.this);
             }
         });
         comboBoxMese.addActionListener(new ActionListener() {

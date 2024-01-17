@@ -21,8 +21,8 @@ public class InfoOperatorePage extends JDialog{
     private JLabel dataAssunzioneLabel;
     private JLabel uninaDeliveryLogo;
     private JLabel fedIILogo;
-    private ControlloreFinestre controlloreFinestre;
     private OperatoreDTO operatoreLoggato;
+    private ControlloreFinestre controlloreFinestre;
     private ImageIcon imageIcon = new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScritte.png");
 
     public InfoOperatorePage(JFrame parent, ControlloreFinestre controlloreFinestre, OperatoreDTO operatoreLoggato){
@@ -39,7 +39,7 @@ public class InfoOperatorePage extends JDialog{
         setContentPane(infoOpPane);
         setMinimumSize(new Dimension(380, 450));
         setModal(true);
-        this.controlloreFinestre = controlloreFinestre;
+        this.controlloreFinestre = this.controlloreFinestre;
         this.operatoreLoggato = operatoreLoggato;
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -72,7 +72,7 @@ public class InfoOperatorePage extends JDialog{
         indietroButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
+                controlloreFinestre.chiudiPage(InfoOperatorePage.this);
             }
         });
     }

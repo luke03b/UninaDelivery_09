@@ -12,7 +12,7 @@ public class Starter {
     public Starter() {
         controlloreFinestre.setControlloreDAO(controlloreDAO);
         SplashPage splashPage = controlloreFinestre.apriSplashPage();
-        controlloreFinestre.chiudiSplashPage(splashPage);
+        controlloreFinestre.chiudiPage(splashPage);
         controlloreFinestre.apriLogin();
     }
 }

@@ -223,7 +223,8 @@ public class LoginPage extends JFrame {
         
         try{
             OperatoreDTO operatoreEntrante = controlloreDAO.getOperatore(matricola, password);
-            controlloreFinestre.apriHome(operatoreEntrante, this);
+            controlloreFinestre.apriHome(operatoreEntrante);
+            controlloreFinestre.chiudiPage(LoginPage.this);
         } catch (OperatoreNonTrovatoException e){
             System.out.println("Operatore non trovato nel database: " + e);
             controlloreFinestre.mostraMessageDialogErrore(this, "Matricola o Password errati.", "Attenzione");

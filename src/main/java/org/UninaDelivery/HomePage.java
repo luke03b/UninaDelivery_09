@@ -32,7 +32,7 @@ public class HomePage extends JFrame {
     private JLabel dataFineLabel;
     private JButton logoutButton;
     private JButton creaSpedizioneButton;
-    private JButton programmaButton;
+    private JButton spedizioniProgrammateButton;
     private JButton statisticaButton;
     private JTable ordiniTable;
     private JButton infoUtenteButton;
@@ -142,7 +142,7 @@ public class HomePage extends JFrame {
     private void setImpostazioniVisive() {
         logoLabel.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScrittePiccolo.png"));
         statisticaButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/data-analytics.png"));
-        programmaButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/schedule.png"));
+        spedizioniProgrammateButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/schedule.png"));
         creaSpedizioneButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/tracking.png"));
         dettagliOrdineButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/find.png"));
         ordiniNonSpeditiLabel.setIcon((new ImageIcon("src/main/java/org/UninaDelivery/Icon/order.png")));
@@ -150,7 +150,7 @@ public class HomePage extends JFrame {
 
     private void setImpostazioniBottoni() {
         statisticaButton.setFocusable(false);
-        programmaButton.setFocusable(false);
+        spedizioniProgrammateButton.setFocusable(false);
         dettagliOrdineButton.setFocusable(false);
         creaSpedizioneButton.setFocusable(false);
         aggiornaButton.setFocusable(false);
@@ -225,7 +225,8 @@ public class HomePage extends JFrame {
                 if (JOptionPane.showOptionDialog(HomePage.this, "Vuoi eseguire il LogOut?",
                         "LogOut", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, Opzioni,
                         Opzioni[0]) == JOptionPane.OK_OPTION) {
-                    controlloreFinestre.tornaLogin(HomePage.this);
+                    controlloreFinestre.chiudiPage(HomePage.this);
+                    controlloreFinestre.apriLogin();
                 }
             }
         });
@@ -303,10 +304,11 @@ public class HomePage extends JFrame {
             }
         });
 
-        programmaButton.addActionListener(new ActionListener() {
+        spedizioniProgrammateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 controlloreFinestre.apriSpedizioniProgrammatePage(HomePage.this, operatoreLoggato);
+                controlloreFinestre.chiudiPage(HomePage.this);
             }
         });
     }

@@ -240,7 +240,8 @@ public class SpedizioniProgrammatePage extends JFrame {
                 if (JOptionPane.showOptionDialog(SpedizioniProgrammatePage.this, "Vuoi eseguire il LogOut?",
                         "LogOut", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, Opzioni,
                         Opzioni[0]) == JOptionPane.OK_OPTION) {
-                    controlloreFinestre.tornaLogin(SpedizioniProgrammatePage.this);
+                    controlloreFinestre.chiudiPage(SpedizioniProgrammatePage.this);
+                    controlloreFinestre.apriHome(operatoreLoggato);
                 }
             }
         });
@@ -256,7 +257,7 @@ public class SpedizioniProgrammatePage extends JFrame {
             @Override
             public void windowClosing(WindowEvent e) {
                 SpedizioniProgrammatePage.this.dispose();
-                controlloreFinestre.apriHome(operatoreLoggato, SpedizioniProgrammatePage.this);
+                controlloreFinestre.apriHome(operatoreLoggato);
             }
         });
 
@@ -264,7 +265,7 @@ public class SpedizioniProgrammatePage extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 SpedizioniProgrammatePage.this.dispose();
-                controlloreFinestre.apriHome(operatoreLoggato, SpedizioniProgrammatePage.this);
+                controlloreFinestre.apriHome(operatoreLoggato);
             }
         });
 

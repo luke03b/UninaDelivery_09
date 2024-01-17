@@ -31,6 +31,6 @@ public class SplashPage extends JWindow{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        controlloreFinestre.chiudiSplashPage(this);
+        controlloreFinestre.chiudiPage(this);
     }
 }
