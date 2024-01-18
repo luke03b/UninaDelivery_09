@@ -399,7 +399,7 @@ public class WizardCreazioneSpedizione extends JDialog{
                 ArrayList<Object> dettagliSpedizione =  creaDettagliSpedizione();
                 controlloreDAO.creaSpedizioneDaOrdini(WizardCreazioneSpedizione.this, dettagliSpedizione);
                 controlloreFinestre.aggiornaTabellaHome(parent);
-                dispose();
+                controlloreFinestre.chiudiPage(WizardCreazioneSpedizione.this);
             }
         });
         
