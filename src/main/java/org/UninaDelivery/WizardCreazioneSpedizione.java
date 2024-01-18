@@ -65,6 +65,7 @@ public class WizardCreazioneSpedizione extends JDialog{
     private JRadioButton radioButtonAnnuale;
     private JRadioButton radioButtonSettimanale;
     private JRadioButton radioButtonSingola;
+    private JLabel tipoSpedizioneLabel;
     private ControlloreFinestre controlloreFinestre;
     private ControlloreDAO controlloreDAO;
     private ArrayList<DettagliOrdineDTO> listaOrdiniSelezionati;
@@ -86,8 +87,6 @@ public class WizardCreazioneSpedizione extends JDialog{
         setImpostazioniTabellaRiepilogoOrdini();
 
         listeners();
-
-
     }
     
     private void setImpostazioniWizardPage(HomePage parent, ControlloreFinestre controlloreFinestre, ControlloreDAO controlloreDAO, ArrayList<DettagliOrdineDTO> listaOrdiniSelezionati, int matricolaOperatoreLoggato){
@@ -346,7 +345,7 @@ public class WizardCreazioneSpedizione extends JDialog{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    isSelezioneValida(tabellaCorrieri);
+                    controllaSelezioneTabella(tabellaCorrieri);
                 } catch (NoCampiSelezionatiException ex) {
                     System.out.println("Nessuna checkBox selezionata: " + ex);
                 } catch (TroppiCampiSelezionatiException ex) {
@@ -370,8 +369,7 @@ public class WizardCreazioneSpedizione extends JDialog{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    isSelezioneValida(tabellaMezzi);
-                    setContenutiVisiviRiepilogo();
+                    controllaSelezioneTabella(tabellaMezzi);
                 } catch (NoCampiSelezionatiException ex) {
                     System.out.println("Nessuna checkBox selezionata: " + ex);
                 } catch (TroppiCampiSelezionatiException ex) {
@@ -381,7 +379,9 @@ public class WizardCreazioneSpedizione extends JDialog{
         });
         avantiButton3.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) { cardLayout.next(cards);
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.next(cards);
+                setContenutiVisiviRiepilogo();
             }
         });
         indietroButton2.addActionListener(new ActionListener() {
@@ -396,7 +396,7 @@ public class WizardCreazioneSpedizione extends JDialog{
         confermaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ArrayList<Object> dettagliSpedizione = creaDettagliSpedizione();
+                ArrayList<Object> dettagliSpedizione =  creaDettagliSpedizione();
                 controlloreDAO.creaSpedizioneDaOrdini(WizardCreazioneSpedizione.this, dettagliSpedizione);
                 controlloreFinestre.aggiornaTabellaHome(parent);
                 dispose();
@@ -453,7 +453,7 @@ public class WizardCreazioneSpedizione extends JDialog{
         return numeroCelleSelezionate;
     }
     
-    private void isSelezioneValida(JTable tabella) throws NoCampiSelezionatiException, TroppiCampiSelezionatiException {
+    private void controllaSelezioneTabella(JTable tabella) throws NoCampiSelezionatiException, TroppiCampiSelezionatiException {
         switch (getCelleSelezionate(tabella)) {
             case 0:
                 throw new NoCampiSelezionatiException(this, controlloreFinestre);
@@ -468,6 +468,7 @@ public class WizardCreazioneSpedizione extends JDialog{
     private void setContenutiVisiviRiepilogo(){
         setCorriereSelezionatoLabel();
         setMezzoSelezionatoLabel();
+        setTipoSpedizioneLabel();
     }
 
     private void setCorriereSelezionatoLabel(){
@@ -479,6 +480,10 @@ public class WizardCreazioneSpedizione extends JDialog{
                 break;
             }
         }
+    }
+
+    private void setTipoSpedizioneLabel(){
+        tipoSpedizioneLabel.setText(tipoSpedizioneSelezionato());
     }
 
     private Boolean isCellaSelezionata(int riga, JTable tabella) {
