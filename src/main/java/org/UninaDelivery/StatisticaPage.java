@@ -21,7 +21,7 @@ public class StatisticaPage extends JDialog{
     private JLabel logoUnina;
     private ControlloreDAO controlloreDAO;
     private ControlloreFinestre controlloreFinestre;
-    ImageIcon imageIcon = new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScritte.png");
+    private ImageIcon imageIcon = new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScritte.png");
     
     public StatisticaPage(JFrame parent, ControlloreFinestre controlloreFinestre, ControlloreDAO controlloreDAO){
         setImpostazioniStatisticaPage(parent, controlloreFinestre, controlloreDAO);
@@ -31,6 +31,35 @@ public class StatisticaPage extends JDialog{
         listeners();
     }
 
+    private void setImpostazioniStatisticaPage(JFrame parent, ControlloreFinestre controlloreFinestre, ControlloreDAO controlloreDAO){
+        setLayout(null);
+        setResizable(true);
+        this.controlloreFinestre = controlloreFinestre;
+        this.controlloreDAO = controlloreDAO;
+        setTitle("Report Statistica");
+        setContentPane(statisticaPanel);
+        setMinimumSize(new Dimension(600, 270));
+        setLocationRelativeTo(parent);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setModal(true);
+        setIconImage(imageIcon.getImage());
+    }
+    
+    private void setImpostazioniVarie(){
+        logoLabel.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScrittePiccolo.png"));
+        logoUnina.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoFedericoII.png"));
+        comboBoxMese.setFocusable(false);
+    }
+    
+    private void setImpostazioniIndietroButton(){
+        indietroButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/Indietro.png"));
+        indietroButton.setMargin(new Insets(0, 0, 0, 0));
+        indietroButton.setOpaque(false);
+        indietroButton.setBorderPainted(false);
+        indietroButton.setContentAreaFilled(false);
+        indietroButton.setFocusable(false);
+    }
+    
     private void listeners(){
         indietroButton.addActionListener(new ActionListener() {
             @Override
@@ -46,7 +75,13 @@ public class StatisticaPage extends JDialog{
             }
         });
     }
-
+    
+    private void aggiornaLabels(StatisticheOrdineDTO statisticheOrdineDTO){
+        AVGordineLabel.setText(String.valueOf(new DecimalFormat("#.##").format(statisticheOrdineDTO.getAVGNumOrdini())));
+        maxProdottiLabel.setText(String.valueOf(statisticheOrdineDTO.getMaxNumProdottiInOrdine()));
+        minProdottiLabel.setText(String.valueOf(statisticheOrdineDTO.getMinNumProdottiInOrdine()));
+    }
+    
     private void getStatisticaMese(String meseSelezionato) {
         StatisticheOrdineDTO statisticheOrdineDTO = new StatisticheOrdineDTO();
         switch (meseSelezionato){
@@ -66,40 +101,5 @@ public class StatisticaPage extends JDialog{
             default -> System.out.println("il mese selezionato non è presente nella comboBox, evento strano.");
         }
         aggiornaLabels(statisticheOrdineDTO);
-    }
-
-    private void aggiornaLabels(StatisticheOrdineDTO statisticheOrdineDTO){
-        AVGordineLabel.setText(String.valueOf(new DecimalFormat("#.##").format(statisticheOrdineDTO.getAVGNumOrdini())));
-        maxProdottiLabel.setText(String.valueOf(statisticheOrdineDTO.getMaxNumProdottiInOrdine()));
-        minProdottiLabel.setText(String.valueOf(statisticheOrdineDTO.getMinNumProdottiInOrdine()));
-    }
-
-    private void setImpostazioniStatisticaPage(JFrame parent, ControlloreFinestre controlloreFinestre, ControlloreDAO controlloreDAO){
-        setLayout(null);
-        setResizable(true);
-        this.controlloreFinestre = controlloreFinestre;
-        this.controlloreDAO = controlloreDAO;
-        setTitle("Report Statistica");
-        setContentPane(statisticaPanel);
-        setMinimumSize(new Dimension(600, 270));
-        setLocationRelativeTo(parent);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setModal(true);
-        setIconImage(imageIcon.getImage());
-    }
-
-    private void setImpostazioniVarie(){
-        logoLabel.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScrittePiccolo.png"));
-        logoUnina.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoFedericoII.png"));
-        comboBoxMese.setFocusable(false);
-    }
-
-    private void setImpostazioniIndietroButton(){
-        indietroButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/Indietro.png"));
-        indietroButton.setMargin(new Insets(0, 0, 0, 0));
-        indietroButton.setOpaque(false);
-        indietroButton.setBorderPainted(false);
-        indietroButton.setContentAreaFilled(false);
-        indietroButton.setFocusable(false);
     }
 }

@@ -69,9 +69,9 @@ public class WizardCreazioneSpedizione extends JDialog{
     private ControlloreFinestre controlloreFinestre;
     private ControlloreDAO controlloreDAO;
     private ArrayList<DettagliOrdineDTO> listaOrdiniSelezionati;
-    ImageIcon imageIcon = new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScritte.png");
-    CardLayout cardLayout = (CardLayout) cards.getLayout();
-    int matricolaOperatoreLoggato;
+    private ImageIcon imageIcon = new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScritte.png");
+    private CardLayout cardLayout = (CardLayout) cards.getLayout();
+    private int matricolaOperatoreLoggato;
     private HomePage parent;
     
     public WizardCreazioneSpedizione(HomePage parent, ControlloreFinestre controlloreFinestre, ControlloreDAO controlloreDAO,  ArrayList<DettagliOrdineDTO> listaOrdiniSelezionati, int matricolaOperatoreLoggato){
@@ -514,9 +514,9 @@ public class WizardCreazioneSpedizione extends JDialog{
         int percentuale = calcolaPercentualeProgressBar(pesoTrasportabileMezzo);
         pesoMezzoProgressBar.setValue(percentuale);
         pesoMezzoProgressBar.setStringPainted(true);
-        if(percentuale <= 25)
+        if(percentuale <= 50)
             pesoMezzoProgressBar.setForeground(new Color(20, 161, 0));
-        if(percentuale > 25 && percentuale < 75)
+        if(percentuale > 50 && percentuale < 75)
             pesoMezzoProgressBar.setForeground(new Color(206, 93, 0));
         if(percentuale >= 75)
             pesoMezzoProgressBar.setForeground(new Color(255, 89, 90));

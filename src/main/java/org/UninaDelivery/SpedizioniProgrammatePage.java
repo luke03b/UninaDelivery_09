@@ -48,14 +48,14 @@ public class SpedizioniProgrammatePage extends JFrame {
     private OperatoreDTO operatoreLoggato;
     private JLabel dataFineLabel;
 
-    ImageIcon imageIcon = new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScritte.png");
+    private ImageIcon imageIcon = new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScritte.png");
 
-    UtilDateModel modelDataInizio = new UtilDateModel();
-    JDatePanelImpl datePanelDataInizio = new JDatePanelImpl(modelDataInizio);
-    JDatePickerImpl pickerDataInizio = new JDatePickerImpl(datePanelDataInizio);
-    UtilDateModel modelDataFine = new UtilDateModel();
-    JDatePanelImpl datePanelDataFine = new JDatePanelImpl(modelDataFine);
-    JDatePickerImpl pickerDataFine = new JDatePickerImpl(datePanelDataFine);
+    private UtilDateModel modelDataInizio = new UtilDateModel();
+    private JDatePanelImpl datePanelDataInizio = new JDatePanelImpl(modelDataInizio);
+    private JDatePickerImpl pickerDataInizio = new JDatePickerImpl(datePanelDataInizio);
+    private UtilDateModel modelDataFine = new UtilDateModel();
+    private JDatePanelImpl datePanelDataFine = new JDatePanelImpl(modelDataFine);
+    private JDatePickerImpl pickerDataFine = new JDatePickerImpl(datePanelDataFine);
 
 
     public SpedizioniProgrammatePage(JFrame parent, ControlloreFinestre controlloreFinestre, ControlloreDAO controlloreDAO, OperatoreDTO operatoreLoggato) {
@@ -129,7 +129,7 @@ public class SpedizioniProgrammatePage extends JFrame {
         return modelloTabella;
     }
 
-    public void setImpostazioniToolBar() {
+    private void setImpostazioniToolBar() {
 
         resetButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/delete.png"));
         aggiornaButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/refresh.png"));
@@ -334,7 +334,7 @@ public class SpedizioniProgrammatePage extends JFrame {
         return (Boolean) spedizioniTable.getValueAt(riga, 0);
     }
 
-    public ArrayList<DettagliSpedizioneDTO> getSpedizioniSelezionateDaTabella() {
+    private ArrayList<DettagliSpedizioneDTO> getSpedizioniSelezionateDaTabella() {
         ArrayList<DettagliSpedizioneDTO> listaOrdiniSelezionati = new ArrayList<>();
         for (int riga = 0; riga < spedizioniTable.getRowCount(); riga++) {
             if (isCellaSelezionata(riga))

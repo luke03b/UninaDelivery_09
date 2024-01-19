@@ -26,9 +26,9 @@ public class CambiaDataPage extends JDialog{
     private SpedizioniProgrammatePage parent;
     private ArrayList<DettagliSpedizioneDTO> listaSpedizioniSelezionate;
     private ImageIcon imageIcon = new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScritte.png");
-    UtilDateModel modelData = new UtilDateModel();
-    JDatePanelImpl datePanelData = new JDatePanelImpl(modelData);
-    JDatePickerImpl pickerData = new JDatePickerImpl(datePanelData);
+    private UtilDateModel modelData = new UtilDateModel();
+    private JDatePanelImpl datePanelData = new JDatePanelImpl(modelData);
+    private JDatePickerImpl pickerData = new JDatePickerImpl(datePanelData);
     public CambiaDataPage(SpedizioniProgrammatePage parent, ControlloreFinestre controlloreFinestre, ControlloreDAO controlloreDAO, ArrayList<DettagliSpedizioneDTO> listaSpedizioniSelezionate){
         setImpostazioniModificaDataPage(parent, controlloreFinestre, controlloreDAO, listaSpedizioniSelezionate);
         setImpostazioniCalendario();

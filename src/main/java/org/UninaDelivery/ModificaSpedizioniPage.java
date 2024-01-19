@@ -68,12 +68,12 @@ public class ModificaSpedizioniPage extends JDialog{
         confermaButton.setFocusable(false);
     }
 
-    public void setImpostazioniIcone(){
+    private void setImpostazioniIcone(){
         iconaLogoDelivery.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoSenzaScrittePiccolo.png"));
         logoUnina.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/logoFedericoII.png"));
     }
 
-    public void setImpostazioniAnnullaButton() {
+    private void setImpostazioniAnnullaButton() {
         annullaButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/annulla32x32.png"));
         annullaButton.setMargin(new Insets(0, 0, 0, 0));
         annullaButton.setOpaque(false);
@@ -83,7 +83,7 @@ public class ModificaSpedizioniPage extends JDialog{
         annullaButton.setFocusable(false);
     }
 
-    public void setImpostazioniConfermaButton() {
+    private void setImpostazioniConfermaButton() {
         confermaButton.setIcon(new ImageIcon("src/main/java/org/UninaDelivery/Icon/ConfermaRosso32x32.png"));
         confermaButton.setMargin(new Insets(0, 0, 0, 0));
         confermaButton.setOpaque(false);
