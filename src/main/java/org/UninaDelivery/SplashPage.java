@@ -12,7 +12,7 @@ public class SplashPage extends JWindow{
     
     public SplashPage(ControlloreFinestre controlloreFinestre){
         setImpostazioniSplashPage(controlloreFinestre);
-        chiusuraAutomatizzata(100);
+        chiusuraAutomatizzata(2500);
     }
     
     private void setImpostazioniSplashPage(ControlloreFinestre controlloreFinestre){

@@ -44,6 +44,7 @@ public class ModificaSpedizioniPage extends JDialog{
         this.parent = parent;
         setTitle("Crea Spedizioni Programmate");
         setContentPane(modificaSpedizioniPanel);
+        setModal(true);
         setMinimumSize(new Dimension(550, 310));
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);

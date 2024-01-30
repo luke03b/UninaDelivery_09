@@ -12,6 +12,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class CambiaDataPage extends JDialog{
     private JPanel cambiaDataPanel;
@@ -53,6 +54,7 @@ public class CambiaDataPage extends JDialog{
         this.parent = parent;
         setTitle("Crea Spedizioni Programmate");
         setContentPane(cambiaDataPanel);
+        setModal(true);
         setMinimumSize(new Dimension(580, 310));
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -98,10 +100,16 @@ public class CambiaDataPage extends JDialog{
             @Override
             public void actionPerformed(ActionEvent e) {
                 java.util.Date data = (java.util.Date) pickerData.getModel().getValue();
-                controlloreDAO.aggiornaDataSpedizioni(listaSpedizioniSelezionate, new java.sql.Date(data.getTime()));
-                controlloreFinestre.mostraMessageDialogInfo(CambiaDataPage.this, "Spedizioni aggiornate con successo", "Avviso");
-                controlloreFinestre.aggiornaTabellaSpedizioni(parent);
-                dispose();
+                if(data != null && data.after(new Date())) {
+                    controlloreDAO.aggiornaDataSpedizioni(listaSpedizioniSelezionate, new java.sql.Date(data.getTime()));
+                    controlloreFinestre.mostraMessageDialogInfo(CambiaDataPage.this, "Spedizioni aggiornate con successo", "Avviso");
+                    controlloreFinestre.aggiornaTabellaSpedizioni(parent);
+                    dispose();
+                }
+                if (data == null)
+                    controlloreFinestre.mostraMessageDialogErrore(CambiaDataPage.this, "Selezionare una data valida", "Avviso");
+                if (!data.after(new Date()))
+                    controlloreFinestre.mostraMessageDialogErrore(CambiaDataPage.this, "Selezionare una data successiva alla data odierna", "Avviso");
             }
         });
     }
